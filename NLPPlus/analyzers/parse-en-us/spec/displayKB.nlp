@@ -1,0 +1,13 @@
+###############################################
+# FILE: displayKB
+# SUBJ: comment
+# AUTH: David de Hilster
+# CREATED: 2022-7-26 20:36:16
+# MODIFIED:
+###############################################
+
+@CODE
+
+DisplayKB(G("currtext"),1);
+
+@@CODE
