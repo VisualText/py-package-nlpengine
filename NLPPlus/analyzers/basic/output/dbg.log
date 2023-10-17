@@ -1,0 +1,9 @@
+[Pass 1 time: 0.001 sec     tokenize]
+[Input file: ]
+[Total passes: 1]
+[Total time: 0.001 sec]
+[Time per 1000 chars (0.001/1444): 0.000692521 sec]
+[Time per pass per 1000 chars: 0.000692521]
+infile  passes tottime length tot/1000 tot/pass/1000
+	1	0.001	1444	0.000692521	0.000692521
+[Clean time: 0.002 sec]
