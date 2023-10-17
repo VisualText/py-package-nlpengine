@@ -1,0 +1,562 @@
+NOHASH rule: _xNIL [] [] <- _xANY [1,1] [] @@
+NOHASH rule: _LINE [unsealed] [] <- _xANY [1,1] [] _xWILD [0,0 pre fails=(_dummy)] [] _xANY [0,1 lookahead pre] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _xWHITE [0,0] [] * [1,1] [] x [1,1] [] * [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _xWHITE [0,0] [] _xWILD [3,0 matches=(=)] [] _xWHITE [0,0] [] _xEND [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xWHITE [1,0] [] @@
+NOHASH rule: _pos [] [] <- _xWILD [0,0 group=_text fails=(_slash _xWHITE)] [] _slash [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xANY [1,0] [] @@
+NOHASH rule: _xNIL [] [] <- _xALPHA [1,1] [] $ [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xALPHA [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xANY [1,0] [] @@
+NOHASH rule: _xNIL [] [] <- _xWHITE [1,0] [] @@
+NOHASH rule: _xNIL [] [] <- _xANY [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xALPHA [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xWILD [1,1 matches=(_xALPHA _xNUM _tok)] [] _BLANKLINE [1,1] [] @@
+NOHASH rule: _LINE [] [] <- _xWILD [1,0 fails=(_BLANKLINE _HRULE)] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _xNUM [1,1] [] . [1,1 group=_qEOS] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _xWHITE [0,0] [] - [1,0] [] _xWHITE [0,0] [] _xEND [1,1] [] @@
+NOHASH rule: _TEXTZONE [unsealed] [] <- _xSTART [1,1] [] _LINE [1,1] [] _LINE [0,0 pre] [] @@
+NOHASH rule: _xNIL [] [] <- _xWILD [1,0 matches=(_BLANKLINE _xWHITE)] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] - [1,1] [] - [1,1] [] _xWILD [2,0 group=_tok matches=(_xANY)] [] _xEND [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] - [1,1] [] - [1,1] [] _xANY [1,1] [] _xEND [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] - [1,1] [] - [1,1] [] _xEND [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _xANY [1,1] [] . [1,1] [] . [1,1] [] . [1,1] [] _xEND [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _xNUM [1,1] [] . [1,1] [] _xNUM [1,1] [] _xEND [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _xNUM [1,1] [] / [1,1] [] _xNUM [1,1] [] _xEND [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _xWILD [1,0 fails=(st nd rd th)] [] _xWILD [1,1 matches=(st nd rd th)] [] _xEND [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _xCAP [1,1] [] _xWILD [1,1 matches=(& /)] [] _xCAP [1,1] [] _xWILD [0,0 matches=(_xPUNCT _xCAP)] [] _xEND [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] - [1,1] [] _xNUM [1,1] [] _xEND [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _xCAP [1,1] [] . [1,1] [] _xCAP [0,1] [] . [0,1] [] _xCAP [0,1] [] . [0,1] [] - [1,1] [] _xALPHA [1,1] [] _xEND [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] US [1,1] [] $ [1,1] [] _xEND [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _xWILD [1,1 matches=(can doesn don mayn mightn mustn shan won)] [] ' [1,1] [] t [1,1] [] _xEND [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _xWILD [1,1 matches=(couldn didn shouldn wouldn)] [] ' [1,1] [] t [1,1] [] _xEND [1,1] [] @@
+NOHASH rule: _month [] [] <- _xSTART [1,1] [] _xWILD [1,1 pre matches=(Jan Feb Mar Apr May Jun Jul Aug Sep Sept Oct Nov Dec) hmatch] [] . [0,1] [] _xEND [1,1] [] @@
+NOHASH rule: _title [] [] <- _xSTART [1,1] [] _xWILD [1,1 pre matches=(mr mrs dr messrs sen rep)] [] . [1,1] [] _xEND [1,1] [] @@
+NOHASH rule: _abbr [] [] <- _xSTART [1,1] [] _xWILD [1,1 pre matches=(jr st)] [] . [1,1] [] _xEND [1,1] [] @@
+NOHASH rule: _companyDESIG [] [] <- _xSTART [1,1] [] _xWILD [1,1 pre matches=(co corp inc ltd llc bancorp)] [] . [0,1] [] _xEND [1,1] [] @@
+NOHASH rule: _companyDESIG [] [] <- _xSTART [1,1] [] n [1,1 pre] [] . [0,1] [] v [1,1] [] . [0,1] [] _xEND [1,1] [] @@
+NOHASH rule: _noabbr [] [] <- _xSTART [1,1] [] _xWILD [1,1 matches=(No)] [] . [0,1] [] _xEND [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] ' [1,1] [] re [1,1] [] _xEND [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _xALPHA [1,1 pre] [] . [1,1] [] _xEND [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _xALPHA [1,1] [] * [1,1] [] _xEND [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _xNUM [1,1] [] s [1,1] [] _xEND [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _xNUM [1,1] [] , [1,1] [] _xNUM [1,1 pre] [] , [1,1] [] _xNUM [1,1 pre] [] _xEND [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _xNUM [1,1] [] , [1,1] [] _xNUM [1,1 pre] [] _xEND [1,1] [] @@
+NOHASH rule: _usstate [] [] <- _xSTART [1,1] [] _xWILD [1,1 matches=(AA AE AK AL Ala Alab Alabama Alas Alaska AP AR Ari Ariz Arizona Ark Arkan Arkansas AS AZ CA Cal Calif California CO Col Colo Colorado Columbia Conn Connecticut CT Dak Dakota DC DE Del Dela Delaware FL Fla Flo Flor Florida FM GA Geo Georg Georgia GU Guam Haw Hawaii HI IA ID Ida Idaho IL Ill Illin Illinois IN Ind Indiana Iowa Kan Kans Kansas Ken Kent Kentucky KS KY LA Louis Louisiana MA Maine Mary Maryland Mass Massachusetts MD ME MH MI Mich Michigan Micronesia Minn Minnesota Miss Mississippi Missouri MN MO Mon Mont Montana MP MS MT NC ND NE Neb Nebraska Nev Nevada NH NJ NM NSW NV NY OH Ohio OK Okl Okla Oklahoma OR Ore Oreg Oregon Orpalau PA Penn Pennsyl Pennsylvania PR PW RI Samoa SC SD Tenn Tennessee Tex Texas TN TX UT Utah VA Ver Verm Vermont Vir Virg Virgin Virginia VT WA Wash Washington WI Wis Wisc Wiscon Wisconsin WV WY Wyo Wyoming) hmatch] [] . [0,1] [] _xEND [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _xCAP [1,1] [] . [1,1] [] _xEND [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xCAP [1,1 singlet] [] @@
+NOHASH rule: _xNIL [] [] <- _xALPHA [1,1 singlet] [] @@
+NOHASH rule: _xNIL [] [] <- _xANY [1,1] [] @@
+NOHASH rule: _nounCountry [attrs=(_noun)] [] <- _xWILD [1,1 fails=(_xALPHA .)] [] u [1,1] [] . [0,1] [] _xWHITE [0,0] [] s [1,1] [] . [0,1] [] _xWHITE [0,0] [] a [0,1] [] . [0,1] [] @@
+NOHASH rule: _nounCountry [attrs=(_noun)] [] <- _xSTART [1,1] [] u [1,1] [] . [0,1] [] _xWHITE [0,0] [] s [1,1] [] . [0,1] [] _xWHITE [0,0] [] a [0,1] [] . [0,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xCAP [1,1 pre] [] . [0,1] [] _xWHITE [0,0] [] _xCAP [1,1 pre] [] . [0,1] [] _xWHITE [0,0] [] _xCAP [1,1 pre] [] _xWILD [0,0 pre matches=(_xWHITE _xCAP .)] [] @@
+NOHASH rule: _letabbr [] [] <- _xWILD [1,1 fails=(_xALPHA .)] [] _xCAP [1,1 pre] [] . [1,1] [] _xWHITE [0,0] [] _xCAP [1,1 pre] [] . [1,1] [] _xWHITE [0,0] [] _xCAP [1,1 pre] [] . [1,1 lookahead] [] _xWILD [1,1 fails=(_xALPHA .)] [] @@
+NOHASH rule: _letabbr [] [] <- _xSTART [1,1] [] _xCAP [1,1 pre] [] . [1,1] [] _xWHITE [0,0] [] _xCAP [1,1 pre] [] . [1,1] [] _xWHITE [0,0] [] _xCAP [1,1 pre] [] . [1,1 lookahead] [] _xWILD [1,1 fails=(_xALPHA .)] [] @@
+NOHASH rule: _caps [attrs=(_noun)] [] <- _xWILD [1,1 fails=(_xALPHA .)] [] u [1,1 singlet] [] . [0,1 singlet] [] _xWHITE [0,0] [] n [1,1 singlet] [] . [0,1 singlet] [] @@
+NOHASH rule: _caps [attrs=(_noun)] [] <- _xSTART [1,1] [] u [1,1 singlet] [] . [0,1 singlet] [] _xWHITE [0,0] [] n [1,1 singlet] [] . [0,1 singlet] [] @@
+NOHASH rule: _usstate [attrs=(_noun)] [] <- _xWILD [1,1 fails=(_xALPHA .)] [] n [1,1 singlet] [] . [0,1 singlet] [] _xWHITE [0,0] [] _xWILD [1,1 singlet matches=(d j m h c y)] [] . [0,1 singlet] [] @@
+NOHASH rule: _usstate [attrs=(_noun)] [] <- _xWILD [1,1 fails=(_xALPHA .)] [] s [1,1 singlet] [] . [0,1 singlet] [] _xWHITE [0,0] [] _xWILD [1,1 singlet matches=(c d)] [] . [0,1 singlet] [] @@
+NOHASH rule: _usstate [attrs=(_noun)] [] <- _xWILD [1,1 fails=(_xALPHA .)] [] w [1,1 singlet] [] . [0,1 singlet] [] _xWHITE [0,0] [] v [1,1 singlet] [] . [0,1 singlet] [] @@
+NOHASH rule: _usstate [attrs=(_noun)] [] <- _xWILD [1,1 fails=(_xALPHA .)] [] r [1,1 singlet] [] . [0,1 singlet] [] _xWHITE [0,0] [] i [1,1 singlet] [] . [0,1 singlet] [] @@
+NOHASH rule: _usstate [attrs=(_noun)] [] <- _xWILD [1,1 fails=(_xALPHA .)] [] d [1,1 singlet] [] . [0,1 singlet] [] _xWHITE [0,0] [] c [1,1 singlet] [] . [0,1 singlet] [] @@
+NOHASH rule: _letabbr [] [] <- _xWILD [1,1 fails=(_xALPHA .)] [] _xCAP [1,1 pre] [] . [1,1] [] _xWHITE [0,0] [] _xCAP [1,1 pre] [] . [1,1] [] _xWILD [1,1 fails=(_xALPHA .)] [] @@
+NOHASH rule: _letabbr [] [] <- _xSTART [1,1] [] _xCAP [1,1 pre] [] . [1,1] [] _xWHITE [0,0] [] _xCAP [1,1 pre] [] . [1,1] [] _xWILD [1,1 fails=(_xALPHA .)] [] @@
+NOHASH rule: _letabbr [] [] <- _xWILD [1,1 fails=(_xALPHA .)] [] _xCAPLET [1,1] [] . [1,1] [] _xWILD [1,1 lookahead fails=(_xALPHA .)] [] @@
+NOHASH rule: _letabbr [] [] <- _xSTART [1,1] [] _xCAPLET [1,1] [] . [1,1] [] _xWILD [1,1 lookahead fails=(_xALPHA .)] [] @@
+NOHASH rule: _dbldash [] [] <- _xWHITE [1,0] [] - [1,0] [] _xWHITE [1,0] [] @@
+NOHASH rule: _xNIL [] [] <- _xALPHA [1,1] [] - [1,1] [] - [1,1] [] _xALPHA [1,1 lookahead] [] @@
+NOHASH rule: _qEOS [] [] <- _xWILD [1,1 matches=(_xALPHA _xNUM ] ) > % _noun)] [] _xWILD [1,0 matches=(. : ; ? !)] [] _xWHITE [0,0] [] _dblquote [1,1] [] _xWHITE [0,0 lookahead] [] _xANY [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xALPHA [1,1] [] _dblquote [1,1] [] _xALPHA [1,1 lookahead] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _dblquote [1,1] [] _xANY [1,1 lookahead] [] @@
+NOHASH rule: _xNIL [] [] <- _xNUM [1,1] [] _num [1,1 pre] [] @@
+NOHASH rule: _xNIL [] [] <- _xCAP [1,1] [] . [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xCAP [1,1 pre] [] . [1,1] [] @@
+NOHASH rule: _qEOS [] [] <- _xWILD [1,1 matches=(_xALPHA _xNUM ] ) > % _noun)] [] _xWILD [1,0 matches=(. : ; ? !)] [] _xWHITE [0,0] [] _xWILD [1,1 lookahead matches=(_xCAP _letabbr ( [ < " ')] [] @@
+NOHASH rule: _qEOS [] [] <- _xWILD [1,1 matches=(_xALPHA _xNUM ] ) > % _noun)] [] _xWILD [1,0 matches=(. : ; ? !)] [] _xWHITE [0,0] [] _xEND [1,1] [] @@
+NOHASH rule: _qEOS [] [] <- _xWILD [1,1 matches=(_xALPHA _xNUM)] [] . [1,0] [] _xWILD [1,1 lookahead matches=() ] >)] [] _xWHITE [0,0] [] _xALPHA [1,1 pre] [] @@
+NOHASH rule: _qEOS [] [] <- _xWILD [1,1 matches=(_xALPHA _xNUM)] [] . [1,0] [] _xWILD [1,1 lookahead matches=() ] >)] [] @@
+NOHASH rule: _qEOS [] [] <- _xWILD [1,1 matches=(_xALPHA _xNUM _noun ] ) > %)] [] _xWILD [1,0 matches=(: ;)] [] @@
+NOHASH rule: _xNIL [] [] <- _xWILD [1,1 singlet matches=(_xPUNCT)] [] _xWHITE [0,0] [] _letabbr [1,1] [] . [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xALPHA [1,1] [] * [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xNUM [1,1] [] s [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xCAP [1,1] [] _xWHITE [0,0] [] _xCAP [1,1] [] - [1,1] [] _xALPHA [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xALPHA [1,1] [] - [1,1] [] _xALPHA [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xWHITE [0,0] [] _xWILD [1,1 matches=(` ')] [] @@
+NOHASH rule: _xNIL [] [] <- _xCTRL [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xALPHA [1,1 pre] [] _xWHITE [0,0] [] Down [1,1 singlet pre] [] @@
+NOHASH rule: _xNIL [] [] <- _xALPHA [1,1] [] _xWHITE [0,0] [] _xWILD [1,1 pre matches=(_xCAP) excepts=(A I)] [] @@
+NOHASH rule: _xNIL [] [] <- _xALPHA [1,1 pre] [] _xWHITE [0,0] [] _xCAP [1,1] [] , [1,1] [] _xWHITE [0,0] [] _xANY [1,1 pre] [] @@
+NOHASH rule: _num [] [] <- _xNUM [1,1] [] ' [1,1 singlet] [] s [1,1 singlet] [] @@
+NOHASH rule: _mumble [] [] <- _xWILD [1,1 pre matches=(_xALPHA _xNUM _)] [] _xWILD [1,0 pre matches=(_xALPHA _xNUM _)] [] @@
+NOHASH rule: _mumble [] [] <- _xALPHA [1,1] [] _xNUM [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xWHITE [1,0 singlet] [] - [1,1] [] _xWHITE [1,0 singlet] [] @@
+NOHASH rule: _date [attrs=(_noun _np)] [] <- _xNUM [1,1] [] _xWILD [0,0 matches=(_xWHITE _nbsp)] [] _xWILD [1,1 matches=(GMT PST MST CST EST)] [] @@
+NOHASH rule: _date [attrs=(_noun _np)] [] <- _xNUM [1,1 singlet] [] / [1,1 singlet] [] _xNUM [1,1 singlet] [] / [1,1 singlet] [] _xNUM [1,1 singlet] [] @@
+NOHASH rule: _xNIL [] [] <- _xNUM [1,1 singlet] [] _xWILD [0,0 singlet matches=(_xWHITE -)] [] _xWILD [1,1 singlet matches=(_month January February March April May June July August September October November December Jan Feb Mar Apr May Jun Jul Aug Sep Sept Oct Nov Dec) hmatch] [] . [0,1 singlet] [] , [0,1 singlet] [] _xWILD [0,0 singlet matches=(_xWHITE -)] [] _xNUM [0,1 singlet] [] @@
+NOHASH rule: _daytime [attrs=(_noun _np)] [] <- _xNUM [1,1 singlet] [] : [1,1 singlet] [] _xNUM [1,1 singlet] [] _xWHITE [0,0 singlet] [] _xWILD [0,1 singlet matches=(AM PM)] [] @@
+NOHASH rule: _percent [attrs=(_noun)] [] <- _xNUM [1,1] [] % [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xNUM [1,1] [] _xWHITE [0,0] [] _xWILD [1,1 singlet matches=(cent cents penny pennies)] [] @@
+NOHASH rule: _phone [] [] <- _xNUM [1,1 pre] [] _xWILD [1,1 singlet matches=(- .)] [] _xNUM [1,1 pre] [] _xWILD [1,1 singlet matches=(- .)] [] _xNUM [1,1 pre] [] @@
+NOHASH rule: _phone [] [] <- + [0,1] [] _xNUM [1,1] [] _xWHITE [0,1] [] ( [1,1] [] _xNUM [1,1] [] ) [1,1] [] _xWHITE [0,1] [] _xNUM [1,1] [] _xWHITE [0,1] [] _xNUM [1,1] [] _xWHITE [0,1] [] _xNUM [1,1] [] @@
+NOHASH rule: _num [] [] <- _xNUM [1,1 singlet] [] , [1,1 singlet] [] _xNUM [1,1 singlet] [] , [0,1 singlet] [] _xNUM [0,1 singlet] [] @@
+NOHASH rule: _num [] [] <- _xWILD [4,0 singlet matches=(_xNUM)] [] @@
+NOHASH rule: _xNIL [] [] <- _xNUM [1,1 singlet] [] . [1,1 singlet] [] _xNUM [1,1 singlet] [] . [1,1 singlet] [] _xNUM [1,1 singlet] [] _xWILD [1,1 lookahead fails=(.)] [] @@
+NOHASH rule: _num [] [] <- _xNUM [1,1 singlet] [] . [1,1 singlet] [] _xNUM [1,1 singlet] [] @@
+NOHASH rule: _num [] [] <- _xNUM [1,1 singlet] [] / [1,1 singlet] [] _xNUM [1,1 singlet] [] @@
+NOHASH rule: _adj [] [] <- _xNUM [1,1 singlet] [] th [1,1 singlet] [] @@
+NOHASH rule: _noun [] [] <- _xNUM [1,1 singlet] [] ' [1,1 singlet] [] s [1,1 singlet] [] @@
+NOHASH rule: _xNIL [] [] <- _xNUM [1,1] [] @@
+NOHASH rule: _percent [attrs=(_noun)] [] <- _xWILD [1,1 matches=(_num _xNUM)] [] % [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xALPHA [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xALPHA [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xCAP [1,1] [] _xWHITE [0,0] [] _xCAP [1,1] [] _xWILD [0,0 matches=(_xWHITE _xCAP)] [] @@
+NOHASH rule: _tok [] [] <- _xWILD [1,0 matches=(_xSTART _xWHITE)] [] _xALPHA [1,1 singlet] [] _xWILD [1,0 matches=(_xPUNCT _xNUM)] [] _xALPHA [1,1 singlet] [] _xWILD [0,0 fails=(_xWHITE _xEND _qEOS . , ; ! ? :)] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] short [1,1] [] - [1,1] [] term [1,1] [] _xEND [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] worst [1,1] [] - [1,1] [] case [1,1] [] _xEND [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] pro [1,1] [] - [1,1] [] forma [1,1] [] _xEND [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] pre [1,1] [] - [1,1] [] _xWILD [1,1 matches=(_xALPHA _xNUM)] [] _xEND [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _xALPHA [1,1] [] - [1,1] [] down [1,1] [] _xEND [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _xALPHA [1,1] [] - [1,1] [] free [1,1] [] _xEND [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] high [1,1] [] - [1,1] [] technology [1,1] [] _xEND [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] buy [1,1] [] - [1,1] [] out [1,1] [] _xEND [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] stock [1,1] [] - [1,1] [] index [1,1] [] _xEND [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] twin [1,1] [] - [1,1] [] jet [1,1] [] _xEND [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] close [1,1] [] - [1,1] [] up [1,1] [] _xEND [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] cop [1,1] [] - [1,1] [] killer [1,1] [] _xEND [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] mid [1,1] [] - [1,1] [] _xNUM [1,1] [] s [1,1] [] _xEND [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] t [1,1] [] - [1,1] [] shirt [1,1] [] _xEND [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] t [1,1] [] - [1,1] [] shirts [1,1] [] _xEND [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _xNUM [1,1 pre] [] - [1,1] [] _xNUM [1,1 pre] [] _xEND [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _xWILD [1,1 matches=(passer passers)] [] - [1,1] [] by [1,1] [] _xEND [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] c [1,1] [] ' [1,1] [] mon [1,1] [] _xEND [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _xWILD [1,0 matches=(_xNUM _xALPHA)] [] - [1,1] [] year [1,1] [] - [1,1] [] old [1,1] [] _xEND [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _xNUM [1,1] [] _xWILD [1,0 matches=(_xALPHA -)] [] _xNUM [1,1] [] _xEND [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _xNUM [1,1] [] - [1,1] [] _xALPHA [1,1] [] - [1,1] [] _xALPHA [1,1] [] _xEND [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xALPHA [1,1] [] - [1,1] [] and [1,1] [] - [1,1] [] _xALPHA [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _xWILD [0,0 matches=(_xNUM , -)] [] _xALPHA [1,1] [] - [1,1] [] _xALPHA [1,1] [] - [1,1] [] _xALPHA [1,1] [] _xWILD [0,0 matches=(- _xALPHA)] [] _xEND [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _xALPHA [1,1] [] . [1,1] [] _xALPHA [1,1] [] . [1,1] [] _xALPHA [1,1] [] _xWILD [0,0 matches=(. _xALPHA)] [] _xEND [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _xALPHA [1,1 pre] [] - [1,1] [] _xALPHA [1,1 pre] [] _xEND [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _xALPHA [1,1] [] - [1,1] [] _xALPHA [1,1] [] _xEND [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _xALPHA [1,1] [] - [1,1] [] _xNUM [1,1] [] _xEND [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xWILD [1,1 matches=(_xSTART _conj)] [] _xALPHA [1,1 singlet] [] . [0,1] [] ' [1,1] [] s [1,1] [] _xEND [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xWILD [1,1 matches=(_xSTART _conj)] [] _xALPHA [1,1 singlet] [] . [0,1] [] ' [1,1] [] d [1,1] [] _xEND [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] U [1,1] [] . [1,1] [] S [1,1] [] . [1,1] [] _xWILD [1,1 lookahead matches=(-)] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] U [1,1] [] . [1,1] [] S [1,1] [] . [1,1] [] _xEND [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _xCAP [1,1 pre] [] . [1,1] [] _xALPHA [1,1 pre] [] . [0,1] [] _xEND [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _noun [1,1] [] - [1,1] [] _xALPHA [1,1] [] _xEND [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _num [1,1] [] - [1,1] [] _xALPHA [1,1] [] _xEND [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _xNUM [1,1] [] - [1,1] [] _xALPHA [1,1] [] _xEND [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] year [1,1] [] - [1,1] [] to [1,1] [] - [1,1] [] year [1,1] [] _xEND [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _xWILD [1,1 matches=(_adj _num)] [] - [1,1] [] _xANY [1,1] [] _xEND [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xWILD [1,1 fails=(-)] [] _noun [1,1] [] - [1,1] [] _noun [1,1] [] _xWILD [1,1 fails=(-)] [] @@
+NOHASH rule: _xNIL [] [] <- _xALPHA [1,1] [] ' [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xALPHA [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xALPHA [1,0] [] @@
+NOHASH rule: _xNIL [] [] <-3- " [1,1] [] _xWILD [1,0 singlet matches=(_xCAP _det _prep _fnword)] [] _xCAP [1,1 singlet trigger] [] _xWILD [0,0 singlet matches=(_xCAP _det _prep _fnword)] [] _qEOS [0,1] [] " [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _dblquote [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xCAP [1,1 singlet] [] _xWILD [1,1 singlet lookahead pre matches=(American British Congress Continental Economic Environmental Mercantile Data Digital Eastern Financial Ford Foreign General Great Industrial Jaguar Japanese Minister Monetary Moody Paramount Philippines Poor President Prime SEC Secretary Southern State Supreme TV Warner Airlines Americans Associates Brothers Communications Containers Futures Gardens Holdings Industries Investors Machines Manufacturers Markets Motors Resources Savings Securities Services Stores Systems) hmatch] [] @@
+NOHASH rule: _xNIL [] [] <- _xWILD [1,1 matches=(_num _quan _xNUM)] [] yen [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xWILD [1,1 singlet fails=(_xCAP)] [] _xWILD [1,1 singlet matches=(tv)] [] _xWILD [1,1 singlet lookahead fails=(_xCAP)] [] @@
+NOHASH rule: _xNIL [] [] <- _xCAP [1,1 singlet] [] _dblquote [1,1] [] _xCAP [1,0 singlet] [] _dblquote [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _xWILD [0,0 matches=(_xPUNCT _qEOS _dbldash)] [] _xWILD [1,1 pre matches=(_det _pro _prep _conj _fnword)] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _xALPHA [1,1] [] _prep [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _verb [1,1] [] I [1,1 singlet] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _xCAP [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _xCAP [1,1] [] _noun [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xCAP [1,1 singlet] [] _prep [1,1 lookahead] [] _xCAP [1,1 singlet] [] @@
+NOHASH rule: _caps [attrs=(_noun)] [] <- _xWILD [1,1 singlet pre matches=(_xALPHA _aposS , _dbldash)] [] _xWILD [1,0 pre fails=(_xPUNCT _xNUM _qEOS)] [] _aposS [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xWILD [2,0 pre fails=(_xPUNCT _qEOS _xNUM)] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _xCAP [1,1 singlet] [] _xCAP [1,1] [] _aposS [1,1 lookahead] [] _xWILD [1,1 singlet fails=(_xCAP)] [] @@
+NOHASH rule: _xNIL [] [] <- _xWILD [0,1 singlet fails=(_xCAP)] [] _xCAP [1,0 singlet excepts=(_det)] [] , [1,1] [] _usstate [1,1 singlet] [] , [0,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _xCAP [1,1] [] _xWILD [1,1 lookahead matches=(,)] [] @@
+NOHASH rule: _xNIL [] [] <- _xCAP [1,1] [] _xNUM [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xALPHA [1,1 singlet pre] [] _xCAP [1,1] [] _xALPHA [1,1 singlet lookahead pre] [] @@
+NOHASH rule: _caps [unsealed attrs=(_noun)] [] <- _xCAP [1,0] [] & [1,1 singlet] [] _xCAP [1,0] [] @@
+NOHASH rule: _caps [attrs=(_noun)] [] <- _xWILD [1,1 singlet pre matches=(_xALPHA _xSTART _aposS , _dbldash)] [] _xCAP [1,1] [] _xWILD [0,0 singlet matches=(_xCAP _letabbr)] [] _aposS [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xWILD [1,1 singlet pre matches=(_xALPHA _aposS)] [] _xCAP [1,1 singlet] [] _xWILD [1,0 singlet matches=(_xCAP _letabbr)] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1 pre] [] _xCAP [1,1] [] _xWILD [1,0 singlet matches=(_xCAP _letabbr)] [] @@
+NOHASH rule: _xNIL [] [] <- _xWILD [1,1 singlet matches=(_xCAP _title _letabbr _letlet _name _month _abbr _usstate) excepts=(_det _fnword _prep _conj _pro _verb _vg _modal)] [] _xWILD [1,0 singlet matches=(_xCAP _letabbr) excepts=(_det _fnword _prep _conj _pro)] [] @@
+NOHASH rule: _caps [unsealed attrs=(_noun)] [] <- _xCAP [1,1] [] _xWILD [1,0 singlet matches=(_xCAP _letabbr)] [] @@
+NOHASH rule: _xNIL [] [] <- _xWILD [1,1 singlet fails=(_xCAP)] [] _xCAP [1,1] [] _aposS [1,1] [] @@
+NOHASH rule: _caps [unsealed attrs=(_noun)] [] <- _xWILD [1,1 singlet pre matches=(_xALPHA _xSTART)] [] _xCAP [1,1] [] _aposS [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xWILD [1,1 singlet pre matches=(_xCAP) excepts=(_pro _det _fnword _prep)] [] @@
+NOHASH rule: _xNIL [] [] <- _xCAP [1,1 singlet] [] @@
+NOHASH rule: _xNIL [] [] <- _xWILD [1,1 fails=(_xCAP)] [] _xCAP [1,1 singlet] [] _xNUM [1,1] [] _listitem [0,1 singlet] [] _xWILD [1,1 lookahead matches=(_noun _verb _vg)] [] @@
+NOHASH rule: _xNIL [] [] <- _xWILD [1,1 matches=(_xCAP _noun)] [] _xWILD [1,1 matches=(_xCAP _noun)] [] _noun [1,1] [] _xWILD [1,1 matches=(_xCAP _noun)] [] _xWILD [1,1 matches=(_xCAP _noun)] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _xWILD [1,0 matches=(_xCAP)] [] _noun [1,1] [] _xEND [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _title [1,1 singlet] [] _xALPHA [1,1] [] _xEND [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _xCAP [1,1] [] _xCAP [1,1] [] _xEND [1,1] [] @@
+NOHASH rule: _ambig [] [] <- _xWILD [1,1 matches=(_quan _num _xNUM)] [] _noun [1,1] [] old [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xALPHA [1,1] [] of [1,1 singlet lookahead] [] @@
+NOHASH rule: _xNIL [] [] <- _xWILD [1,1 matches=(_qEOS _xSTART ,)] [] well [1,1] [] _prep [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xWILD [1,1 matches=(_xSTART)] [] _xALPHA [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xWILD [1,1 matches=(_xSTART , _qEOS)] [] there [1,1 singlet] [] _be [1,1 singlet] [] @@
+NOHASH rule: _xNIL [] [] <- _xWILD [1,1 matches=(_qEOS _xSTART)] [] this [1,1 rename=_det singlet] [] _xALPHA [1,1] [] @@
+NOHASH rule: _noun [] [] <- _xALPHA [1,1] [] ago [1,1 singlet] [] @@
+NOHASH rule: _xNIL [] [] <- _xWILD [1,1 matches=(_xSTART _qEOS)] [] _xALPHA [1,1] [] _xALPHA [1,1] [] _xWILD [1,1 lookahead matches=(,)] [] @@
+NOHASH rule: _xNIL [] [] <- _xWILD [1,1 matches=(_xSTART _qEOS)] [] _xALPHA [1,1] [] _xWILD [1,1 lookahead matches=(_fnword _prep)] [] @@
+NOHASH rule: _xNIL [] [] <- _xNUM [1,1] [] _xWILD [1,1 singlet lookahead matches=(is was has does)] [] @@
+NOHASH rule: _xNIL [] [] <- _xWILD [1,1 matches=(_xALPHA _noun)] [] _xWILD [0,0 matches=(_adv _advl)] [] being [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xALPHA [1,1] [] _xWILD [1,1 lookahead matches=(_qEOS _xEND)] [] @@
+NOHASH rule: _xNIL [] [] <- _xALPHA [1,1 pre] [] _noun [1,1 lookahead pre] [] @@
+NOHASH rule: _xNIL [] [] <- _xWILD [1,1 matches=(_num _xNUM)] [] _xALPHA [1,1 pre] [] _xALPHA [1,1 pre] [] @@
+NOHASH rule: _xNIL [] [] <- _xWILD [1,1 fails=(_noun _np _xALPHA)] [] that [1,1 singlet] [] _modal [1,1 lookahead] [] @@
+NOHASH rule: _xNIL [] [] <- _xALPHA [1,1 pre] [] _prep [1,1] [] _xALPHA [1,1 pre] [] @@
+NOHASH rule: _xNIL [] [] <- _xALPHA [1,1 pre] [] ones [1,1 singlet lookahead] [] @@
+NOHASH rule: _xNIL [] [] <- _xALPHA [1,1 pre] [] @@
+NOHASH rule: _xNIL [] [] <- _xALPHA [1,1 pre] [] _pro [1,1 lookahead pre] [] @@
+NOHASH rule: _xNIL [] [] <- _xALPHA [1,1 pre] [] _xWILD [1,1 singlet matches=(activity activities)] [] @@
+NOHASH rule: _EOS [] [] <- _xANY [1,1] [] @@
+NOHASH rule: _sent [unsealed] [] <- _xWILD [1,1 fails=(_qEOS " ( < [ _EOS)] [] _xWILD [0,0 fails=(_qEOS _EOS)] [] _xWILD [1,1 matches=(_qEOS _EOS)] [] _xWILD [0,0 matches=() ] > " ')] [] @@
+NOHASH rule: _sent [unsealed] [] <- _xANY [1,0] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _num [1,1] [] _xALPHA [1,1] [] _xWILD [1,1 fails=(_xALPHA _adj _noun)] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _xALPHA [1,1 pre] [] , [1,1 lookahead] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _xALPHA [1,1] [] that [1,1 singlet lookahead] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _xWILD [1,1 matches=(_np _noun)] [] that [1,1 singlet] [] _xALPHA [1,1 pre] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _xWILD [1,1 matches=(_verb _vg)] [] that [1,1 singlet excepts=(_np _det)] [] _xWILD [1,1 lookahead matches=(_modal _verb _vg)] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _xWILD [1,1 matches=(_verb _vg)] [] that [1,1 singlet] [] _xALPHA [1,1] [] _xWILD [1,1 lookahead matches=(_prep)] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] that [1,1 singlet excepts=(_det)] [] _xWILD [0,0 matches=(_adv _advl)] [] _xWILD [1,1 matches=(_noun)] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] that [1,1 singlet] [] _xALPHA [1,1] [] _noun [1,1 lookahead] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] that [1,1 singlet pre] [] _xALPHA [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _xWILD [1,1 matches=(_fnword)] [] _xWILD [0,0 matches=(_det _pro)] [] _xWILD [0,0 matches=(_quan _num _xNUM)] [] _adj [0,0] [] _xALPHA [1,1] [] _xALPHA [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _xWILD [1,1 matches=(_pro _noun _np)] [] _xWILD [0,0 matches=(_adv _advl)] [] _modal [1,1] [] _xWILD [0,0 matches=(_adv _advl)] [] _xALPHA [1,1] [] _xWILD [0,0 lookahead matches=(_adv _advl)] [] _xWILD [1,1 matches=(_noun _np _pro)] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _xWILD [1,1 matches=(_pro _noun _np)] [] _xWILD [0,0 matches=(_adv _advl)] [] _xALPHA [1,1 pre] [] _xWILD [0,0 lookahead matches=(_adv _advl)] [] _xWILD [1,1 singlet matches=(that)] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _xWILD [0,0 matches=(_det _pro)] [] _xWILD [0,0 matches=(_quan _num _xNUM)] [] _adj [0,0] [] _noun [1,0] [] _xWILD [0,0 matches=(_adv _advl)] [] _xALPHA [1,1 pre] [] _xWILD [0,0 lookahead matches=(_adv _advl)] [] that [1,1 singlet] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _proSubj [1,1 singlet] [] _xALPHA [1,1] [] _xWILD [1,1 lookahead fails=(_modal _verb _vg)] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _xWILD [1,1 matches=(_noun _np)] [] _adv [0,0] [] _xALPHA [1,1 pre] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _xWILD [1,1 matches=(_noun _np _pro)] [] _adv [1,0] [] _xALPHA [1,1 pre] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _xWILD [0,0 matches=(_det _pro)] [] _xWILD [0,0 matches=(_quan _num _xNUM)] [] _adj [0,0] [] _noun [1,0] [] _xALPHA [1,1 pre] [] _xWILD [1,1 lookahead matches=(_det _pro _quan _num _xNUM ,)] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _xWILD [0,0 matches=(_det)] [] _xWILD [0,0 matches=(_quan _num _xNUM)] [] _adj [0,0] [] _xALPHA [1,1 pre] [] , [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _xWILD [0,0 matches=(_det _pro)] [] _xWILD [0,0 matches=(_quan _num _xNUM)] [] _adj [0,0] [] _xALPHA [1,1 pre] [] _noun [1,1 pre] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _xWILD [0,0 matches=(_det _pro)] [] _xWILD [0,0 matches=(_quan _num _xNUM)] [] _adj [0,0] [] _noun [1,0] [] _xALPHA [1,1 pre] [] as [1,1 singlet] [] _xWILD [1,1 matches=(_verb _vg)] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _xWILD [0,0 matches=(_det _pro)] [] _xWILD [0,0 matches=(_quan _num _xNUM)] [] _adj [0,0] [] _noun [1,0] [] _xALPHA [1,1] [] _xWILD [1,1 lookahead matches=(_prep)] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _xWILD [0,0 matches=(_det _pro)] [] _xWILD [0,0 matches=(_quan _num _xNUM)] [] _adj [0,0] [] _noun [1,0] [] let [1,1] [] stand [1,1] [] _xWILD [1,1 lookahead matches=(_det _pro _quan _num _xNUM _adj _noun _np _adv _advl) hmatch] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _adj [1,1] [] _noun [1,1] [] _xALPHA [1,1 pre] [] _adv [1,1] [] _xALPHA [1,1 pre] [] _xWILD [1,1 lookahead matches=(_fnword)] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _det [0,1] [] _noun [1,1] [] _xALPHA [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _xWILD [0,0 matches=(_det _pro)] [] _xWILD [0,0 matches=(_quan _num _xNUM)] [] _adj [0,0] [] _noun [1,0] [] _xALPHA [1,1 pre] [] _xALPHA [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _xWILD [1,1 matches=(following)] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _xALPHA [1,1 pre] [] _xWILD [1,1 lookahead matches=(_det)] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _xALPHA [1,1 pre] [] _xWILD [0,0 lookahead matches=(_adv _advl)] [] _xWILD [1,1 matches=(_verb _vg _modal)] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _xALPHA [1,1] [] , [1,1 lookahead] [] _pro [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _xALPHA [1,1 pre] [] _xALPHA [1,1 pre] [] _xWILD [1,1 lookahead matches=(_modal _verb _vg)] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _xALPHA [1,1] [] _xALPHA [1,1 pre] [] _xWILD [1,1 lookahead matches=(,)] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _xALPHA [1,1 pre] [] _xALPHA [1,1 pre] [] _xWILD [1,1 singlet lookahead matches=(himself herself itself themselves ourselves yourselves _noun _verb _vg _adv) hmatch] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _xALPHA [1,1] [] _xALPHA [1,1] [] _xWILD [1,1 lookahead matches=(_prep)] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _xALPHA [1,1] [] _xALPHA [1,1] [] _xWILD [0,0 lookahead matches=(_adv _advl)] [] _xWILD [1,1 matches=(_det _quan _num _xNUM _adj _np)] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _xWILD [1,1 singlet matches=(_whword)] [] are [1,1 singlet] [] _xALPHA [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] yet [1,1 singlet] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _adj [1,1] [] _xALPHA [1,1] [] _xALPHA [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _noun [1,1] [] _aposS [1,1] [] _xALPHA [1,1] [] _xWILD [1,1 lookahead matches=(_dbldash , ; _qEOS)] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _xWILD [1,1 matches=(_noun _np)] [] _xWILD [1,1 matches=(_verb _vg)] [] _xWILD [1,1 matches=(_noun _np)] [] , [1,1] [] _xALPHA [1,1 pre] [] _xWILD [1,1 lookahead matches=(_noun _np _det _quan _num _xNUM _adj _xALPHA)] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _xWILD [1,1 matches=(_np _noun)] [] , [1,1] [] _det [1,1] [] _noun [1,1] [] _xALPHA [1,1 pre] [] , [1,1 lookahead] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _xALPHA [1,1 pre] [] _xWILD [1,1 lookahead matches=(_quan _num _xNUM)] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _conj [1,1] [] _fnword [0,1 pre] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] before [1,1 singlet] [] _xALPHA [1,1 pre] [] @@
+NOHASH rule: _xNIL [] [] <- _xANY [1,0] [] @@
+NOHASH rule: _xNIL [] [] <- _xWILD [0,0 matches=(_det _pro)] [] _xWILD [0,0 matches=(_quan _num _xNUM)] [] _adj [0,0] [] _xALPHA [1,1] [] _xALPHA [1,1 pre] [] _xWILD [1,1 lookahead matches=(_verb _vg)] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _xWILD [0,0 matches=(_adv _advl)] [] _xALPHA [1,1] [] _xWILD [1,1 lookahead matches=(_modal _have _be _verb)] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _xCAP [1,1] [] _xWILD [0,0 matches=(_advl _adv)] [] _xWILD [1,1 matches=(_prep)] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] that [1,1 singlet] [] _xWILD [1,1 lookahead matches=(_modal _verb _vg)] [] @@
+NOHASH rule: _xNIL [] [] <- _xWILD [1,1 matches=(, _dblquote _qEOS _xSTART _conj _clause _noun _np)] [] _xWILD [0,0 matches=(_advl _adv)] [] _xWILD [1,1 matches=(say says said quip quips quipped recalls recalled)] [] @@
+NOHASH rule: _xNIL [] [] <- _xCAP [1,1] [] _xWILD [1,1 matches=(_verb say says saying said quip quips quipping quipped recalls recalled) hmatch] [] @@
+NOHASH rule: _xNIL [] [] <- _xALPHA [1,1 pre] [] _xALPHA [1,1 pre] [] _xWILD [1,1 lookahead fails=(_aposS)] [] @@
+NOHASH rule: _xNIL [] [] <- _xALPHA [1,1 pre] [] _xALPHA [1,1 pre] [] _xWILD [1,1 lookahead fails=(_aposS)] [] @@
+NOHASH rule: _xNIL [] [] <- _xALPHA [1,1] [] _noun [1,1 pre] [] _xWILD [1,1 lookahead fails=(_aposS _noun _xALPHA)] [] @@
+NOHASH rule: _xNIL [] [] <- _xALPHA [1,1] [] _noun [1,1 pre] [] _xEND [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xWILD [1,1 fails=(_be)] [] including [1,1 singlet pre] [] @@
+NOHASH rule: _xNIL [] [] <- _xNUM [1,1] [] _noun [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xALPHA [1,1] [] _xWILD [1,1 singlet lookahead matches=(more less)] [] @@
+NOHASH rule: _xNIL [] [] <- _xWILD [1,1 matches=(_xSTART , _dbldash -)] [] _xWILD [0,0 matches=(_adv _advl)] [] _xWILD [1,1 singlet lookahead matches=(up down)] [] @@
+NOHASH rule: _xNIL [] [] <- _xWILD [1,1 singlet matches=(_xSTART , when if as)] [] compared [1,1 singlet] [] @@
+NOHASH rule: _xNIL [] [] <- _xALPHA [1,1] [] _xWILD [1,1 lookahead matches=(_aposS _aposX)] [] @@
+NOHASH rule: _xNIL [] [] <- _xNUM [1,1] [] _aposS [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xWILD [1,1 matches=(_noun _np _xALPHA)] [] _aposS [1,1] [] _neg [1,1 singlet] [] _xWILD [1,1 matches=(_verb)] [] @@
+NOHASH rule: _xNIL [] [] <- _xWILD [1,1 matches=(_noun _np _xALPHA)] [] _aposS [1,1] [] _neg [1,1 singlet] [] _xWILD [1,1 matches=(_np _det _pro _quan _num _xNUM _adj _noun)] [] @@
+NOHASH rule: _xNIL [] [] <- _xCAP [1,1 singlet] [] _aposS [1,1] [] _xWILD [0,0 lookahead matches=(_adv _advl)] [] said [1,1 singlet] [] @@
+NOHASH rule: _xNIL [] [] <- _xCAP [1,1 singlet] [] _aposS [1,1] [] _xWILD [0,0 lookahead matches=(_adv _advl)] [] _xWILD [1,1 matches=(_verb _modal _vg)] [] @@
+NOHASH rule: _xNIL [] [] <- that [1,1 singlet excepts=(_det)] [] _num [1,1] [] _xWILD [1,1 lookahead matches=(,)] [] @@
+NOHASH rule: _xNIL [] [] <- _xWILD [1,1 fails=(no)] [] such [1,1 singlet] [] _xALPHA [1,1] [] _xALPHA [0,1] [] _xALPHA [0,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xWILD [1,1 matches=(_xSTART ( _dbldash ,)] [] _xWILD [0,0 matches=(_conj _adv _advl)] [] like [1,1 singlet] [] _xWILD [0,0 matches=(_adv _advl)] [] _xWILD [1,1 lookahead matches=(_np _noun _det _quan _adj _num _xNUM)] [] @@
+NOHASH rule: _xNIL [] [] <- _xALPHA [1,1] [] like [1,1 singlet] [] @@
+NOHASH rule: _xNIL [] [] <- _xALPHA [1,1] [] _modal [1,1 lookahead] [] @@
+NOHASH rule: _xNIL [] [] <- _xALPHA [1,1] [] by [1,1 singlet lookahead] [] @@
+NOHASH rule: _xNIL [] [] <- _xALPHA [1,1] [] than [1,1 singlet lookahead] [] @@
+NOHASH rule: _xNIL [] [] <- _xWILD [0,1 matches=(_det _pro)] [] _xWILD [1,1 matches=(_xNUM _num _quan)] [] _xALPHA [1,1] [] _xALPHA [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xWILD [1,0 matches=(_det _pro _quan _num _xNUM _adj _noun)] [] _xALPHA [1,1] [] _adj [1,1] [] _xWILD [1,1 lookahead fails=(_xALPHA _adj _noun)] [] @@
+NOHASH rule: _xNIL [] [] <- _xWILD [1,0 matches=(_det _pro _quan _num _xNUM _adj _noun)] [] _xALPHA [1,1] [] _adj [1,1] [] _xEND [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xALPHA [1,1] [] _xALPHA [1,1] [] that [1,1 singlet lookahead] [] @@
+NOHASH rule: _xNIL [] [] <- _xALPHA [1,1] [] _xALPHA [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xWILD [1,1 fails=(_pro _np)] [] _xALPHA [1,1] [] _be [1,1 singlet lookahead] [] @@
+NOHASH rule: _xNIL [] [] <- _xALPHA [1,1 pre] [] to [1,1 singlet] [] @@
+NOHASH rule: _xNIL [] [] <- while [1,1 singlet excepts=(_noun _prep)] [] @@
+NOHASH rule: _xNIL [] [] <- _xALPHA [1,1] [] _xWILD [1,1 matches=(starting beginning commencing ending)] [] _prep [0,1] [] _xWILD [1,1 lookahead matches=(next last)] [] @@
+NOHASH rule: _xNIL [] [] <- _xALPHA [1,1 pre] [] to [1,1 singlet lookahead] [] _be [1,1 singlet] [] @@
+NOHASH rule: _xNIL [] [] <- _xALPHA [1,1 pre] [] of [1,1 singlet lookahead] [] @@
+NOHASH rule: _xNIL [] [] <- _xNUM [1,1] [] _xALPHA [1,1] [] _xEND [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xALPHA [1,1 pre] [] _xALPHA [1,1 pre] [] _xWILD [1,1 matches=(_det _pro _quan _num _xNUM _np)] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _xALPHA [1,1 pre] [] _pro [1,1 lookahead pre] [] @@
+NOHASH rule: _xNIL [] [] <- _xALPHA [1,1 pre] [] _adv [0,0] [] _xWILD [1,1 singlet matches=(me him them us)] [] @@
+NOHASH rule: _xNIL [] [] <- _xWILD [1,1 pre fails=(, _det)] [] _xALPHA [1,1 pre] [] _prep [1,1 lookahead] [] _prep [0,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _xCAP [1,1 pre] [] _xWILD [1,1 lookahead matches=(_conj)] [] _xWILD [1,1 matches=(_verb _vg)] [] @@
+NOHASH rule: _xNIL [] [] <- _xWILD [1,1 matches=(_xSTART _qEOS)] [] _noun [1,1] [] _xWILD [1,1 matches=(,)] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _xALPHA [1,1] [] _det [1,1 lookahead] [] @@
+NOHASH rule: _xNIL [] [] <- _xWILD [1,1 fails=(,)] [] _vg [1,1] [] _xWILD [0,0 lookahead matches=(_adv _advl)] [] _prep [1,1] [] _xWILD [0,0 matches=(_adv _advl)] [] _np [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] as [1,1 singlet] [] _xWILD [0,0 lookahead matches=(_adv _advl)] [] _xWILD [0,0 matches=(_det _quan _num _xNUM _adj)] [] _xWILD [1,0 matches=(_noun)] [] _xWILD [0,0 matches=(_adv _advl)] [] _xWILD [1,1 matches=(_verb _vg)] [] @@
+NOHASH rule: _xNIL [] [] <- _xWILD [1,0 matches=(_det _quan _num _xNUM _adj)] [] _xALPHA [1,1] [] _xWILD [1,1 lookahead matches=(_qEOS _fnword _conj _pro , _xEND)] [] @@
+NOHASH rule: _xNIL [] [] <- _xWILD [1,0 matches=(_det _quan _num _xNUM)] [] _adj [0,0] [] _xALPHA [1,1] [] _noun [1,0] [] @@
+NOHASH rule: _xNIL [] [] <- _xWILD [1,0 matches=(_det _pro _num _quan _xNUM)] [] _adj [1,1] [] , [1,1] [] _xALPHA [1,1] [] _xWILD [1,1 lookahead matches=(_noun)] [] @@
+NOHASH rule: _xNIL [] [] <- _xWILD [1,0 matches=(_det _pro _num _quan _xNUM _prep)] [] _adj [1,1] [] , [1,1] [] _adj [1,1] [] _xWILD [1,1 lookahead matches=(_adj _noun)] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _xWILD [0,0 matches=(_adv _advl)] [] _xWILD [0,0 matches=(_det _pro)] [] _xWILD [0,0 matches=(_quan _num _xNUM)] [] _adj [0,0] [] _noun [1,0] [] _xALPHA [1,1 pre] [] _xWILD [1,1 lookahead matches=(_det _pro _quan _num _xNUM)] [] @@
+NOHASH rule: _xNIL [] [] <- _xWILD [1,0 matches=(_det _quan _num _xNUM _adj)] [] _xALPHA [1,1] [] , [1,1] [] _adj [1,0] [] _noun [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xWILD [1,1 matches=(_xSTART _qEOS)] [] _xWILD [1,0 matches=(_adv _advl)] [] _noun [1,1] [] _xWILD [1,1 lookahead matches=(_prep)] [] @@
+NOHASH rule: _xNIL [] [] <- _xWILD [1,1 matches=(_xSTART _qEOS)] [] _xALPHA [1,1] [] _noun [1,0] [] _xWILD [1,1 lookahead matches=(_verb _vg _advl _adv)] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _xWILD [1,0 matches=(_det _quan _num _xNUM _adj)] [] _xALPHA [1,1] [] , [0,1 lookahead] [] _xWILD [1,1 matches=(_prep _vg _verb _pro _fnword)] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _noun [1,1] [] _xALPHA [1,1] [] _adv [1,1] [] _xALPHA [1,1] [] _xWILD [1,1 lookahead matches=(, _clausesep _xEND)] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _noun [1,0] [] _xALPHA [1,1] [] _xWILD [1,1 lookahead fails=(_xALPHA _num _xNUM _quan _np _det _adj)] [] @@
+NOHASH rule: _xNIL [] [] <- _xWILD [1,1 matches=(_xSTART)] [] back [1,1] [] _xWILD [1,1 lookahead matches=(_noun)] [] @@
+NOHASH rule: _xNIL [] [] <- _xALPHA [1,1] [] _noun [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _xALPHA [1,1] [] _noun [1,1] [] _xWILD [1,1 lookahead fails=(_noun _xALPHA)] [] @@
+NOHASH rule: _xNIL [] [] <- _xALPHA [1,1] [] _noun [1,1 lookahead] [] @@
+NOHASH rule: _xNIL [] [] <- _xWILD [1,1 fails=(_verb _modal)] [] _vg [1,1] [] _verb [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xALPHA [1,1 pre] [] _xWILD [0,0 lookahead matches=(_adv _advl)] [] _xWILD [1,1 matches=(_noun _np)] [] _xWILD [0,0 matches=(_adv _advl)] [] _xWILD [1,1 matches=(_verb _vg)] [] @@
+NOHASH rule: _xNIL [] [] <- _xALPHA [1,1 pre] [] _xALPHA [1,1 pre] [] to [1,1 singlet lookahead] [] _xWILD [1,1 matches=(_verb _vg)] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _noun [1,1] [] _xALPHA [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xWILD [1,1 matches=(_xSTART)] [] _conj [1,1] [] _noun [1,1 pre] [] _xALPHA [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xWILD [1,1 matches=(_det _quan _num _xNUM _adj)] [] _xALPHA [1,1] [] _xALPHA [1,1] [] _xALPHA [1,1] [] _xWILD [1,1 lookahead matches=(_det _np)] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _xWILD [0,0 matches=(_adv _advl)] [] _xWILD [1,1 matches=(_noun _np)] [] _xWILD [0,0 matches=(_adv _advl)] [] _prep [1,1 pre] [] _xWILD [0,0 matches=(_adv _advl)] [] _xALPHA [1,1] [] _noun [1,1 lookahead] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _np [1,1] [] _conj [1,1] [] _xALPHA [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xWILD [0,0 matches=(_det _pro)] [] _xWILD [0,0 matches=(_quan _num _xNUM)] [] _adj [1,0] [] _conj [1,1] [] _noun [1,1] [] _xALPHA [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _xWILD [1,1 matches=(_prep)] [] _xWILD [1,0 matches=(_det _quan _num _xNUM _adj)] [] _xALPHA [1,1] [] _xALPHA [1,1] [] _xWILD [1,1 lookahead matches=(_prep _adv _clausesep _fnword)] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] that [1,1 singlet excepts=(_det _np)] [] _xWILD [0,0 lookahead matches=(_adv _advl)] [] _xWILD [1,1 matches=(_modal _verb _vg)] [] @@
+NOHASH rule: _xNIL [] [] <- _xWILD [1,1 matches=(_xSTART _conj _fnword)] [] _xWILD [1,1 singlet matches=(that) excepts=(_np)] [] _xWILD [1,1 lookahead matches=(_modal _verb _vg)] [] @@
+NOHASH rule: _xNIL [] [] <- _xWILD [1,1 matches=(, _clausesep _xSTART)] [] _xALPHA [1,1] [] _xALPHA [1,1] [] _noun [1,1 lookahead] [] _xWILD [1,1 matches=(_modal _verb _vg)] [] @@
+NOHASH rule: _xNIL [] [] <- _xWILD [1,1 matches=(_xSTART)] [] _xALPHA [1,1] [] _xALPHA [1,1] [] _xWILD [1,1 lookahead matches=(_noun)] [] @@
+NOHASH rule: _xNIL [] [] <- _xALPHA [1,1] [] _xALPHA [1,1] [] _xWILD [1,1 lookahead matches=(, _modal _verb _vg _adv _advl)] [] @@
+NOHASH rule: _xNIL [] [] <- _xWILD [1,1 matches=(_xNUM _num _quan)] [] _xWILD [1,1 singlet matches=(time times)] [] _det [1,1 lookahead] [] @@
+NOHASH rule: _xNIL [] [] <- _xWILD [1,1 matches=(_xSTART _qEOS _dblquote ,)] [] _pro [1,1] [] _xWILD [1,1 matches=(_verb _vg)] [] @@
+NOHASH rule: _adj [] [] <- _xALPHA [1,1] [] _adj [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xWILD [1,1 singlet matches=(_quan _num _xNUM _money)] [] _xWILD [1,1 singlet matches=(more less fewer)] [] _xWILD [1,1 singlet matches=(than)] [] @@
+NOHASH rule: _xNIL [] [] <- _xWILD [1,1 matches=(_xSTART _qEOS _pro _det _quan _num _xNUM _adv ,)] [] _xALPHA [1,1] [] _conj [1,1 lookahead] [] _adj [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xWILD [1,0 matches=(_pro _det _quan _num _xNUM)] [] _adj [0,0] [] _xALPHA [1,1] [] _conj [1,1] [] _xALPHA [1,1] [] _xWILD [1,1 lookahead matches=(_noun _adj)] [] @@
+NOHASH rule: _xNIL [] [] <- _xWILD [1,1 matches=(, _dblquote _qEOS _xSTART _conj _clause _noun _np)] [] _xWILD [0,0 matches=(_advl _adv)] [] _xWILD [1,1 matches=(say says said quip quips quipped recalls recalled reads read) hmatch] [] @@
+NOHASH rule: _clause [unsealed] [] <- _xSTART [1,1] [] _adv [1,1] [] , [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xWILD [1,1 matches=(_xSTART , _clausesep)] [] _prep [1,1] [] _np [1,1] [] _xWILD [1,1 fails=(_verb _conj _prep)] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _xWILD [0,0 matches=(_det)] [] _xWILD [0,0 matches=(_quan _num _xNUM)] [] _adj [0,0] [] _noun [1,0] [] , [1,1] [] _xWILD [0,0 matches=(_det)] [] _xWILD [0,0 matches=(_quan _num _xNUM)] [] _adj [0,0] [] _noun [1,0] [] , [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _xWILD [0,0 matches=(_det)] [] _xWILD [0,0 matches=(_quan _num _xNUM)] [] _adj [0,0] [] _xALPHA [1,1 pre] [] , [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xWILD [1,1 matches=(_xSTART)] [] _noun [1,1] [] , [1,1] [] _np [1,1] [] , [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xWILD [1,1 matches=(_xSTART)] [] _noun [1,1] [] _xWILD [1,1 lookahead matches=(_vg _verb)] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _xWILD [1,1 matches=(_noun _np)] [] , [1,1 singlet] [] _xWILD [1,1 pre matches=(_verb _vg)] [] @@
+NOHASH rule: _xNIL [] [] <- _xWILD [1,1 matches=(_xSTART _verb _vg)] [] _noun [1,1] [] _xALPHA [1,1] [] _xWILD [1,1 lookahead matches=(_prep _verb _vg _adv _advl _np , _qEOS _xEND)] [] @@
+NOHASH rule: _xNIL [] [] <- _xWILD [1,1 matches=(_det _pro _quan _num _xNUM _adj)] [] _xALPHA [1,1] [] _xALPHA [1,1] [] _xWILD [1,1 lookahead matches=(_noun)] [] @@
+NOHASH rule: _xNIL [] [] <- _xWILD [1,1 matches=(_xSTART)] [] _xWILD [1,0 matches=(_det _quan _num _xNUM _adj)] [] _xALPHA [1,1] [] _xALPHA [1,1] [] _xWILD [1,1 lookahead matches=(_np _det _quan _num _xNUM)] [] @@
+NOHASH rule: _xNIL [] [] <- _xWILD [0,0 matches=(_det _pro)] [] _xWILD [0,0 matches=(_quan _num _xNUM)] [] _adj [0,0] [] _noun [1,0] [] _xALPHA [1,1] [] _xALPHA [1,1] [] _xWILD [1,1 lookahead matches=(_np _det _quan _num _xNUM)] [] @@
+NOHASH rule: _xNIL [] [] <- _xWILD [1,0 matches=(_det _quan _num _xNUM _adj _noun)] [] _xWILD [1,1 matches=(_aposS _aposX)] [] _xALPHA [1,1] [] _noun [1,1 lookahead] [] _xWILD [0,0 matches=(_advl _adv)] [] @@
+NOHASH rule: _xNIL [] [] <- _xALPHA [1,1] [] _noun [1,1] [] _xWILD [1,1 lookahead matches=(_verb _vg)] [] @@
+NOHASH rule: _xNIL [] [] <- _xWILD [1,1 fails=(, _conj)] [] _noun [1,1] [] , [1,1] [] _xWILD [1,1 matches=(_xALPHA _noun)] [] , [0,1] [] _conj [1,1] [] _xWILD [1,1 matches=(_xALPHA _noun)] [] _xWILD [1,1 lookahead matches=(_xEND _qEOS _prep _advl _adv _verb _vg)] [] @@
+NOHASH rule: _xNIL [] [] <- _xALPHA [1,1 pre] [] _prep [1,1 lookahead] [] @@
+NOHASH rule: _xNIL [] [] <- _xWILD [1,1 fails=(_noun _xALPHA)] [] _noun [1,1] [] _aposX [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xALPHA [1,1] [] _xWILD [1,1 matches=(_aposS _aposX)] [] _noun [1,1 lookahead] [] @@
+NOHASH rule: _xNIL [] [] <- _xALPHA [1,1] [] , [0,1] [] _xWILD [1,1 lookahead matches=(_det _quan _num _xNUM _np)] [] @@
+NOHASH rule: _xNIL [] [] <- _xALPHA [1,1] [] _xWILD [1,1 lookahead matches=(_det _quan _num _xNUM _np)] [] @@
+NOHASH rule: _xNIL [] [] <- _xALPHA [1,1] [] _conj [1,1 lookahead] [] _xWILD [1,1 matches=(_det _noun _np)] [] @@
+NOHASH rule: _xNIL [] [] <- _xWILD [1,1 fails=(, _verb)] [] _xWILD [1,1 matches=(_verb _vg)] [] , [1,1] [] _xWILD [1,1 matches=(_verb _vg)] [] _xWILD [0,0 matches=(_verb _vg ,)] [] _conj [1,1] [] _xWILD [1,1 matches=(_verb _vg)] [] @@
+NOHASH rule: _xNIL [] [] <- _xWILD [1,0 matches=(_det _quan _num _xNUM _adj _noun)] [] _xALPHA [1,1] [] , [1,1 lookahead] [] _xWILD [1,0 matches=(_det _quan _num _xNUM _adj _noun _np)] [] , [0,1] [] _conj [1,1] [] _xWILD [1,0 matches=(_det _quan _num _xNUM _adj _noun _np)] [] @@
+NOHASH rule: _xNIL [] [] <- _xWILD [1,1 matches=(_xSTART _qEOS _prep _fnword)] [] _xWILD [1,1 matches=(_noun _np)] [] , [1,1] [] _adv [1,1] [] _xALPHA [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xALPHA [1,1] [] _xWILD [1,1 singlet lookahead matches=(about circa approximately)] [] _xWILD [1,1 matches=(_quan _num _xNUM)] [] @@
+NOHASH rule: _xNIL [] [] <- _xALPHA [1,1] [] _xWILD [1,1 singlet lookahead matches=(about circa approximately)] [] _xWILD [1,1 singlet matches=(_money _percent)] [] @@
+NOHASH rule: _xNIL [] [] <- _xALPHA [1,1 pre] [] _xWILD [1,0 matches=(_quan _num _xNUM)] [] @@
+NOHASH rule: _xNIL [] [] <- _det [0,0 pre] [] _xWILD [1,0 matches=(_quan _num _xNUM)] [] _adj [0,0] [] _noun [0,0] [] _xWILD [1,1 lookahead pre fails=(_xALPHA _conj , _aposS _aposX _dbldash _dblquote _fnword)] [] @@
+NOHASH rule: _xNIL [] [] <- _xWILD [1,1 matches=(_verb _vg _prep _xSTART _qEOS)] [] _xWILD [0,1 matches=(_det _pro)] [] _xWILD [0,0 matches=(_quan _num _xNUM)] [] _adj [0,0] [] _noun [1,0] [] _xWILD [1,1 matches=(, _conj _advl)] [] _xWILD [1,1 matches=(_xALPHA _det _pro _quan _num _xNUM _adj _verb _vg _np ,) hmatch] [] @@
+NOHASH rule: _xNIL [] [] <- _xWILD [1,1 matches=(_verb _vg _prep _xSTART _qEOS _advl " _dblquote)] [] _xWILD [0,1 pre matches=(_det _pro)] [] _xWILD [0,0 matches=(_quan _num _xNUM)] [] _adj [0,0] [] _noun [1,0] [] _xWILD [1,1 lookahead matches=(_prep _verb _vg _qEOS _xEND)] [] @@
+NOHASH rule: _xNIL [] [] <- _xWILD [1,1 fails=(_fnword)] [] that [1,1 singlet pre] [] _xWILD [1,1 matches=(_noun _np)] [] _xWILD [1,1 pre matches=(_verb _vg)] [] @@
+NOHASH rule: _xNIL [] [] <- _xWILD [1,1 fails=(_np _noun _adv _advl _xALPHA)] [] that [1,1 singlet excepts=(_det _np)] [] _xWILD [1,1 matches=(_noun)] [] _xWILD [1,1 lookahead matches=(_verb _vg)] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] that [1,1 singlet excepts=(_det)] [] _noun [1,1] [] _xWILD [1,1 lookahead matches=(_verb _vg)] [] @@
+NOHASH rule: _xNIL [] [] <- _xWILD [1,0 matches=(_det _quan _num _xNUM _adj _noun _np)] [] _xWILD [0,0 matches=(_advl _adv)] [] , [0,1] [] _xALPHA [1,1] [] that [1,1 singlet lookahead] [] _xWILD [1,1 matches=(_det _quan _num _xNUM _adj _noun _np _prep)] [] @@
+NOHASH rule: _xNIL [] [] <- _xWILD [1,1 matches=(_det _quan _num _xNUM _adj _noun)] [] _xALPHA [1,1] [] that [1,1 singlet lookahead] [] _xWILD [1,1 matches=(_verb _vg)] [] @@
+NOHASH rule: _xNIL [] [] <- _xALPHA [1,1] [] that [1,1 singlet lookahead] [] _xWILD [0,0 matches=(_adv _advl)] [] _xWILD [1,1 matches=(_modal _verb _vg)] [] @@
+NOHASH rule: _xNIL [] [] <- _xALPHA [1,1] [] that [1,1 singlet lookahead] [] @@
+NOHASH rule: _xNIL [] [] <- _xWILD [1,0 matches=(_det _quan _num _xNUM _adj)] [] outside [1,1 singlet] [] _noun [1,1 lookahead] [] @@
+NOHASH rule: _xNIL [] [] <- _xWILD [1,0 pre matches=(_quan _num _xNUM)] [] _xALPHA [1,1] [] _xWILD [1,1 fails=(_adj _noun _xALPHA)] [] @@
+NOHASH rule: _xNIL [] [] <- _xWILD [1,1 matches=(_xSTART _qEOS)] [] _xCAP [1,1] [] _xWILD [0,0 matches=(_advl _adv)] [] _xWILD [1,1 matches=(_verb _vg)] [] @@
+NOHASH rule: _xNIL [] [] <- _xWILD [1,0 matches=(_det _pro _quan _num _xNUM _advl)] [] _adj [1,1] [] _conj [1,1] [] _adj [1,1] [] _xWILD [1,1 lookahead matches=(_noun _verb _vg _advl _adv)] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _prep [1,1] [] _xWILD [0,0 matches=(_det _pro)] [] _xWILD [0,0 matches=(_quan _num _xNUM)] [] _adj [0,0] [] _noun [1,0] [] _xALPHA [1,1] [] _noun [1,1 lookahead] [] , [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xWILD [1,1 matches=(_xSTART _qEOS)] [] _prep [1,1] [] _det [0,0] [] _adj [0,0] [] _noun [1,0] [] _xALPHA [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xWILD [1,1 matches=(_xSTART _qEOS)] [] _prep [1,1] [] _xWILD [1,0 matches=(_det _quan _num _xNUM _adj)] [] _xALPHA [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xWILD [1,1 matches=(_xSTART _qEOS)] [] _xALPHA [1,1] [] _noun [1,1 lookahead] [] @@
+NOHASH rule: _xNIL [] [] <- _xWILD [0,0 matches=(_det _pro)] [] _xWILD [0,0 matches=(_quan _num _xNUM)] [] _xALPHA [1,1 pre] [] , [1,1] [] _xALPHA [1,1 pre] [] _xALPHA [1,1 pre] [] _xEND [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xWILD [1,1 matches=(_det _pro _quan _num _xNUM _adj)] [] _xALPHA [1,1] [] , [1,1] [] _xALPHA [1,1] [] _xWILD [1,1 lookahead matches=(_prep _advl _adv)] [] @@
+NOHASH rule: _xNIL [] [] <- _xALPHA [1,1] [] _xALPHA [1,1] [] _xWILD [0,0 matches=(_advl _adv)] [] _xWILD [1,1 lookahead pre matches=(_prep)] [] @@
+NOHASH rule: _xNIL [] [] <- _xWILD [1,1 fails=(_verb _modal _xALPHA)] [] _xWILD [0,1 singlet matches=(_modal _do)] [] _xWILD [0,0 matches=(_adv _advl)] [] _have [0,1 singlet] [] _xWILD [0,0 matches=(_adv _advl)] [] _be [0,1 singlet] [] _xWILD [0,0 matches=(_adv _advl)] [] being [0,1 singlet] [] _xWILD [0,0 matches=(_adv _advl)] [] _xWILD [1,1 singlet matches=(_verb) excepts=(_modal _have _be _vg)] [] @@
+NOHASH rule: _xNIL [] [] <- _xWILD [1,1 fails=(_verb _modal _xALPHA)] [] _xWILD [0,1 singlet matches=(_modal _do)] [] _xWILD [0,0 matches=(_adv _advl)] [] _have [1,1 singlet] [] _xWILD [0,0 matches=(_adv _advl)] [] _be [0,1 singlet] [] _xWILD [0,0 matches=(_adv _advl)] [] being [0,1 singlet] [] _xWILD [0,0 matches=(_adv _advl)] [] _xWILD [1,1 singlet matches=(_verb) excepts=(_be _vg)] [] @@
+NOHASH rule: _xNIL [] [] <- _xALPHA [1,1] [] _xWILD [1,1 matches=(beginning)] [] @@
+NOHASH rule: _xNIL [] [] <- _xWILD [1,1 matches=(_xSTART _qEOS)] [] _clause [0,1] [] _xWILD [0,0 matches=(_det _pro)] [] _xWILD [0,0 matches=(_quan _num _xNUM)] [] _adj [0,0] [] _noun [1,0] [] _xALPHA [1,1] [] _xWILD [1,1 lookahead matches=(_det _pro _quan _num _xNUM _adj)] [] @@
+NOHASH rule: _xNIL [] [] <- _xALPHA [1,1] [] _adv [1,1] [] _xALPHA [1,1] [] _xWILD [1,1 matches=(_prep _fnword)] [] @@
+NOHASH rule: _xNIL [] [] <- _xWILD [1,1 matches=(_qEOS _xSTART ,)] [] _xWILD [1,1 matches=(_noun _np)] [] _xWILD [1,1 singlet matches=(_verb _vg) excepts=(_modal _have _be being)] [] _xALPHA [1,1] [] _xWILD [1,1 lookahead matches=(_adj _noun _xALPHA)] [] @@
+NOHASH rule: _xNIL [] [] <- _xWILD [1,1 matches=(_qEOS _xSTART " _dblquote _fnword)] [] _det [0,0] [] _xWILD [0,0 matches=(_quan _num _xNUM)] [] _adj [0,0] [] _noun [1,0] [] _xALPHA [1,1] [] _noun [1,0 lookahead] [] _xWILD [1,1 matches=(_verb _vg)] [] @@
+NOHASH rule: _xNIL [] [] <- _xWILD [1,1 fails=(,)] [] _num [1,1] [] or [1,1 singlet] [] _num [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _xWILD [0,0 matches=(_det _pro)] [] _xWILD [0,0 matches=(_quan _num _xNUM)] [] _adj [0,0] [] _noun [1,0] [] _xALPHA [1,1] [] _xWILD [1,1 lookahead matches=(_prep ,)] [] @@
+NOHASH rule: _xNIL [] [] <- _xWILD [1,1 fails=(,)] [] _prep [1,1] [] _conj [1,1] [] _prep [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _adj [1,0] [] _xALPHA [1,1] [] _noun [1,1 lookahead] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _np [1,1] [] for [1,1 singlet] [] _noun [1,1] [] _xALPHA [1,1] [] _adv [0,1 lookahead] [] to [1,1 singlet] [] @@
+NOHASH rule: _xNIL [] [] <- _xALPHA [1,1] [] _xWILD [1,0 singlet pre matches=(_det _pro) excepts=(_proObj)] [] _xWILD [0,0 matches=(_quan _num _xNUM)] [] _adj [0,0] [] _noun [1,0] [] _xWILD [1,1 lookahead fails=(_adj _xALPHA _aposS _aposX _conj _dblquote)] [] @@
+NOHASH rule: _xNIL [] [] <- _xALPHA [1,1] [] _xWILD [0,0 singlet pre matches=(_det _pro) excepts=(_proObj)] [] _xWILD [1,0 matches=(_quan _num _xNUM)] [] _adj [0,0] [] _noun [1,0] [] _xWILD [1,1 lookahead fails=(_adj _xALPHA _aposS _aposX _conj _dblquote)] [] @@
+NOHASH rule: _xNIL [] [] <- _xWILD [1,1 fails=(_xALPHA _det _quan _num _xNUM _adj _noun _aposS _aposX ,) hfail] [] _xWILD [0,0 singlet pre matches=(_det _proPoss)] [] _xWILD [0,0 matches=(_quan _num _xNUM)] [] _adj [0,0] [] _noun [1,0] [] _xWILD [1,1 lookahead fails=(_adj _xALPHA _aposS _aposX _conj _dblquote)] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _det [0,0] [] _xWILD [0,0 matches=(_quan _num _xNUM)] [] _adj [0,0] [] _noun [1,0] [] _xWILD [1,1 lookahead matches=(_dbldash _prep _fnword _adv _advl _modal _verb _vg)] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _xWILD [1,0 matches=(_adv _advl , _clausesep)] [] _xALPHA [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xWILD [1,1 matches=(_xSTART , ( _dbldash)] [] like [1,1 singlet] [] _xWILD [1,1 lookahead matches=(_np _noun _det _quan _adj _num _xNUM _prep _fnword)] [] @@
+NOHASH rule: _xNIL [] [] <- _xWILD [1,1 matches=(_xSTART _clausesep _prep _verb _vg _fnword)] [] _xWILD [0,0 matches=(_det _pro)] [] _xWILD [0,0 matches=(_quan _num _xNUM)] [] _adj [0,0] [] _noun [1,0] [] _conj [1,1] [] _xWILD [0,0 matches=(_det _pro)] [] _xWILD [0,0 matches=(_quan _num _xNUM)] [] _adj [0,0] [] _noun [1,0] [] _xWILD [1,1 lookahead matches=(_xEND _clausesep _prep _conj _fnword _vg _verb)] [] @@
+NOHASH rule: _xNIL [] [] <- _xWILD [1,1 matches=(_xSTART)] [] _xWILD [0,0 matches=(_adv _advl)] [] _xWILD [1,1 matches=(_noun _np)] [] _xWILD [0,0 matches=(_adv _advl)] [] _xWILD [1,1 matches=(_verb _vg)] [] _xWILD [0,0 matches=(_adv _advl)] [] _xWILD [0,0 matches=(_det _pro)] [] _xWILD [0,0 matches=(_quan _num _xNUM)] [] _adj [0,0] [] _xALPHA [1,1] [] _xWILD [1,1 lookahead fails=(_noun _xALPHA)] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _xALPHA [1,1 pre] [] _xALPHA [1,1] [] _xALPHA [1,1] [] _xWILD [1,1 lookahead matches=(_fnword _prep)] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _xALPHA [1,1] [] _xALPHA [1,1] [] _adv [0,1 lookahead] [] _xWILD [1,1 matches=(_verb _vg)] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _xWILD [0,0 singlet matches=(although though while _adv)] [] _xALPHA [1,1 pre] [] _prep [1,1 pre] [] _xWILD [1,1 matches=(_noun _np)] [] _xWILD [1,1 lookahead matches=(, _verb _vg)] [] @@
+NOHASH rule: _xNIL [] [] <- _xALPHA [1,1] [] _adj [1,1] [] _xWILD [1,1 singlet matches=(_prep _xEND) excepts=(to)] [] @@
+NOHASH rule: _xNIL [] [] <- _xALPHA [1,1] [] , [1,1] [] whose [1,1 singlet] [] @@
+NOHASH rule: _xNIL [] [] <- _xALPHA [1,1 pre] [] _noun [1,1] [] _prep [1,1] [] _np [1,1] [] _vg [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xALPHA [1,1] [] _xALPHA [1,1] [] _xWILD [0,0 matches=(_det _pro)] [] _xWILD [0,0 matches=(_num _quan _xNUM)] [] _adj [0,0] [] _noun [1,0] [] _xWILD [1,1 lookahead matches=(_modal _verb _vg)] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _xWILD [0,0 matches=(_det _pro)] [] _xWILD [0,0 matches=(_quan _num _xNUM)] [] _adj [0,0] [] _noun [1,0] [] , [1,1] [] which [1,1 singlet] [] _xALPHA [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xALPHA [1,1 pre] [] _noun [1,1] [] _xWILD [0,0 matches=(_adv _advl)] [] _vg [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _np [1,1] [] _dbldash [1,1 pre] [] _xWILD [0,0] [] _dbldash [1,1] [] _xALPHA [1,1 pre] [] _xWILD [1,1 lookahead matches=(_det _quan _num _xNUM _adj _noun _np)] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _xWILD [0,0 matches=(_adv _advl)] [] _xWILD [1,1 matches=(_np _pro)] [] _xWILD [0,0 matches=(_adv _advl)] [] _vg [1,1] [] _xWILD [0,0 matches=(_adv _advl)] [] _xWILD [1,1 matches=(_np _pro)] [] _xWILD [0,0 matches=(_adv _advl)] [] , [1,1] [] _xALPHA [1,1 pre] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _xWILD [0,0 matches=(_advl _adv)] [] _xWILD [1,1 matches=(_np _pro)] [] _xWILD [0,0 matches=(_advl _adv)] [] _vg [1,1 pre] [] _xWILD [0,0 matches=(_advl _adv)] [] _xWILD [1,1 matches=(_np _pro)] [] _xWILD [0,0 matches=(_advl _adv)] [] _xWILD [1,1 singlet lookahead matches=(to , _conj)] [] @@
+NOHASH rule: _xNIL [] [] <- _xWILD [1,1 matches=(_xSTART ,)] [] _xWILD [1,1 matches=(_noun _np)] [] , [1,1] [] _prep [1,1] [] _vg [1,1] [] _np [1,1] [] _xWILD [0,0 matches=(_adv _advl)] [] , [1,1] [] _xALPHA [1,1 pre] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _xWILD [0,0 matches=(_adv _advl)] [] _xWILD [1,1 matches=(_noun _np)] [] , [1,1] [] _xALPHA [1,1 pre] [] @@
+NOHASH rule: _xNIL [] [] <- _xWILD [1,1 fails=(_xALPHA _noun _np _conj)] [] _vg [1,1 pre] [] _prep [1,1 pre] [] _vg [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _xWILD [0,0 matches=(_det _pro)] [] _xWILD [0,0 matches=(_quan _num _xNUM)] [] _adj [0,0] [] _noun [1,0] [] _xALPHA [1,1 pre] [] _prep [1,1 lookahead] [] _np [1,1] [] , [1,1] [] _xWILD [1,1 matches=(_det _quan _num _xNUM _adj _noun _np)] [] @@
+NOHASH rule: _xNIL [] [] <- _xALPHA [1,1 pre] [] _np [1,1 lookahead] [] _xWILD [1,1 matches=(_np _det _pro _quan _num _xNUM _adj _noun)] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _xALPHA [1,1] [] _xALPHA [0,1] [] _xALPHA [0,1] [] _xALPHA [0,1] [] _xWILD [0,0 lookahead matches=(_adv _advl)] [] _vg [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xWILD [1,1 matches=(_det _pro _quan _num _xNUM _adj)] [] _adj [1,1] [] _xWILD [1,0 matches=(, _conj)] [] _adv [0,0] [] _adj [1,1] [] , [0,1] [] _noun [1,1 lookahead] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] following [1,1] [] _xWILD [1,1 matches=(_noun _np)] [] _xWILD [0,0 matches=(_adv _advl)] [] by [1,1 singlet lookahead] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _np [1,1] [] , [1,1] [] _xWILD [1,1 matches=(_noun _np)] [] _conj [1,1] [] _xWILD [1,1 matches=(_noun _np)] [] , [1,1 lookahead] [] _xALPHA [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _np [1,1] [] _xALPHA [1,1 pre] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _xWILD [0,0 matches=(_adv _advl)] [] _xWILD [1,1 matches=(_noun _np _det)] [] _prep [1,1] [] _xWILD [1,0 matches=(_det _pro)] [] _xWILD [0,0 matches=(_quan _num _xNUM)] [] _adj [0,0] [] _noun [1,0] [] _xALPHA [1,1 pre] [] _xWILD [1,1 lookahead matches=(_xALPHA _det _quan _num _xNUM _adj _noun _np)] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _xWILD [0,0 matches=(_adv _advl)] [] _np [1,1] [] _clausesep [1,1] [] _xWILD [0,0 matches=(_noun _np _verb _vg _adv _advl _prep)] [] _clausesep [1,1] [] _xWILD [0,0 matches=(_adv _advl)] [] _vg [1,1 pre] [] @@
+NOHASH rule: _xNIL [] [] <- _xALPHA [1,1 pre] [] _xWILD [0,0 matches=(_det _pro)] [] _xWILD [0,0 matches=(_quan _num _xNUM)] [] _adj [0,0] [] _noun [1,0] [] _xALPHA [1,1 pre] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _np [1,1 pre] [] , [1,1 lookahead] [] _np [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xWILD [0,0 matches=(_det _pro)] [] _xWILD [0,0 matches=(_quan _num _xNUM)] [] _adj [0,0] [] _xALPHA [1,1] [] _xALPHA [0,0] [] _prep [1,1 lookahead] [] _whword [1,1 singlet] [] @@
+NOHASH rule: _xNIL [] [] <- _be [1,1 singlet excepts=(_vg)] [] _adv [0,0] [] _xWILD [1,1 fails=(_xALPHA _verb)] [] @@
+NOHASH rule: _xNIL [] [] <- _be [1,1 singlet excepts=(_vg)] [] _adv [0,0] [] _xEND [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xALPHA [1,1 pre] [] _xWILD [1,1 lookahead matches=(_verb _vg)] [] @@
+NOHASH rule: _xNIL [] [] <- _xALPHA [1,1] [] _xWILD [0,0 matches=(_xALPHA _xPUNCT)] [] @@
+NOHASH rule: _xNIL [] [] <- _xWILD [1,1 matches=(_xALPHA)] [] _adj [1,1] [] _conj [1,1] [] _adj [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xALPHA [1,1] [] _noun [1,1 lookahead] [] _xWILD [1,1 matches=(_verb _vg)] [] @@
+NOHASH rule: _xNIL [] [] <- _xWILD [1,1 matches=(_det _quan _num _xNUM _adj)] [] _noun [1,1] [] _aposX [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xWILD [1,1 matches=(_noun _quan _num _xNUM)] [] _verb [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xWILD [1,1 matches=(_xSTART _qEOS)] [] _xWILD [0,0 matches=(_adv _advl)] [] _xWILD [1,1 matches=(_noun _np)] [] _xWILD [0,0 matches=(_adv _advl)] [] _xWILD [1,1 singlet matches=(_verb _vg) excepts=(_modal _have _be)] [] _xWILD [0,0 matches=(_adv _advl)] [] _xALPHA [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xWILD [0,1 singlet matches=(_modal _do)] [] _xWILD [0,0 matches=(_adv _advl)] [] _have [0,1 singlet] [] _xWILD [0,0 matches=(_adv _advl)] [] _be [0,1 singlet] [] _xWILD [0,0 matches=(_adv _advl)] [] being [0,1 singlet] [] _xWILD [0,0 matches=(_adv _advl)] [] _xALPHA [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _be [1,1 singlet excepts=(_vg)] [] _adv [0,0] [] _xWILD [1,1 fails=(_xALPHA _verb)] [] @@
+NOHASH rule: _xNIL [] [] <- _be [1,1 singlet excepts=(_vg)] [] _adv [0,0] [] _xEND [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xALPHA [1,1] [] _xWILD [1,0 matches=(_det _pro)] [] _xWILD [0,0 matches=(_quan _num _xNUM)] [] _adj [0,0] [] _noun [1,0] [] _xWILD [1,1 lookahead fails=(_adj _xALPHA _aposS)] [] @@
+NOHASH rule: _xNIL [] [] <- _xALPHA [1,1] [] _xWILD [0,0 matches=(_det _pro)] [] _xWILD [1,0 matches=(_quan _num _xNUM)] [] _adj [0,0] [] _noun [1,0] [] _xWILD [1,1 lookahead fails=(_adj _xALPHA _aposS)] [] @@
+NOHASH rule: _xNIL [] [] <- _xWILD [1,1 fails=(_xALPHA _det _quan _num _xNUM _adj _noun)] [] _xWILD [0,0 singlet matches=(_det _proPoss)] [] _xWILD [0,0 matches=(_quan _num _xNUM)] [] _adj [0,0] [] _noun [1,0] [] _xWILD [1,1 lookahead fails=(_adj _xALPHA _aposS)] [] @@
+NOHASH rule: _np [] [] <- _xSTART [1,1] [] _xWILD [0,0 matches=(_det _quan _num _xNUM)] [] _adj [0,0] [] _noun [1,0] [] _xWILD [1,1 lookahead fails=(_noun _adj _xALPHA _aposS)] [] @@
+NOHASH rule: _np [] [] <- _xWILD [1,1 fails=(_xALPHA _noun _det _quan _num _xNUM _aposS)] [] _adj [1,0] [] _noun [1,1] [] _xWILD [1,1 lookahead fails=(_noun _xALPHA)] [] @@
+NOHASH rule: _np [] [] <- _xWILD [1,0 matches=(_det _quan _num _xNUM)] [] _adj [1,0] [] _xWILD [1,1 lookahead fails=(_noun _adj _xALPHA _dbldash)] [] @@
+NOHASH rule: _xNIL [] [] <- _xALPHA [1,1] [] _conj [1,1 lookahead] [] _xWILD [1,1 matches=(_det _noun _np)] [] @@
+NOHASH rule: _xNIL [] [] <- _xWILD [1,1 matches=(_xSTART _adv _advl _conj _fnword)] [] _pro [1,1 singlet] [] _xWILD [1,1 lookahead matches=(_vg)] [] @@
+NOHASH rule: _np [] [] <- _xWILD [1,1 matches=(_xSTART)] [] _det [0,0] [] _xWILD [0,0 matches=(_quan _num _xNUM)] [] _adj [0,0] [] _noun [1,0] [] _adj [1,0] [] _noun [1,0] [] _xWILD [1,1 fails=(_xALPHA _noun _adj)] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _np [1,1] [] , [1,1] [] _xWILD [1,1 matches=(_prep)] [] _proPoss [0,1 singlet] [] _xWILD [1,0 matches=(_det _quan _num _xNUM _adj _noun)] [] _xALPHA [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _xWILD [0,0 matches=(_adv _advl)] [] _np [1,1] [] _xWILD [0,0 matches=(_adv _advl)] [] _vg [1,1] [] _xWILD [0,0 matches=(_adv _advl)] [] _prep [1,1] [] _xWILD [0,0 matches=(_adv _advl)] [] _np [1,1] [] _xWILD [1,0 matches=(_adv _advl)] [] _np [1,1] [] _xWILD [0,0 matches=(_adv _advl)] [] _vg [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xWILD [1,0 matches=(_det _quan _num _xNUM _adj)] [] _xALPHA [1,1] [] _xALPHA [1,1] [] _xWILD [1,1 lookahead matches=(_prep)] [] @@
+NOHASH rule: _xNIL [] [] <- _xWILD [1,0 matches=(_det _quan _num _xNUM _adj)] [] _xALPHA [1,1] [] _xWILD [1,1 lookahead matches=(_prep _qEOS _xEND)] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _noun [1,1] [] _conj [1,1] [] _np [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xALPHA [1,1] [] _xWILD [1,1 singlet matches=(up out)] [] @@
+NOHASH rule: _xNIL [] [] <- _xWILD [1,1 singlet pre matches=(_xALPHA _xPUNCT _xNUM)] [] _xWILD [1,1 matches=(_xCAP _caps)] [] _xWILD [1,0 singlet matches=(_xCAP _caps -)] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _abbr [1,1 singlet] [] _xWILD [1,0 singlet matches=(_xCAP _caps -)] [] @@
+NOHASH rule: _xNIL [] [] <- _xANY [1,1] [] _xWILD [1,0 singlet matches=(_xCAP _caps)] [] _xANY [1,1] [] _xWILD [1,0 singlet matches=(_xCAP _caps)] [] _xANY [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _xWILD [1,0 singlet matches=(_xCAP _caps)] [] _xANY [1,1] [] _xWILD [1,0 singlet matches=(_xCAP _caps)] [] _xANY [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xWILD [1,1 singlet matches=(_xCAP) excepts=(_np)] [] @@
+NOHASH rule: _xNIL [] [] <- _xWILD [1,1 singlet pre matches=(_xALPHA _xPUNCT _xNUM)] [] _xWILD [1,1 matches=(_xCAP _abbr)] [] _xWILD [1,1 singlet lookahead pre matches=(_xALPHA _xPUNCT _xNUM _xEND)] [] @@
+NOHASH rule: _xNIL [] [] <- _xALPHA [1,1] [] _name [1,1 singlet] [] @@
+NOHASH rule: _xNIL [] [] <- _xWILD [1,1 fails=(_det _quan _num _xNUM _adj _noun)] [] _xWILD [1,1 matches=(_noun _np)] [] , [1,1] [] _np [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _xWILD [1,1 matches=(_noun _np)] [] , [1,1] [] _np [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _noun [1,1] [] _xWILD [1,1 lookahead fails=(_noun _xALPHA)] [] @@
+NOHASH rule: _xNIL [] [] <- _xWILD [1,0 matches=(_det _quan _num _xNUM _adj)] [] _xALPHA [1,1] [] _noun [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xWILD [1,0 matches=(_det _quan _num _xNUM)] [] _adj [0,0] [] _noun [1,0] [] _xWILD [1,1 lookahead fails=(_xALPHA _aposS)] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _xWILD [1,0 matches=(_det _quan _num _xNUM _adj)] [] _xALPHA [1,1] [] _xWILD [1,1 lookahead matches=(_adv _advl _prep)] [] @@
+NOHASH rule: _xNIL [] [] <- _xWILD [1,0 matches=(_det _quan _num _xNUM _adj)] [] _xALPHA [1,1] [] _xWILD [1,1 lookahead matches=(_vg _verb)] [] @@
+NOHASH rule: _xNIL [] [] <- _xWILD [1,1 matches=(_xSTART _qEOS _np)] [] _noun [1,0] [] _xWILD [1,1 lookahead matches=(_verb _vg _adv _advl _np ,)] [] @@
+NOHASH rule: _xNIL [] [] <- _det [0,0] [] _xWILD [1,0 matches=(_quan _num _xNUM)] [] _adj [0,0] [] _noun [0,0] [] _xWILD [1,1 lookahead fails=(_xALPHA)] [] @@
+NOHASH rule: _xNIL [] [] <- _xWILD [1,1 fails=(_xALPHA _det _quan _num _xNUM _adj _noun _aposS)] [] _det [0,0] [] _xWILD [0,0 matches=(_quan _num _xNUM)] [] _adj [0,0] [] _noun [1,0] [] _xWILD [1,1 lookahead fails=(_noun _adj _xALPHA _aposS)] [] @@
+NOHASH rule: _xNIL [] [] <- _xWILD [1,1 fails=(_xALPHA _det _quan _num _xNUM _adj _noun)] [] _det [0,0] [] _xWILD [0,0 matches=(_quan _num _xNUM)] [] _adj [0,0] [] _noun [1,0] [] _xEND [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xWILD [1,1 matches=(_xSTART)] [] _np [1,1] [] , [1,1] [] _np [1,1] [] , [1,1] [] _xWILD [1,1 lookahead matches=(_vg _verb)] [] @@
+NOHASH rule: _xNIL [] [] <- _xWILD [1,1 fails=(,)] [] _np [1,1] [] , [1,1] [] _np [1,1] [] _conj [1,1] [] _np [1,1] [] _xWILD [0,0 matches=(_prep _np _advl _adv)] [] , [1,1] [] _xWILD [1,1 lookahead fails=(_np)] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _np [1,1] [] , [1,1] [] _np [1,1] [] _conj [1,1] [] _np [1,1] [] _xWILD [0,0 matches=(_prep _np _advl _adv)] [] , [1,1] [] _xWILD [1,1 lookahead fails=(_np)] [] @@
+NOHASH rule: _np [] [] <- _xWILD [1,1 fails=(,)] [] _np [1,1] [] , [1,1] [] _np [1,1] [] , [0,1] [] _conj [1,1] [] _xWILD [0,0 matches=(_advl _adv)] [] _np [1,1] [] @@
+NOHASH rule: _np [] [] <- _xWILD [1,0 matches=(_det _quan _num _xNUM _adj)] [] _xALPHA [1,1] [] _xALPHA [1,1] [] _xALPHA [0,1] [] _noun [0,0] [] _xWILD [1,1 lookahead fails=(_xALPHA)] [] @@
+NOHASH rule: _seg [] [] <- _det [0,0] [] _xWILD [0,0 matches=(_quan _num _xNUM)] [] _adj [0,0] [] _noun [0,0] [] _xALPHA [1,1] [] _noun [0,0] [] _xWILD [1,1 lookahead fails=(_xALPHA _aposS)] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _xWILD [0,0 matches=(_det _pro)] [] _xWILD [0,0 matches=(_quan _num _xNUM)] [] _adj [0,0] [] _xALPHA [1,1] [] _xALPHA [1,1] [] _xEND [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _xWILD [0,0 matches=(_det _pro)] [] _xWILD [0,0 matches=(_quan _num _xNUM)] [] _adj [0,0] [] _noun [0,0] [] _xALPHA [1,1] [] _xEND [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _xALPHA [1,1] [] _xALPHA [1,1] [] _xEND [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xWILD [1,1 matches=(_xSTART _qEOS)] [] _xWILD [0,0 matches=(_advl _adv)] [] _np [1,1] [] _xWILD [0,0 matches=(_advl _adv)] [] , [1,1] [] _xWILD [0,0 matches=(_advl _adv)] [] _vg [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _xALPHA [1,1] [] _xALPHA [1,1] [] _xALPHA [1,1] [] _xEND [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xWILD [1,1 matches=(_xSTART _qEOS , _dbldash)] [] _xWILD [1,0 matches=(_np _prep _seg _advl _adv)] [] _conj [1,1] [] _xWILD [1,0 matches=(_np _prep _seg _advl _adv)] [] _xWILD [1,1 lookahead matches=(, _dbldash _qEOS _xEND)] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _xALPHA [1,1] [] _proObj [1,1 singlet lookahead] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _np [1,1] [] _conj [1,1] [] _np [1,1] [] _xWILD [1,1 lookahead matches=(_adv _advl _vg)] [] @@
+NOHASH rule: _xNIL [] [] <- _xWILD [1,1 matches=(_xSTART _clause)] [] _xWILD [0,0 matches=(_adv _advl)] [] _np [1,1] [] _xWILD [0,0 matches=(_adv _advl)] [] _vg [1,1] [] _xWILD [0,0 matches=(_adv _advl)] [] _np [1,1] [] _xWILD [0,0 lookahead matches=(_adv _advl)] [] _vg [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _xWILD [0,0 matches=(_adv _advl)] [] _np [1,1] [] _xWILD [0,0 matches=(_adv _advl)] [] _vg [1,1 pre] [] _xWILD [0,0 matches=(_adv _advl)] [] _np [1,1] [] _xWILD [0,0 matches=(_adv _advl)] [] _vg [1,1 lookahead] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _np [1,1] [] , [1,1] [] _np [1,1] [] _conj [1,1] [] _np [1,1] [] , [1,1] [] _xWILD [1,1 lookahead matches=(_vg)] [] @@
+NOHASH rule: _xNIL [] [] <- _xWILD [1,1 matches=(_xSTART)] [] _np [1,1] [] , [1,1] [] _np [1,1] [] , [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _xWILD [0,0 matches=(_advl _adv)] [] _np [1,1] [] _xWILD [0,0 matches=(_advl _adv)] [] , [1,1] [] _xWILD [0,0 matches=(_advl _adv)] [] _np [1,1] [] _xWILD [0,0 matches=(_advl _adv)] [] _xWILD [1,1 singlet matches=(that which)] [] _xWILD [0,0 matches=(_advl _adv)] [] _vg [1,1] [] _xWILD [0,0 matches=(_advl _adv)] [] _np [1,1] [] _xWILD [0,0 matches=(_advl _adv)] [] , [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xWILD [1,1 matches=(_xSTART _qEOS)] [] _np [1,1] [] , [1,1] [] _vg [1,1] [] _xWILD [0,0 matches=(_advl _adv)] [] _np [0,1] [] _xWILD [0,0 matches=(_advl _adv)] [] , [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _np [1,1] [] _xWILD [1,1 lookahead matches=(, _np _noun _advl)] [] @@
+NOHASH rule: _xNIL [] [] <- _xALPHA [1,1] [] _xWILD [0,0 matches=(_advl _adv)] [] _np [1,1] [] @@
+NOHASH rule: _np [] [] <- _xWILD [1,1 matches=(_xSTART _verb _vg _prep)] [] _xWILD [0,0 matches=(_det _quan _num _xNUM)] [] _adj [0,0] [] _noun [1,0] [] _xWILD [1,1 lookahead fails=(_noun _adj _xALPHA _aposS)] [] @@
+NOHASH rule: _np [] [] <- _xWILD [1,1 matches=(_xSTART _verb _vg _prep)] [] _xWILD [0,0 matches=(_det _quan _num _xNUM)] [] _adj [0,0] [] _noun [1,0] [] _xEND [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _xWILD [0,0 matches=(_adv _advl)] [] _vg [1,1] [] _xWILD [0,0 lookahead matches=(_adv _advl)] [] _xWILD [1,1 fails=(_noun _np)] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _xWILD [0,0 matches=(_adv _advl)] [] _vg [1,1] [] _xWILD [0,0 lookahead matches=(_adv _advl)] [] _xEND [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- to [1,1 singlet excepts=(_clausestart)] [] _adv [0,0] [] _vg [1,1 lookahead] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _xWILD [0,0 matches=(_adv _advl)] [] _np [1,1 pre] [] _xWILD [0,0 matches=(_adv _advl)] [] _vg [1,1] [] _xWILD [0,0 matches=(_adv)] [] _vg [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _xWILD [0,0 matches=(_advl _adv)] [] _np [1,1] [] _xWILD [0,0 matches=(_advl _adv)] [] _vg [1,1] [] to [1,1 singlet] [] _vg [1,1] [] _xWILD [0,0 matches=(_advl _adv)] [] _np [1,1] [] _xWILD [0,0 matches=(_advl _adv)] [] _vg [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xWILD [1,1 matches=(_xSTART _qEOS)] [] _conj [1,1] [] @@
+NOHASH rule: _clausestart [] [] <- _xWILD [1,1 fails=(_clausestart _clausesep)] [] _xWILD [1,1 fails=(_clausestart _clausesep)] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _xWILD [0,0 matches=(_conj _adv _advl)] [] _xWILD [1,1 singlet matches=(where when)] [] @@
+NOHASH rule: _xNIL [] [] <- _xWILD [1,1 singlet matches=(_xSTART , _dbldash)] [] that [1,1 singlet] [] _xWILD [1,1 lookahead matches=(_verb _vg)] [] @@
+NOHASH rule: _xNIL [] [] <- _clausestart [0,1] [] _xWILD [1,0 fails=(, _fnword _qEOS _dbldash " _dblquote _clause _clausestart _clausesep)] [] _xWILD [1,0 lookahead matches=(, _fnword _qEOS _dbldash " _dblquote _clause _clausestart _clausesep _xEND) hmatch] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _xWILD [0,0 matches=(_advl _adv)] [] _np [1,1] [] _xWILD [0,0 matches=(_advl _adv)] [] _xEND [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _xWILD [0,0 matches=(_advl _adv)] [] to [1,1 singlet] [] _xWILD [0,0 matches=(_advl _adv)] [] _vg [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _xWILD [0,0 matches=(_det _pro)] [] _xWILD [0,0 matches=(_quan _num _xNUM)] [] _xALPHA [0,1] [] _adj [0,0] [] _xALPHA [1,1] [] _noun [0,0] [] _xEND [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _xWILD [1,0 matches=(_det _pro)] [] _xWILD [0,0 matches=(_quan _num _xNUM)] [] _xALPHA [1,1] [] _xALPHA [1,1] [] _xALPHA [1,1] [] _noun [1,0] [] _xEND [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _xWILD [0,0 matches=(_advl _adv _np)] [] _xALPHA [1,1] [] _xWILD [1,1 lookahead matches=(_advl _adv _np)] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _xWILD [0,0 matches=(_advl _adv)] [] _xALPHA [1,1] [] _xWILD [0,0 matches=(_advl _adv)] [] _xEND [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] if [1,1 singlet] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _clause [1,1] [] , [1,1] [] _clause [1,1] [] , [1,1] [] _clause [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _noun [1,1] [] _xWILD [0,0 lookahead matches=(_adv _advls)] [] _xWILD [1,1 matches=(_verb _vg)] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _xALPHA [1,1] [] _noun [1,1] [] _xWILD [0,0 lookahead matches=(_adv _advl)] [] _vg [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _xALPHA [1,1] [] _xWILD [0,0 lookahead matches=(_adv _advl)] [] _vg [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _xWILD [0,0 matches=(_advl _adv)] [] _xWILD [0,0 matches=(_det _quan _num _xNUM _adj _noun _np)] [] _xWILD [0,0 matches=(_advl _adv)] [] _xALPHA [1,1] [] _xWILD [0,0 matches=(_advl _adv)] [] _xWILD [0,0 matches=(_det _quan _num _xNUM _adj _noun _np)] [] _xWILD [0,0 matches=(_advl _adv)] [] _xEND [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _xALPHA [1,1] [] _xWILD [1,1 lookahead matches=(_det _quan _num _xNUM _adj)] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _xWILD [0,0 matches=(_advl _adv)] [] _xALPHA [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xWILD [0,0 matches=(_det _pro)] [] _xWILD [0,0 matches=(_quan _num _xNUM)] [] _adj [0,0] [] _noun [1,0] [] _xWILD [1,1 lookahead fails=(_xALPHA _aposS)] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _xWILD [1,1 matches=(double triple)] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _pro [1,1 singlet] [] _xALPHA [1,1] [] _xALPHA [1,1] [] _xEND [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _det [0,0] [] _xWILD [0,0 matches=(_quan _num _xNUM)] [] _adj [0,0] [] _noun [0,0] [] _xALPHA [1,1] [] _noun [0,0] [] _xEND [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _xWILD [0,0 matches=(_det _pro)] [] _xWILD [0,0 matches=(_quan _num _xNUM)] [] _xALPHA [1,1] [] _xALPHA [1,1] [] _adj [0,0] [] _noun [1,0] [] _xEND [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _xWILD [0,0 matches=(_det _pro)] [] _xWILD [0,0 matches=(_quan _num _xNUM)] [] _xALPHA [1,1] [] _adj [0,0] [] _noun [1,0] [] _xEND [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _xWILD [0,0 matches=(_advl _adv)] [] _vg [1,1] [] _xWILD [0,0 matches=(_advl _adv)] [] _np [1,1] [] _xWILD [0,0 matches=(_advl _adv)] [] _vg [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _xWILD [0,0 matches=(_advl _adv _xPUNCT)] [] _xWILD [0,1 matches=(_np _pro)] [] _xWILD [0,0 matches=(_advl _adv)] [] _vg [1,1] [] _xWILD [0,0 matches=(_advl _adv)] [] _xWILD [1,1 matches=(_adjc _particle)] [] _xWILD [0,0 matches=(_advl _adv)] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _xWILD [0,0 matches=(_advl _adv)] [] _xWILD [1,1 matches=(_np _pro)] [] _xWILD [0,0 matches=(_advl _adv)] [] _xWILD [1,1 matches=(_adjc _particle)] [] _xWILD [0,0 matches=(_advl _adv)] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _xWILD [0,0 matches=(_advl _adv)] [] _xWILD [0,1 matches=(_np _pro)] [] _xWILD [0,0 matches=(_advl _adv)] [] _vg [1,1] [] _xWILD [0,0 matches=(_advl _adv)] [] _xWILD [0,1 matches=(_np _pro)] [] _xWILD [0,0 matches=(_advl _adv)] [] _prep [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _xWILD [0,0 matches=(_advl _adv)] [] _xWILD [0,1 matches=(_np _pro)] [] _xWILD [0,0 matches=(_advl _adv)] [] _vg [1,1] [] _xWILD [0,0 matches=(_advl _adv)] [] _xWILD [0,1 matches=(_np _pro)] [] _xWILD [0,0 matches=(_advl _adv)] [] _xEND [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _xWILD [0,0 matches=(_advl _adv)] [] _xWILD [0,1 matches=(_np _pro)] [] _xWILD [0,0 matches=(_advl _adv)] [] _vg [1,1] [] _xWILD [0,0 matches=(_advl _adv)] [] _xWILD [0,1 matches=(_np _pro)] [] _xWILD [0,0 matches=(_advl _adv)] [] _xWILD [1,0 fails=(_prep _np _vg)] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _xWILD [0,0 matches=(_advl _adv)] [] _xWILD [1,1 matches=(_np _nps)] [] _xWILD [0,0 matches=(_advl _adv)] [] _vg [1,1] [] _xWILD [0,0 matches=(_advl _adv)] [] _xWILD [1,1 matches=(_np _nps)] [] _xWILD [0,0 matches=(_advl _adv)] [] _xWILD [1,1 matches=(_np _nps)] [] _xWILD [0,0 matches=(_advl _adv)] [] _xEND [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _xWILD [0,0 matches=(_advl _adv)] [] _vg [1,1] [] _xWILD [0,0 matches=(_advl _adv)] [] _xWILD [1,1 matches=(_np _nps)] [] _xWILD [0,0 matches=(_advl _adv)] [] _xWILD [1,1 matches=(_np _nps)] [] _xWILD [0,0 matches=(_advl _adv)] [] _xEND [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _xALPHA [1,1] [] _xWILD [0,0 matches=(_adv _advl)] [] _xEND [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _xWILD [0,0 matches=(_advl _adv)] [] _xWILD [0,1 matches=(_np _pro)] [] _xWILD [0,0 matches=(_advl _adv)] [] _vg [1,1] [] _xWILD [0,0 matches=(_advl _adv)] [] _xWILD [0,1 matches=(_np _pro)] [] _xWILD [0,0 matches=(_advl _adv)] [] _prep [1,1] [] _xWILD [0,0 matches=(_advl _adv)] [] _seg [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _xWILD [1,0 matches=(_det _quan _num _xNUM _adj)] [] _xALPHA [1,1] [] _xEND [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _xWILD [0,0 matches=(_advl _adv)] [] _xWILD [0,1 matches=(_np _pro)] [] _xWILD [0,0 matches=(_advl _adv)] [] _vg [1,1] [] _xWILD [0,0 matches=(_advl _adv)] [] _xEND [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _xWILD [0,0 matches=(_advl _adv)] [] _xWILD [1,1 matches=(_np _pro)] [] _xWILD [0,0 matches=(_advl _adv)] [] _vg [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _xWILD [0,0 matches=(_advl _adv)] [] _vg [1,1] [] _xWILD [0,0 matches=(_advl _adv)] [] _xWILD [1,1 matches=(_xEND _prep _qEOS)] [] @@
+NOHASH rule: _xNIL [] [] <- _xWILD [1,1 matches=(_xSTART _prep)] [] _np [1,1] [] _conj [1,1] [] _xALPHA [1,1] [] _xALPHA [1,1] [] _noun [1,1] [] _xWILD [1,1 lookahead matches=(_xEND)] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _xWILD [0,0 matches=(_advl _adv)] [] _np [1,1] [] _xWILD [0,0 matches=(_advl _adv)] [] _xEND [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _xWILD [1,0 matches=(_advl _adv)] [] _xEND [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xWILD [1,1 matches=(_xSTART _qEOS)] [] _clause [1,1] [] , [1,1 lookahead] [] _clause [1,1] [] _clause [1,1] [] , [1,1] [] _clause [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _clause [1,1] [] _clause [1,1 lookahead] [] _clause [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _clause [1,1 pre] [] , [1,1] [] _clause [1,1 pre] [] _xEND [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xALPHA [1,1 pre] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _clause [1,1] [] _xWILD [1,1 singlet matches=(which that)] [] _clause [1,1 lookahead] [] _prep [1,1] [] _clause [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _clause [1,1] [] _xWILD [1,1 singlet lookahead matches=(which that)] [] _clause [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _clause [1,1] [] _clause [1,1 lookahead] [] _xWILD [1,1 singlet matches=(while when _conj)] [] _clause [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xWILD [1,1 matches=(_xALPHA _seg _tok _aposS _noun _verb _adj _adv _premod _interj _xNUM _xPUNCT) hmatch] [] @@
+NOHASH rule: _xNIL [] [] <- _xANY [1,1 pre] [] @@
+NOHASH rule: _xNIL [] [] <- _xANY [1,1 pre] [] @@
+NOHASH rule: _xNIL [] [] <- _xANY [1,1] [] @@

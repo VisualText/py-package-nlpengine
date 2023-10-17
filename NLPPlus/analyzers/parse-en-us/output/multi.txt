@@ -1,0 +1,280 @@
+_noun	Text Analysis International
+_noun	Inc. (TAI
+_adj	American
+_noun	American Medical Records Processing (AMRP
+_noun	Avi Meyers
+_noun	TAI
+_noun	Friday
+_np	Friday
+_advl	on Friday
+_noun	Los Angeles
+_noun	AMRP
+_noun	AMRP
+_noun	TAI
+_noun	VisualText
+_noun	TAI
+_noun	TAI
+_noun	MD Files
+_noun	Carezani Med Company
+_noun	Maryland
+_noun	TAI
+_noun	MiasmaCraft
+_np	MiasmaCraft
+_advl	with MiasmaCraft
+_noun	TAI
+_noun	VisualText
+_noun	VisualText
+_noun	NLP
+_noun	Conceptual Grammar
+_noun	Text Analysis International
+_noun	Inc. (TAI
+_adj	American
+_noun	American Medical Records Processing (AMRP
+_noun	Avi Meyers
+_noun	TAI
+_noun	Friday
+_np	Friday
+_advl	on Friday
+_noun	Los Angeles
+_noun	AMRP
+_noun	AMRP
+_noun	TAI
+_noun	VisualText
+_noun	TAI
+_noun	TAI
+_noun	MD Files
+_noun	Carezani Med Company
+_noun	Maryland
+_noun	TAI
+_noun	MiasmaCraft
+_np	MiasmaCraft
+_advl	with MiasmaCraft
+_noun	TAI
+_noun	VisualText
+_noun	VisualText
+_noun	NLP
+_noun	Conceptual Grammar
+_noun	Text Analysis International
+_noun	Inc. (TAI
+_adj	American
+_noun	American Medical Records Processing (AMRP
+_noun	Avi Meyers
+_noun	TAI
+_noun	Friday
+_np	Friday
+_advl	on Friday
+_noun	Los Angeles
+_noun	AMRP
+_noun	AMRP
+_noun	TAI
+_noun	VisualText
+_noun	TAI
+_noun	TAI
+_noun	MD Files
+_noun	Carezani Med Company
+_noun	Maryland
+_noun	TAI
+_noun	MiasmaCraft
+_np	MiasmaCraft
+_advl	with MiasmaCraft
+_noun	TAI
+_noun	VisualText
+_noun	VisualText
+_noun	NLP
+_noun	Conceptual Grammar
+_noun	Text Analysis International
+_noun	Inc. (TAI
+_adj	American
+_noun	American Medical Records Processing (AMRP
+_noun	Avi Meyers
+_noun	TAI
+_noun	Friday
+_np	Friday
+_advl	on Friday
+_noun	Los Angeles
+_noun	AMRP
+_noun	AMRP
+_noun	TAI
+_noun	VisualText
+_noun	TAI
+_noun	TAI
+_noun	MD Files
+_noun	Carezani Med Company
+_noun	Maryland
+_noun	TAI
+_noun	MiasmaCraft
+_np	MiasmaCraft
+_advl	with MiasmaCraft
+_noun	TAI
+_noun	VisualText
+_noun	VisualText
+_noun	NLP
+_noun	Conceptual Grammar
+_noun	Text Analysis International
+_noun	Inc. (TAI
+_adj	American
+_noun	American Medical Records Processing (AMRP
+_noun	Avi Meyers
+_noun	TAI
+_noun	Friday
+_np	Friday
+_advl	on Friday
+_noun	Los Angeles
+_noun	AMRP
+_noun	AMRP
+_noun	TAI
+_noun	VisualText
+_noun	TAI
+_noun	TAI
+_noun	MD Files
+_noun	Carezani Med Company
+_noun	Maryland
+_noun	TAI
+_noun	MiasmaCraft
+_np	MiasmaCraft
+_advl	with MiasmaCraft
+_noun	TAI
+_noun	VisualText
+_noun	VisualText
+_noun	NLP
+_noun	Conceptual Grammar
+_noun	Text Analysis International
+_noun	Inc. (TAI
+_adj	American
+_noun	American Medical Records Processing (AMRP
+_noun	Avi Meyers
+_noun	TAI
+_noun	Friday
+_np	Friday
+_advl	on Friday
+_noun	Los Angeles
+_noun	AMRP
+_noun	AMRP
+_noun	TAI
+_noun	VisualText
+_noun	Text Analysis International
+_noun	Inc. (TAI
+_adj	American
+_noun	American Medical Records Processing (AMRP
+_noun	Avi Meyers
+_noun	TAI
+_noun	Friday
+_np	Friday
+_advl	on Friday
+_noun	Los Angeles
+_noun	AMRP
+_noun	AMRP
+_noun	TAI
+_noun	VisualText
+_noun	Text Analysis International
+_noun	Inc. (TAI
+_adj	American
+_noun	American Medical Records Processing (AMRP
+_noun	Avi Meyers
+_noun	TAI
+_noun	Friday
+_np	Friday
+_advl	on Friday
+_noun	Los Angeles
+_noun	AMRP
+_noun	AMRP
+_noun	TAI
+_noun	VisualText
+_noun	Text Analysis International
+_noun	Inc. (TAI
+_adj	American
+_noun	American Medical Records Processing (AMRP
+_noun	Avi Meyers
+_noun	TAI
+_noun	Friday
+_np	Friday
+_advl	on Friday
+_noun	Los Angeles
+_noun	AMRP
+_noun	AMRP
+_noun	TAI
+_noun	VisualText
+_noun	Text Analysis International
+_noun	Inc. (TAI
+_adj	American
+_noun	American Medical Records Processing (AMRP
+_noun	Avi Meyers
+_noun	TAI
+_noun	Friday
+_np	Friday
+_advl	on Friday
+_noun	Los Angeles
+_noun	AMRP
+_noun	AMRP
+_noun	TAI
+_noun	VisualText
+_noun	Text Analysis International
+_noun	Inc. (TAI
+_adj	American
+_noun	American Medical Records Processing (AMRP
+_noun	Avi Meyers
+_noun	TAI
+_noun	Friday
+_np	Friday
+_advl	on Friday
+_noun	Los Angeles
+_noun	AMRP
+_noun	AMRP
+_noun	TAI
+_noun	VisualText
+_noun	Text Analysis International
+_noun	Inc. (TAI
+_adj	American
+_noun	American Medical Records Processing (AMRP
+_noun	Avi Meyers
+_noun	TAI
+_noun	Friday
+_np	Friday
+_advl	on Friday
+_noun	Los Angeles
+_noun	AMRP
+_noun	AMRP
+_noun	TAI
+_noun	VisualText
+_noun	Text Analysis International
+_noun	Inc. (TAI
+_adj	American
+_noun	American Medical Records Processing (AMRP
+_noun	Avi Meyers
+_noun	TAI
+_noun	Friday
+_np	Friday
+_advl	on Friday
+_noun	Los Angeles
+_noun	AMRP
+_noun	AMRP
+_noun	TAI
+_noun	VisualText
+_noun	Text Analysis International
+_noun	Inc. (TAI
+_adj	American
+_noun	American Medical Records Processing (AMRP
+_noun	Avi Meyers
+_noun	TAI
+_noun	Friday
+_np	Friday
+_advl	on Friday
+_noun	Los Angeles
+_noun	AMRP
+_noun	AMRP
+_noun	TAI
+_noun	VisualText
+_noun	Text Analysis International
+_noun	Inc. (TAI
+_adj	American
+_noun	American Medical Records Processing (AMRP
+_noun	Avi Meyers
+_noun	TAI
+_noun	Friday
+_np	Friday
+_advl	on Friday
+_noun	Los Angeles
+_noun	AMRP
+_noun	AMRP
+_noun	TAI
+_noun	VisualText

@@ -1,0 +1,1206 @@
+
+======================================
+
+[ LOS/NP ANGELES/NP NWI/NP ]
+-/- 
+[ The/NP No/NP ]
+./. 
+
+[ 1/CD text/NN analysis/NN company/NN Text/NP Analysis/NP International/NP Inc./NP TAI/NP ]
+has/VBZ bought/VBN 
+[ the/DT American/NP Medical/NP Records/NP Processing/NP AMRP/NP ]
+for/IN more/JJR than/IN 
+[ $/$ 130/CD million/CD dollars/NNS ]
+./. 
+
+[ 
+[ Avi/NP Meyers/NP ]
+,/, 
+[ CEO/NN ]
+and/CC 
+[ president/NN ]
+of/IN 
+[ TAI/NP ]
+,/, ]
+said/VBD on/IN 
+[ Friday/NP ]
+that/IN 
+[ they/PP ]
+bought/VBD 
+[ the/DT Los/NP Angeles/NP -/- based/JJ AMRP/NP ]
+for/IN 
+[ $/$ 120/CD million/CD ]
+in/IN 
+[ cash/NN ]
+and/CC 
+[ $/$ 14.3/CD million/CD ]
+in/IN 
+[ assumed/JJ debt/NN ]
+./. 
+
+Founded/JJ in/UNKNOWN 1972/CD ,/, 
+[ AMRP/NP ]
+is/VBZ 
+[ the/DT largest/JJ text/NN processing/NN firm/NN ]
+in/IN 
+[ the/DT country/NN ]
+for/IN 
+[ medical/JJ records/NNS ]
+and/CC 
+[ journals/NNS ]
+and/CC has/VBZ been/VBN using/VBG 
+[ TAI/NN 's/POS VisualText/NP technology/NN ]
+almost/RB exclusively/RB for/UNKNOWN 3/CD 
+[ years/NNS ]
+./. 
+
+[ The/DT sale/NN ]
+of/IN the/DT medical/NN records/NNS processing/UNKNOWN company/NN for/IN more/JJR than/IN 
+[ $/$ 134.3/CD million/CD ]
+is/VBZ above/IN 
+[ analysts/NNS predictions/NNS ]
+but/CC is/VBZ not/RB surprising/VBG 
+[ given/JJ TAI/NN 's/POS strong/JJ position/NN ]
+in/IN 
+[ the/DT market/NN place/NN ]
+./. 
+
+In/UNKNOWN 2006/CD alone/JJ ,/, 
+[ TAI/NP ]
+has/VBZ acquired/VBN 
+[ MD/NP Files/NP ]
+,/, 
+[ New/NP Hampshire/NP Medical/NP Inc./NP ]
+,/, and/CC 
+[ Carezani/NP Med/NP Company/NP ]
+of/IN 
+[ Maryland/NP ]
+for/IN 
+[ a/DT total/NN ]
+of/UNKNOWN 160/CD 
+[ million/CD dollars/NNS ]
+./. 
+
+With/IN 
+[ this/DT last/JJ purchase/NN ]
+,/, 
+[ TAI/NP ]
+has/VBZ substantially/RB strengthened/VBN 
+[ its/PP$ hold/NN ]
+on/IN 
+[ the/DT medical/JJ text/NN processing/NN ]
+field/NN and/CC hopes/VBZ to/TO centralize/VB 
+[ the/DT processing/NN ]
+of/IN medical/JJ records/NNS nationally/RB ./. 
+
+With/IN 
+[ its/PP$ latest/JJ purchase/NN ]
+of/IN the/DT medical/NN records/NNS processing/UNKNOWN company/NN ,/, 
+[ TAI/NP 's/POS stock/NN ]
+is/VBZ up/UNKNOWN 4/CD %/% from/IN 
+[ $/$ 58.33/CD ]
+[ a/DT share/NN ]
+to/TO 
+[ $/$ 60.66/CD ]
+./. 
+
+[ TAI/NP 's/POS stock/NN ]
+has/VBZ recently/RB remained/VBN steady/JJ due/RB to/TO 
+[ its/PP$ lawsuit/NN ]
+with/IN 
+[ MiasmaCraft/NP ]
+whose/WP$ 
+[ text/NN ]
+processing/VBG 
+[ IDE/NP Miasma-Text/NP bears/NNS ]
+[ a/DT striking/JJ resemblance/NN ]
+to/TO 
+[ TAI/NN 's/POS VisualText/NP ]
+./. 
+
+[ TAI/NP ]
+is/VBZ vigorously/RB defending/VBG 
+[ its/PP$ patent/NN ]
+on/IN 
+[ VisualText/NP ]
+,/, 
+[ NLP/NP ]
++/+ +/+ ,/, and/CC 
+[ the/DT Conceptual/NP Grammar/NP ]
+./. 
+
+More/JJR than/IN 
+[ they/PP ]
+know/VBP ./. 
+======================================
+
+[ LOS/NP ANGELES/NP NWI/NP ]
+-/- 
+[ The/NP No/NP ]
+./. 
+
+[ 1/CD text/NN analysis/NN company/NN Text/NP Analysis/NP International/NP Inc./NP TAI/NP ]
+has/VBZ bought/VBN 
+[ the/DT American/NP Medical/NP Records/NP Processing/NP AMRP/NP ]
+for/IN more/JJR than/IN 
+[ $/$ 130/CD million/CD dollars/NNS ]
+./. 
+
+[ 
+[ Avi/NP Meyers/NP ]
+,/, 
+[ CEO/NN ]
+and/CC 
+[ president/NN ]
+of/IN 
+[ TAI/NP ]
+,/, ]
+said/VBD on/IN 
+[ Friday/NP ]
+that/IN 
+[ they/PP ]
+bought/VBD 
+[ the/DT Los/NP Angeles/NP -/- based/JJ AMRP/NP ]
+for/IN 
+[ $/$ 120/CD million/CD ]
+in/IN 
+[ cash/NN ]
+and/CC 
+[ $/$ 14.3/CD million/CD ]
+in/IN 
+[ assumed/JJ debt/NN ]
+./. 
+
+Founded/JJ in/UNKNOWN 1972/CD ,/, 
+[ AMRP/NP ]
+is/VBZ 
+[ the/DT largest/JJ text/NN processing/NN firm/NN ]
+in/IN 
+[ the/DT country/NN ]
+for/IN 
+[ medical/JJ records/NNS ]
+and/CC 
+[ journals/NNS ]
+and/CC has/VBZ been/VBN using/VBG 
+[ TAI/NN 's/POS VisualText/NP technology/NN ]
+almost/RB exclusively/RB for/UNKNOWN 3/CD 
+[ years/NNS ]
+./. 
+
+[ The/DT sale/NN ]
+of/IN the/DT medical/NN records/NNS processing/UNKNOWN company/NN for/IN more/JJR than/IN 
+[ $/$ 134.3/CD million/CD ]
+is/VBZ above/IN 
+[ analysts/NNS predictions/NNS ]
+but/CC is/VBZ not/RB surprising/VBG 
+[ given/JJ TAI/NN 's/POS strong/JJ position/NN ]
+in/IN 
+[ the/DT market/NN place/NN ]
+./. 
+
+In/UNKNOWN 2006/CD alone/JJ ,/, 
+[ TAI/NP ]
+has/VBZ acquired/VBN 
+[ MD/NP Files/NP ]
+,/, 
+[ New/NP Hampshire/NP Medical/NP Inc./NP ]
+,/, and/CC 
+[ Carezani/NP Med/NP Company/NP ]
+of/IN 
+[ Maryland/NP ]
+for/IN 
+[ a/DT total/NN ]
+of/UNKNOWN 160/CD 
+[ million/CD dollars/NNS ]
+./. 
+
+With/IN 
+[ this/DT last/JJ purchase/NN ]
+,/, 
+[ TAI/NP ]
+has/VBZ substantially/RB strengthened/VBN 
+[ its/PP$ hold/NN ]
+on/IN 
+[ the/DT medical/JJ text/NN processing/NN ]
+field/NN and/CC hopes/VBZ to/TO centralize/VB 
+[ the/DT processing/NN ]
+of/IN medical/JJ records/NNS nationally/RB ./. 
+
+With/IN 
+[ its/PP$ latest/JJ purchase/NN ]
+of/IN the/DT medical/NN records/NNS processing/UNKNOWN company/NN ,/, 
+[ TAI/NP 's/POS stock/NN ]
+is/VBZ up/UNKNOWN 4/CD %/% from/IN 
+[ $/$ 58.33/CD ]
+[ a/DT share/NN ]
+to/TO 
+[ $/$ 60.66/CD ]
+./. 
+
+[ TAI/NP 's/POS stock/NN ]
+has/VBZ recently/RB remained/VBN steady/JJ due/RB to/TO 
+[ its/PP$ lawsuit/NN ]
+with/IN 
+[ MiasmaCraft/NP ]
+whose/WP$ 
+[ text/NN ]
+processing/VBG 
+[ IDE/NP Miasma-Text/NP bears/NNS ]
+[ a/DT striking/JJ resemblance/NN ]
+to/TO 
+[ TAI/NN 's/POS VisualText/NP ]
+./. 
+
+[ TAI/NP ]
+is/VBZ vigorously/RB defending/VBG 
+[ its/PP$ patent/NN ]
+on/IN 
+[ VisualText/NP ]
+,/, 
+[ NLP/NP ]
++/+ +/+ ,/, and/CC 
+[ the/DT Conceptual/NP Grammar/NP ]
+./. 
+
+More/JJR than/IN 
+[ they/PP ]
+know/VBP ./. 
+======================================
+
+[ LOS/NP ANGELES/NP NWI/NP ]
+-/- 
+[ The/NP No/NP ]
+./. 
+
+[ 1/CD text/NN analysis/NN company/NN Text/NP Analysis/NP International/NP Inc./NP TAI/NP ]
+has/VBZ bought/VBN 
+[ the/DT American/NP Medical/NP Records/NP Processing/NP AMRP/NP ]
+for/IN more/JJR than/IN 
+[ $/$ 130/CD million/CD dollars/NNS ]
+./. 
+
+[ 
+[ Avi/NP Meyers/NP ]
+,/, 
+[ CEO/NN ]
+and/CC 
+[ president/NN ]
+of/IN 
+[ TAI/NP ]
+,/, ]
+said/VBD on/IN 
+[ Friday/NP ]
+that/IN 
+[ they/PP ]
+bought/VBD 
+[ the/DT Los/NP Angeles/NP -/- based/JJ AMRP/NP ]
+for/IN 
+[ $/$ 120/CD million/CD ]
+in/IN 
+[ cash/NN ]
+and/CC 
+[ $/$ 14.3/CD million/CD ]
+in/IN 
+[ assumed/JJ debt/NN ]
+./. 
+
+Founded/JJ in/UNKNOWN 1972/CD ,/, 
+[ AMRP/NP ]
+is/VBZ 
+[ the/DT largest/JJ text/NN processing/NN firm/NN ]
+in/IN 
+[ the/DT country/NN ]
+for/IN 
+[ medical/JJ records/NNS ]
+and/CC 
+[ journals/NNS ]
+and/CC has/VBZ been/VBN using/VBG 
+[ TAI/NN 's/POS VisualText/NP technology/NN ]
+almost/RB exclusively/RB for/UNKNOWN 3/CD 
+[ years/NNS ]
+./. 
+
+[ The/DT sale/NN ]
+of/IN the/DT medical/NN records/NNS processing/UNKNOWN company/NN for/IN more/JJR than/IN 
+[ $/$ 134.3/CD million/CD ]
+is/VBZ above/IN 
+[ analysts/NNS predictions/NNS ]
+but/CC is/VBZ not/RB surprising/VBG 
+[ given/JJ TAI/NN 's/POS strong/JJ position/NN ]
+in/IN 
+[ the/DT market/NN place/NN ]
+./. 
+
+In/UNKNOWN 2006/CD alone/JJ ,/, 
+[ TAI/NP ]
+has/VBZ acquired/VBN 
+[ MD/NP Files/NP ]
+,/, 
+[ New/NP Hampshire/NP Medical/NP Inc./NP ]
+,/, and/CC 
+[ Carezani/NP Med/NP Company/NP ]
+of/IN 
+[ Maryland/NP ]
+for/IN 
+[ a/DT total/NN ]
+of/UNKNOWN 160/CD 
+[ million/CD dollars/NNS ]
+./. 
+
+With/IN 
+[ this/DT last/JJ purchase/NN ]
+,/, 
+[ TAI/NP ]
+has/VBZ substantially/RB strengthened/VBN 
+[ its/PP$ hold/NN ]
+on/IN 
+[ the/DT medical/JJ text/NN processing/NN ]
+field/NN and/CC hopes/VBZ to/TO centralize/VB 
+[ the/DT processing/NN ]
+of/IN medical/JJ records/NNS nationally/RB ./. 
+
+With/IN 
+[ its/PP$ latest/JJ purchase/NN ]
+of/IN the/DT medical/NN records/NNS processing/UNKNOWN company/NN ,/, 
+[ TAI/NP 's/POS stock/NN ]
+is/VBZ up/UNKNOWN 4/CD %/% from/IN 
+[ $/$ 58.33/CD ]
+[ a/DT share/NN ]
+to/TO 
+[ $/$ 60.66/CD ]
+./. 
+
+[ TAI/NP 's/POS stock/NN ]
+has/VBZ recently/RB remained/VBN steady/JJ due/RB to/TO 
+[ its/PP$ lawsuit/NN ]
+with/IN 
+[ MiasmaCraft/NP ]
+whose/WP$ 
+[ text/NN ]
+processing/VBG 
+[ IDE/NP Miasma-Text/NP bears/NNS ]
+[ a/DT striking/JJ resemblance/NN ]
+to/TO 
+[ TAI/NN 's/POS VisualText/NP ]
+./. 
+
+[ TAI/NP ]
+is/VBZ vigorously/RB defending/VBG 
+[ its/PP$ patent/NN ]
+on/IN 
+[ VisualText/NP ]
+,/, 
+[ NLP/NP ]
++/+ +/+ ,/, and/CC 
+[ the/DT Conceptual/NP Grammar/NP ]
+./. 
+
+More/JJR than/IN 
+[ they/PP ]
+know/VBP ./. 
+======================================
+
+[ LOS/NP ANGELES/NP NWI/NP ]
+-/- 
+[ The/NP No/NP ]
+./. 
+
+[ 1/CD text/NN analysis/NN company/NN Text/NP Analysis/NP International/NP Inc./NP TAI/NP ]
+has/VBZ bought/VBN 
+[ the/DT American/NP Medical/NP Records/NP Processing/NP AMRP/NP ]
+for/IN more/JJR than/IN 
+[ $/$ 130/CD million/CD dollars/NNS ]
+./. 
+
+[ 
+[ Avi/NP Meyers/NP ]
+,/, 
+[ CEO/NN ]
+and/CC 
+[ president/NN ]
+of/IN 
+[ TAI/NP ]
+,/, ]
+said/VBD on/IN 
+[ Friday/NP ]
+that/IN 
+[ they/PP ]
+bought/VBD 
+[ the/DT Los/NP Angeles/NP -/- based/JJ AMRP/NP ]
+for/IN 
+[ $/$ 120/CD million/CD ]
+in/IN 
+[ cash/NN ]
+and/CC 
+[ $/$ 14.3/CD million/CD ]
+in/IN 
+[ assumed/JJ debt/NN ]
+./. 
+
+Founded/JJ in/UNKNOWN 1972/CD ,/, 
+[ AMRP/NP ]
+is/VBZ 
+[ the/DT largest/JJ text/NN processing/NN firm/NN ]
+in/IN 
+[ the/DT country/NN ]
+for/IN 
+[ medical/JJ records/NNS ]
+and/CC 
+[ journals/NNS ]
+and/CC has/VBZ been/VBN using/VBG 
+[ TAI/NN 's/POS VisualText/NP technology/NN ]
+almost/RB exclusively/RB for/UNKNOWN 3/CD 
+[ years/NNS ]
+./. 
+
+[ The/DT sale/NN ]
+of/IN the/DT medical/NN records/NNS processing/UNKNOWN company/NN for/IN more/JJR than/IN 
+[ $/$ 134.3/CD million/CD ]
+is/VBZ above/IN 
+[ analysts/NNS predictions/NNS ]
+but/CC is/VBZ not/RB surprising/VBG 
+[ given/JJ TAI/NN 's/POS strong/JJ position/NN ]
+in/IN 
+[ the/DT market/NN place/NN ]
+./. 
+
+In/UNKNOWN 2006/CD alone/JJ ,/, 
+[ TAI/NP ]
+has/VBZ acquired/VBN 
+[ MD/NP Files/NP ]
+,/, 
+[ New/NP Hampshire/NP Medical/NP Inc./NP ]
+,/, and/CC 
+[ Carezani/NP Med/NP Company/NP ]
+of/IN 
+[ Maryland/NP ]
+for/IN 
+[ a/DT total/NN ]
+of/UNKNOWN 160/CD 
+[ million/CD dollars/NNS ]
+./. 
+
+With/IN 
+[ this/DT last/JJ purchase/NN ]
+,/, 
+[ TAI/NP ]
+has/VBZ substantially/RB strengthened/VBN 
+[ its/PP$ hold/NN ]
+on/IN 
+[ the/DT medical/JJ text/NN processing/NN ]
+field/NN and/CC hopes/VBZ to/TO centralize/VB 
+[ the/DT processing/NN ]
+of/IN medical/JJ records/NNS nationally/RB ./. 
+
+With/IN 
+[ its/PP$ latest/JJ purchase/NN ]
+of/IN the/DT medical/NN records/NNS processing/UNKNOWN company/NN ,/, 
+[ TAI/NP 's/POS stock/NN ]
+is/VBZ up/UNKNOWN 4/CD %/% from/IN 
+[ $/$ 58.33/CD ]
+[ a/DT share/NN ]
+to/TO 
+[ $/$ 60.66/CD ]
+./. 
+
+[ TAI/NP 's/POS stock/NN ]
+has/VBZ recently/RB remained/VBN steady/JJ due/RB to/TO 
+[ its/PP$ lawsuit/NN ]
+with/IN 
+[ MiasmaCraft/NP ]
+whose/WP$ 
+[ text/NN ]
+processing/VBG 
+[ IDE/NP Miasma-Text/NP bears/NNS ]
+[ a/DT striking/JJ resemblance/NN ]
+to/TO 
+[ TAI/NN 's/POS VisualText/NP ]
+./. 
+
+[ TAI/NP ]
+is/VBZ vigorously/RB defending/VBG 
+[ its/PP$ patent/NN ]
+on/IN 
+[ VisualText/NP ]
+,/, 
+[ NLP/NP ]
++/+ +/+ ,/, and/CC 
+[ the/DT Conceptual/NP Grammar/NP ]
+./. 
+
+More/JJR than/IN 
+[ they/PP ]
+know/VBP ./. 
+======================================
+
+[ LOS/NP ANGELES/NP NWI/NP ]
+-/- 
+[ The/NP No/NP ]
+./. 
+
+[ 1/CD text/NN analysis/NN company/NN Text/NP Analysis/NP International/NP Inc./NP TAI/NP ]
+has/VBZ bought/VBN 
+[ the/DT American/NP Medical/NP Records/NP Processing/NP AMRP/NP ]
+for/IN more/JJR than/IN 
+[ $/$ 130/CD million/CD dollars/NNS ]
+./. 
+
+[ 
+[ Avi/NP Meyers/NP ]
+,/, 
+[ CEO/NN ]
+and/CC 
+[ president/NN ]
+of/IN 
+[ TAI/NP ]
+,/, ]
+said/VBD on/IN 
+[ Friday/NP ]
+that/IN 
+[ they/PP ]
+bought/VBD 
+[ the/DT Los/NP Angeles/NP -/- based/JJ AMRP/NP ]
+for/IN 
+[ $/$ 120/CD million/CD ]
+in/IN 
+[ cash/NN ]
+and/CC 
+[ $/$ 14.3/CD million/CD ]
+in/IN 
+[ assumed/JJ debt/NN ]
+./. 
+
+Founded/JJ in/UNKNOWN 1972/CD ,/, 
+[ AMRP/NP ]
+is/VBZ 
+[ the/DT largest/JJ text/NN processing/NN firm/NN ]
+in/IN 
+[ the/DT country/NN ]
+for/IN 
+[ medical/JJ records/NNS ]
+and/CC 
+[ journals/NNS ]
+and/CC has/VBZ been/VBN using/VBG 
+[ TAI/NN 's/POS VisualText/NP technology/NN ]
+almost/RB exclusively/RB for/UNKNOWN 3/CD 
+[ years/NNS ]
+./. 
+
+[ The/DT sale/NN ]
+of/IN the/DT medical/NN records/NNS processing/UNKNOWN company/NN for/IN more/JJR than/IN 
+[ $/$ 134.3/CD million/CD ]
+is/VBZ above/IN 
+[ analysts/NNS predictions/NNS ]
+but/CC is/VBZ not/RB surprising/VBG 
+[ given/JJ TAI/NN 's/POS strong/JJ position/NN ]
+in/IN 
+[ the/DT market/NN place/NN ]
+./. 
+
+In/UNKNOWN 2006/CD alone/JJ ,/, 
+[ TAI/NP ]
+has/VBZ acquired/VBN 
+[ MD/NP Files/NP ]
+,/, 
+[ New/NP Hampshire/NP Medical/NP Inc./NP ]
+,/, and/CC 
+[ Carezani/NP Med/NP Company/NP ]
+of/IN 
+[ Maryland/NP ]
+for/IN 
+[ a/DT total/NN ]
+of/UNKNOWN 160/CD 
+[ million/CD dollars/NNS ]
+./. 
+
+With/IN 
+[ this/DT last/JJ purchase/NN ]
+,/, 
+[ TAI/NP ]
+has/VBZ substantially/RB strengthened/VBN 
+[ its/PP$ hold/NN ]
+on/IN 
+[ the/DT medical/JJ text/NN processing/NN ]
+field/NN and/CC hopes/VBZ to/TO centralize/VB 
+[ the/DT processing/NN ]
+of/IN medical/JJ records/NNS nationally/RB ./. 
+
+With/IN 
+[ its/PP$ latest/JJ purchase/NN ]
+of/IN the/DT medical/NN records/NNS processing/UNKNOWN company/NN ,/, 
+[ TAI/NP 's/POS stock/NN ]
+is/VBZ up/UNKNOWN 4/CD %/% from/IN 
+[ $/$ 58.33/CD ]
+[ a/DT share/NN ]
+to/TO 
+[ $/$ 60.66/CD ]
+./. 
+
+[ TAI/NP 's/POS stock/NN ]
+has/VBZ recently/RB remained/VBN steady/JJ due/RB to/TO 
+[ its/PP$ lawsuit/NN ]
+with/IN 
+[ MiasmaCraft/NP ]
+whose/WP$ 
+[ text/NN ]
+processing/VBG 
+[ IDE/NP Miasma-Text/NP bears/NNS ]
+[ a/DT striking/JJ resemblance/NN ]
+to/TO 
+[ TAI/NN 's/POS VisualText/NP ]
+./. 
+
+[ TAI/NP ]
+is/VBZ vigorously/RB defending/VBG 
+[ its/PP$ patent/NN ]
+on/IN 
+[ VisualText/NP ]
+,/, 
+[ NLP/NP ]
++/+ +/+ ,/, and/CC 
+[ the/DT Conceptual/NP Grammar/NP ]
+./. 
+
+More/JJR than/IN 
+[ they/PP ]
+know/VBP ./. 
+======================================
+
+[ LOS/NP ANGELES/NP NWI/NP ]
+-/- 
+[ The/NP No/NP ]
+./. 
+
+[ 1/CD text/NN analysis/NN company/NN Text/NP Analysis/NP International/NP Inc./NP TAI/NP ]
+has/VBZ bought/VBN 
+[ the/DT American/NP Medical/NP Records/NP Processing/NP AMRP/NP ]
+for/IN more/JJR than/IN 
+[ $/$ 130/CD million/CD dollars/NNS ]
+./. 
+
+[ 
+[ Avi/NP Meyers/NP ]
+,/, 
+[ CEO/NN ]
+and/CC 
+[ president/NN ]
+of/IN 
+[ TAI/NP ]
+,/, ]
+said/VBD on/IN 
+[ Friday/NP ]
+that/IN 
+[ they/PP ]
+bought/VBD 
+[ the/DT Los/NP Angeles/NP -/- based/JJ AMRP/NP ]
+for/IN 
+[ $/$ 120/CD million/CD ]
+in/IN 
+[ cash/NN ]
+and/CC 
+[ $/$ 14.3/CD million/CD ]
+in/IN 
+[ assumed/JJ debt/NN ]
+./. 
+
+Founded/JJ in/UNKNOWN 1972/CD ,/, 
+[ AMRP/NP ]
+is/VBZ 
+[ the/DT largest/JJ text/NN processing/NN firm/NN ]
+in/IN 
+[ the/DT country/NN ]
+for/IN 
+[ medical/JJ records/NNS ]
+and/CC 
+[ journals/NNS ]
+and/CC has/VBZ been/VBN using/VBG 
+[ TAI/NN 's/POS VisualText/NP technology/NN ]
+almost/RB exclusively/RB for/UNKNOWN 3/CD 
+[ years/NNS ]
+./. 
+======================================
+
+[ LOS/NP ANGELES/NP NWI/NP ]
+-/- 
+[ The/NP No/NP ]
+./. 
+
+[ 1/CD text/NN analysis/NN company/NN Text/NP Analysis/NP International/NP Inc./NP TAI/NP ]
+has/VBZ bought/VBN 
+[ the/DT American/NP Medical/NP Records/NP Processing/NP AMRP/NP ]
+for/IN more/JJR than/IN 
+[ $/$ 130/CD million/CD dollars/NNS ]
+./. 
+
+[ 
+[ Avi/NP Meyers/NP ]
+,/, 
+[ CEO/NN ]
+and/CC 
+[ president/NN ]
+of/IN 
+[ TAI/NP ]
+,/, ]
+said/VBD on/IN 
+[ Friday/NP ]
+that/IN 
+[ they/PP ]
+bought/VBD 
+[ the/DT Los/NP Angeles/NP -/- based/JJ AMRP/NP ]
+for/IN 
+[ $/$ 120/CD million/CD ]
+in/IN 
+[ cash/NN ]
+and/CC 
+[ $/$ 14.3/CD million/CD ]
+in/IN 
+[ assumed/JJ debt/NN ]
+./. 
+
+Founded/JJ in/UNKNOWN 1972/CD ,/, 
+[ AMRP/NP ]
+is/VBZ 
+[ the/DT largest/JJ text/NN processing/NN firm/NN ]
+in/IN 
+[ the/DT country/NN ]
+for/IN 
+[ medical/JJ records/NNS ]
+and/CC 
+[ journals/NNS ]
+and/CC has/VBZ been/VBN using/VBG 
+[ TAI/NN 's/POS VisualText/NP technology/NN ]
+almost/RB exclusively/RB for/UNKNOWN 3/CD 
+[ years/NNS ]
+./. 
+======================================
+
+[ LOS/NP ANGELES/NP NWI/NP ]
+-/- 
+[ The/NP No/NP ]
+./. 
+
+[ 1/CD text/NN analysis/NN company/NN Text/NP Analysis/NP International/NP Inc./NP TAI/NP ]
+has/VBZ bought/VBN 
+[ the/DT American/NP Medical/NP Records/NP Processing/NP AMRP/NP ]
+for/IN more/JJR than/IN 
+[ $/$ 130/CD million/CD dollars/NNS ]
+./. 
+
+[ 
+[ Avi/NP Meyers/NP ]
+,/, 
+[ CEO/NN ]
+and/CC 
+[ president/NN ]
+of/IN 
+[ TAI/NP ]
+,/, ]
+said/VBD on/IN 
+[ Friday/NP ]
+that/IN 
+[ they/PP ]
+bought/VBD 
+[ the/DT Los/NP Angeles/NP -/- based/JJ AMRP/NP ]
+for/IN 
+[ $/$ 120/CD million/CD ]
+in/IN 
+[ cash/NN ]
+and/CC 
+[ $/$ 14.3/CD million/CD ]
+in/IN 
+[ assumed/JJ debt/NN ]
+./. 
+
+Founded/JJ in/UNKNOWN 1972/CD ,/, 
+[ AMRP/NP ]
+is/VBZ 
+[ the/DT largest/JJ text/NN processing/NN firm/NN ]
+in/IN 
+[ the/DT country/NN ]
+for/IN 
+[ medical/JJ records/NNS ]
+and/CC 
+[ journals/NNS ]
+and/CC has/VBZ been/VBN using/VBG 
+[ TAI/NN 's/POS VisualText/NP technology/NN ]
+almost/RB exclusively/RB for/UNKNOWN 3/CD 
+[ years/NNS ]
+./. 
+======================================
+
+[ LOS/NP ANGELES/NP NWI/NP ]
+-/- 
+[ The/NP No/NP ]
+./. 
+
+[ 1/CD text/NN analysis/NN company/NN Text/NP Analysis/NP International/NP Inc./NP TAI/NP ]
+has/VBZ bought/VBN 
+[ the/DT American/NP Medical/NP Records/NP Processing/NP AMRP/NP ]
+for/IN more/JJR than/IN 
+[ $/$ 130/CD million/CD dollars/NNS ]
+./. 
+
+[ 
+[ Avi/NP Meyers/NP ]
+,/, 
+[ CEO/NN ]
+and/CC 
+[ president/NN ]
+of/IN 
+[ TAI/NP ]
+,/, ]
+said/VBD on/IN 
+[ Friday/NP ]
+that/IN 
+[ they/PP ]
+bought/VBD 
+[ the/DT Los/NP Angeles/NP -/- based/JJ AMRP/NP ]
+for/IN 
+[ $/$ 120/CD million/CD ]
+in/IN 
+[ cash/NN ]
+and/CC 
+[ $/$ 14.3/CD million/CD ]
+in/IN 
+[ assumed/JJ debt/NN ]
+./. 
+
+Founded/JJ in/UNKNOWN 1972/CD ,/, 
+[ AMRP/NP ]
+is/VBZ 
+[ the/DT largest/JJ text/NN processing/NN firm/NN ]
+in/IN 
+[ the/DT country/NN ]
+for/IN 
+[ medical/JJ records/NNS ]
+and/CC 
+[ journals/NNS ]
+and/CC has/VBZ been/VBN using/VBG 
+[ TAI/NN 's/POS VisualText/NP technology/NN ]
+almost/RB exclusively/RB for/UNKNOWN 3/CD 
+[ years/NNS ]
+./. 
+======================================
+
+[ LOS/NP ANGELES/NP NWI/NP ]
+-/- 
+[ The/NP No/NP ]
+./. 
+
+[ 1/CD text/NN analysis/NN company/NN Text/NP Analysis/NP International/NP Inc./NP TAI/NP ]
+has/VBZ bought/VBN 
+[ the/DT American/NP Medical/NP Records/NP Processing/NP AMRP/NP ]
+for/IN more/JJR than/IN 
+[ $/$ 130/CD million/CD dollars/NNS ]
+./. 
+
+[ 
+[ Avi/NP Meyers/NP ]
+,/, 
+[ CEO/NN ]
+and/CC 
+[ president/NN ]
+of/IN 
+[ TAI/NP ]
+,/, ]
+said/VBD on/IN 
+[ Friday/NP ]
+that/IN 
+[ they/PP ]
+bought/VBD 
+[ the/DT Los/NP Angeles/NP -/- based/JJ AMRP/NP ]
+for/IN 
+[ $/$ 120/CD million/CD ]
+in/IN 
+[ cash/NN ]
+and/CC 
+[ $/$ 14.3/CD million/CD ]
+in/IN 
+[ assumed/JJ debt/NN ]
+./. 
+
+Founded/JJ in/UNKNOWN 1972/CD ,/, 
+[ AMRP/NP ]
+is/VBZ 
+[ the/DT largest/JJ text/NN processing/NN firm/NN ]
+in/IN 
+[ the/DT country/NN ]
+for/IN 
+[ medical/JJ records/NNS ]
+and/CC 
+[ journals/NNS ]
+and/CC has/VBZ been/VBN using/VBG 
+[ TAI/NN 's/POS VisualText/NP technology/NN ]
+almost/RB exclusively/RB for/UNKNOWN 3/CD 
+[ years/NNS ]
+./. 
+======================================
+
+[ LOS/NP ANGELES/NP NWI/NP ]
+-/- 
+[ The/NP No/NP ]
+./. 
+
+[ 1/CD text/NN analysis/NN company/NN Text/NP Analysis/NP International/NP Inc./NP TAI/NP ]
+has/VBZ bought/VBN 
+[ the/DT American/NP Medical/NP Records/NP Processing/NP AMRP/NP ]
+for/IN more/JJR than/IN 
+[ $/$ 130/CD million/CD dollars/NNS ]
+./. 
+
+[ 
+[ Avi/NP Meyers/NP ]
+,/, 
+[ CEO/NN ]
+and/CC 
+[ president/NN ]
+of/IN 
+[ TAI/NP ]
+,/, ]
+said/VBD on/IN 
+[ Friday/NP ]
+that/IN 
+[ they/PP ]
+bought/VBD 
+[ the/DT Los/NP Angeles/NP -/- based/JJ AMRP/NP ]
+for/IN 
+[ $/$ 120/CD million/CD ]
+in/IN 
+[ cash/NN ]
+and/CC 
+[ $/$ 14.3/CD million/CD ]
+in/IN 
+[ assumed/JJ debt/NN ]
+./. 
+
+Founded/JJ in/UNKNOWN 1972/CD ,/, 
+[ AMRP/NP ]
+is/VBZ 
+[ the/DT largest/JJ text/NN processing/NN firm/NN ]
+in/IN 
+[ the/DT country/NN ]
+for/IN 
+[ medical/JJ records/NNS ]
+and/CC 
+[ journals/NNS ]
+and/CC has/VBZ been/VBN using/VBG 
+[ TAI/NN 's/POS VisualText/NP technology/NN ]
+almost/RB exclusively/RB for/UNKNOWN 3/CD 
+[ years/NNS ]
+./. 
+======================================
+
+[ LOS/NP ANGELES/NP NWI/NP ]
+-/- 
+[ The/NP No/NP ]
+./. 
+
+[ 1/CD text/NN analysis/NN company/NN Text/NP Analysis/NP International/NP Inc./NP TAI/NP ]
+has/VBZ bought/VBN 
+[ the/DT American/NP Medical/NP Records/NP Processing/NP AMRP/NP ]
+for/IN more/JJR than/IN 
+[ $/$ 130/CD million/CD dollars/NNS ]
+./. 
+
+[ 
+[ Avi/NP Meyers/NP ]
+,/, 
+[ CEO/NN ]
+and/CC 
+[ president/NN ]
+of/IN 
+[ TAI/NP ]
+,/, ]
+said/VBD on/IN 
+[ Friday/NP ]
+that/IN 
+[ they/PP ]
+bought/VBD 
+[ the/DT Los/NP Angeles/NP -/- based/JJ AMRP/NP ]
+for/IN 
+[ $/$ 120/CD million/CD ]
+in/IN 
+[ cash/NN ]
+and/CC 
+[ $/$ 14.3/CD million/CD ]
+in/IN 
+[ assumed/JJ debt/NN ]
+./. 
+
+Founded/JJ in/UNKNOWN 1972/CD ,/, 
+[ AMRP/NP ]
+is/VBZ 
+[ the/DT largest/JJ text/NN processing/NN firm/NN ]
+in/IN 
+[ the/DT country/NN ]
+for/IN 
+[ medical/JJ records/NNS ]
+and/CC 
+[ journals/NNS ]
+and/CC has/VBZ been/VBN using/VBG 
+[ TAI/NN 's/POS VisualText/NP technology/NN ]
+almost/RB exclusively/RB for/UNKNOWN 3/CD 
+[ years/NNS ]
+./. 
+======================================
+
+[ LOS/NP ANGELES/NP NWI/NP ]
+-/- 
+[ The/NP No/NP ]
+./. 
+
+[ 1/CD text/NN analysis/NN company/NN Text/NP Analysis/NP International/NP Inc./NP TAI/NP ]
+has/VBZ bought/VBN 
+[ the/DT American/NP Medical/NP Records/NP Processing/NP AMRP/NP ]
+for/IN more/JJR than/IN 
+[ $/$ 130/CD million/CD dollars/NNS ]
+./. 
+
+[ 
+[ Avi/NP Meyers/NP ]
+,/, 
+[ CEO/NN ]
+and/CC 
+[ president/NN ]
+of/IN 
+[ TAI/NP ]
+,/, ]
+said/VBD on/IN 
+[ Friday/NP ]
+that/IN 
+[ they/PP ]
+bought/VBD 
+[ the/DT Los/NP Angeles/NP -/- based/JJ AMRP/NP ]
+for/IN 
+[ $/$ 120/CD million/CD ]
+in/IN 
+[ cash/NN ]
+and/CC 
+[ $/$ 14.3/CD million/CD ]
+in/IN 
+[ assumed/JJ debt/NN ]
+./. 
+
+Founded/JJ in/UNKNOWN 1972/CD ,/, 
+[ AMRP/NP ]
+is/VBZ 
+[ the/DT largest/JJ text/NN processing/NN firm/NN ]
+in/IN 
+[ the/DT country/NN ]
+for/IN 
+[ medical/JJ records/NNS ]
+and/CC 
+[ journals/NNS ]
+and/CC has/VBZ been/VBN using/VBG 
+[ TAI/NN 's/POS VisualText/NP technology/NN ]
+almost/RB exclusively/RB for/UNKNOWN 3/CD 
+[ years/NNS ]
+./. 
+======================================
+
+[ LOS/NP ANGELES/NP NWI/NP ]
+-/- 
+[ The/NP No/NP ]
+./. 
+
+[ 1/CD text/NN analysis/NN company/NN Text/NP Analysis/NP International/NP Inc./NP TAI/NP ]
+has/VBZ bought/VBN 
+[ the/DT American/NP Medical/NP Records/NP Processing/NP AMRP/NP ]
+for/IN more/JJR than/IN 
+[ $/$ 130/CD million/CD dollars/NNS ]
+./. 
+
+[ 
+[ Avi/NP Meyers/NP ]
+,/, 
+[ CEO/NN ]
+and/CC 
+[ president/NN ]
+of/IN 
+[ TAI/NP ]
+,/, ]
+said/VBD on/IN 
+[ Friday/NP ]
+that/IN 
+[ they/PP ]
+bought/VBD 
+[ the/DT Los/NP Angeles/NP -/- based/JJ AMRP/NP ]
+for/IN 
+[ $/$ 120/CD million/CD ]
+in/IN 
+[ cash/NN ]
+and/CC 
+[ $/$ 14.3/CD million/CD ]
+in/IN 
+[ assumed/JJ debt/NN ]
+./. 
+
+Founded/JJ in/UNKNOWN 1972/CD ,/, 
+[ AMRP/NP ]
+is/VBZ 
+[ the/DT largest/JJ text/NN processing/NN firm/NN ]
+in/IN 
+[ the/DT country/NN ]
+for/IN 
+[ medical/JJ records/NNS ]
+and/CC 
+[ journals/NNS ]
+and/CC has/VBZ been/VBN using/VBG 
+[ TAI/NN 's/POS VisualText/NP technology/NN ]
+almost/RB exclusively/RB for/UNKNOWN 3/CD 
+[ years/NNS ]
+./. 
+======================================
+
+[ LOS/NP ANGELES/NP NWI/NP ]
+-/- 
+[ The/NP No/NP ]
+./. 
+
+[ 1/CD text/NN analysis/NN company/NN Text/NP Analysis/NP International/NP Inc./NP TAI/NP ]
+has/VBZ bought/VBN 
+[ the/DT American/NP Medical/NP Records/NP Processing/NP AMRP/NP ]
+for/IN more/JJR than/IN 
+[ $/$ 130/CD million/CD dollars/NNS ]
+./. 
+
+[ 
+[ Avi/NP Meyers/NP ]
+,/, 
+[ CEO/NN ]
+and/CC 
+[ president/NN ]
+of/IN 
+[ TAI/NP ]
+,/, ]
+said/VBD on/IN 
+[ Friday/NP ]
+that/IN 
+[ they/PP ]
+bought/VBD 
+[ the/DT Los/NP Angeles/NP -/- based/JJ AMRP/NP ]
+for/IN 
+[ $/$ 120/CD million/CD ]
+in/IN 
+[ cash/NN ]
+and/CC 
+[ $/$ 14.3/CD million/CD ]
+in/IN 
+[ assumed/JJ debt/NN ]
+./. 
+
+Founded/JJ in/UNKNOWN 1972/CD ,/, 
+[ AMRP/NP ]
+is/VBZ 
+[ the/DT largest/JJ text/NN processing/NN firm/NN ]
+in/IN 
+[ the/DT country/NN ]
+for/IN 
+[ medical/JJ records/NNS ]
+and/CC 
+[ journals/NNS ]
+and/CC has/VBZ been/VBN using/VBG 
+[ TAI/NN 's/POS VisualText/NP technology/NN ]
+almost/RB exclusively/RB for/UNKNOWN 3/CD 
+[ years/NNS ]
+./. 
