@@ -13,9 +13,9 @@ setup(
     },
     include_package_data=True,
     description='Python package for NLP++',
-    long_description="""
-    This is Python package for https://github.com/VisualText/nlp-engine. It works on Windows x64, Python 3.9+ x64.
-    """,
+    long_description=open("README.md").read(),
+    long_description_content_type="text/markdown",
+    url="https://github.com/VisualText/py-package-nlpengine",
     author="David De Hilster",
     maintainer="Vladyslav Romasenko",
     maintainer_email="pinyz8221@gmail.com"
