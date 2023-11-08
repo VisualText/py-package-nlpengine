@@ -1,0 +1,52 @@
+###############################################
+# FILE: email11
+# SUBJ: comment
+# AUTH: Kruthika
+# CREATED: 2023-10-30 14:10:24
+# MODIFIED:
+###############################################
+
+@PATH _ROOT _LINE 
+@PRE
+<3,3> var("nox");
+@POST
+S("local")=N("$text",2);
+S("dn")= N("dn",3);
+S("tld")=N("tld",3);
+single();
+@RULES
+_emails <-
+	_xWILD [one match=(_xWHITE _xSTART \-)]
+	_xWILD [min =1 max=0 match=(_xALPHA _xNUM \. \- \_ \$ \* \' \+\+ \( \) )]
+	_email	### (1)
+	@@
+
+@PRE
+<3,3> var("nor");
+@POST
+S("local")=N("$text",2);
+S("domainname")=N("domainname",3);
+single();
+@RULES
+_emails <-
+	_xWILD [one match=(_xWHITE _xSTART \-)]
+	_xWILD [min =1 max=0 match=(_xALPHA _xNUM \. \- \_ \$ \* \' \+\( \) )]
+	_email	### (1)
+	@@
+
+@PRE
+<3,3> var("nop");
+@POST
+S("local")=N("$text",2);
+S("domainname")=N("domainname",3)
+S("dn")= N("dn",3);
+S("tld")=N("tld",3);
+S("cd")=N("cd",3);
+S("country")=N("country",3);
+single();
+@RULES
+_emails <-
+	_xWILD [one match=(_xWHITE _xSTART \-)]
+	_xWILD [min =1 max=0 match=(_xALPHA _xNUM \. \- \_ \$ \* \' \+\( \) )]
+	_email	### (1)
+	@@

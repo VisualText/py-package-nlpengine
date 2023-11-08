@@ -1,0 +1,20 @@
+###############################################
+# FILE: email3
+# SUBJ: comment
+# AUTH: Kruthika
+# CREATED: 2023-10-28 19:59:31
+# MODIFIED:
+###############################################
+
+
+@PATH _ROOT _LINE _emailx
+@POST
+
+X("local",3)= pnvar(N(1),"local");
+X("domainname")=pnvar(N(1),"domainname");
+splice(1,1);
+@RULES
+	_emailn <-	
+		_email
+		_word
+	@@

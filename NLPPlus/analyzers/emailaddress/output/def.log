@@ -1,0 +1,19 @@
+Sequence file is:
+dicttok
+NOHASH rule: _LINE [] [] <- _xWILD [0,0 fails=( 
+)] [] _xWILD [1,1 matches=(
+ _xEND)] [] @@
+NOHASH rule: _email [] [] <- _xWILD [1,1 matches=(_xWHITE _xSTART -)] [] _xWILD [1,0 matches=(_xALPHA _xNUM . - _ $ * ' ( ) ! # % & + - / = ? ^ _ { | } ~) hmatch] [] @ [1,1] [] _xWILD [1,0 matches=(_xALPHA _xNUM -)] [] . [1,1] [] _xALPHA [1,1] [] . [1,1] [] _xALPHA [1,1] [] @@
+NOHASH rule: _email [] [] <- _xWILD [1,1 matches=(_xWHITE _xSTART -)] [] _xWILD [1,0 matches=(_xALPHA _xNUM . - _ $ * ' ( ) ! # % & + - / = ? ^ _ { | } ~) hmatch] [] @ [1,1] [] _xWILD [1,0 matches=(_xALPHA _xNUM -)] [] . [1,1] [] _xALPHA [1,1] [] . [1,1] [] _xALPHA [1,1] [] @@
+NOHASH rule: _email [] [] <- _xWILD [1,1 matches=(_xWHITE _xSTART -)] [] _xWILD [1,0 matches=(_xALPHA _xNUM . - _ $ * ' ( ) ! # % & + - / = ? ^ _ { | } ~) hmatch] [] @ [1,1] [] _xWILD [1,0 matches=(_xALPHA _xNUM - _)] [] . [1,1] [] _xALPHA [1,1] [] @@
+NOHASH rule: _email [] [] <- _xWHITE [0,4] [] at [1,1] [] _xWHITE [0,4] [] _xWILD [1,0 matches=(_xALPHA _xNUM -)] [] _xWHITE [0,4] [] dot [1,1] [] _xWHITE [0,4] [] _xALPHA [1,1] [] _xWHITE [0,4] [] dot [1,1] [] _xWHITE [0,4] [] _xALPHA [1,1] [] @@
+NOHASH rule: _email [] [] <- _xWHITE [0,4] [] at [1,1] [] _xWHITE [0,4] [] _xWILD [1,0 matches=(_xALPHA _xNUM -)] [] _xWHITE [0,4] [] dot [1,1] [] _xWHITE [0,4] [] _xALPHA [1,1] [] _xWHITE [0,4] [] dot [1,1] [] _xWHITE [0,4] [] _xALPHA [1,1] [] @@
+NOHASH rule: _email [] [] <- _xWHITE [0,4] [] at [1,1] [] _xWHITE [0,4] [] _xWILD [1,0 matches=(_xALPHA _xNUM - _)] [] _xWHITE [0,4] [] dot [1,1] [] _xWHITE [0,4] [] _xALPHA [1,1] [] @@
+NOHASH rule: _emails [] [] <- _xWILD [1,1 matches=(_xWHITE _xSTART -)] [] _xWILD [1,0 matches=(_xALPHA _xNUM . - _ $ * ' + + ( )) hmatch] [] _email [1,1 pre] [] @@
+NOHASH rule: _emails [] [] <- _xWILD [1,1 matches=(_xWHITE _xSTART -)] [] _xWILD [1,0 matches=(_xALPHA _xNUM . - _ $ * ' + ( )) hmatch] [] _email [1,1 pre] [] @@
+NOHASH rule: _emails [] [] <- _xWILD [1,1 matches=(_xWHITE _xSTART -)] [] _xWILD [1,0 matches=(_xALPHA _xNUM . - _ $ * ' + ( )) hmatch] [] _email [1,1 pre] [] @@
+NOHASH rule: _word [] [] <- _xWILD [1,0 pre matches=(. _xALPHA)] [] @@
+NOHASH rule: _xNIL [] [] <- _xWHITE [1,1 singlet] [] @@
+
+Passes: (dicttok,nil) (nlp,KBFuncs) (nlp,kbinit) (nlp,funcs) (nlp,Lines) (nlp,email1) (nlp,email11) (nlp,email12) (nlp,email2) (nlp,email3) (nlp,email4) (nlp,email5) (nlp,email6) (nlp,email7) (nlp,kbdisp01) (nlp,output) 
+

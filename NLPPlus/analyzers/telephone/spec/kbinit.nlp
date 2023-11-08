@@ -1,0 +1,11 @@
+###############################################
+# FILE: kbinit
+# SUBJ: comment
+# AUTH: Kruthika
+# CREATED: 2023-10-27 21:47:0
+# MODIFIED:
+###############################################
+
+@CODE
+G("telephone") = getconcept(findroot(),"telephones");
+@@CODE

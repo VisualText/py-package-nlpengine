@@ -1,0 +1,146 @@
+###############################################
+# FILE: email1
+# SUBJ: comment
+# AUTH: Kruthika
+# CREATED: 2023-10-26 22:47:38
+# MODIFIED:
+###############################################
+
+@PATH _ROOT _LINE
+
+@CHECK
+if((pnvar(N(6),"country")||pnvar(N(6),"domain"))&&pnvar(N(8),"country"))
+succeed();
+else
+fail();
+@POST
+S("local")=N("$text",2);
+S("domainname")= N("$text",4);
+S("tld")=N("$text",6);
+S("cd")=N("$text",8);
+S("country")=N("country",8);
+single();
+
+@RULES
+_email <-
+	_xWILD [one match=(_xWHITE _xSTART \-)]
+	_xWILD [min =1 max=0 match=(_xALPHA _xNUM \. \- \_ \$ \* \' \( \) \! \# \% \& \+ \- \/ \= \? \^ \_ \{ \| \} \~)]	
+	\@
+	_xWILD [min =1 max=0 match=(_xALPHA _xNUM \-  )]
+	\.	
+	_xALPHA						### (3)
+	\. 
+	_xALPHA 
+	@@
+
+@POST
+S("local")=N("$text",2);
+S("domainname")= N("$text",4)+"."+N("$text",6)+"."+N("$text",8)
+S("non")=1;
+CheckMore(N(8));
+single();
+@RULES
+_email <-
+	_xWILD [one match=(_xWHITE _xSTART \-)]
+	_xWILD [min =1 max=0 match=(_xALPHA _xNUM \. \- \_ \$ \* \' \( \) \! \# \% \& \+ \- \/ \= \? \^ \_ \{ \| \} \~)]	
+	\@
+	_xWILD [min =1 max=0 match=(_xALPHA _xNUM \-  )]
+	\.	
+	_xALPHA						### (3)
+	\. 
+	_xALPHA 
+	@@
+@CHECK
+if(pnvar(N(6),"country")||pnvar(N(6),"domain"))
+succeed();
+else
+fail();
+@POST
+S("local")=N("$text",2);
+S("dn")= N("$text",4);
+S("tld")=N("$text",6);
+single();
+@RULES
+_email <-
+	_xWILD [one match=(_xWHITE _xSTART \-)]
+	_xWILD [min =1 max=0 match=(_xALPHA _xNUM \. \- \_ \$ \* \' \( \) \! \# \% \& \+ \- \/ \= \? \^ \_ \{ \| \} \~ )]	
+	\@
+	_xWILD [min =1 max=0 match=(_xALPHA _xNUM  \- \_)]
+	\.	
+	_xALPHA						### (3)
+	@@
+##
+@CHECK
+if((pnvar(N(8),"country")||pnvar(N(8),"domain"))&&pnvar(N(12),"country"))
+succeed();
+else
+fail();
+@POST
+S("domainname")= N("$text",4);
+S("tld")=N("$text",8);
+S("cd")=N("$text",12);
+S("country")=N("country",12);
+S("nop")=1;
+single();
+
+@RULES
+_email <-
+	_xWHITE [min =0 max =4]							### (1)
+	at												### (2)
+	_xWHITE [min =0 max =4]							### (3)
+	_xWILD [min =1 max=0 match=(_xALPHA _xNUM \-)]	### (4)
+	_xWHITE [min =0 max =4]							### (5)
+	dot												### (6)
+	_xWHITE [min =0 max =4]							### (7)
+	_xALPHA											### (8)
+	_xWHITE [min =0 max =4]							### (9)
+	dot												### (10)
+	_xWHITE [min =0 max =4]							### (11)
+	_xALPHA											### (12)
+	@@
+
+
+
+@POST
+S("domainname")= N("$text",4)+"."+N("$text",8)+"."+N("$text",12);
+S("nor")=1;
+single();
+
+@RULES
+_email <-
+	_xWHITE [min =0 max =4]							### (1)
+	at												### (2)
+	_xWHITE [min =0 max =4]							### (3)
+	_xWILD [min =1 max=0 match=(_xALPHA _xNUM \-)]	### (4)
+	_xWHITE [min =0 max =4]							### (5)
+	dot												### (6)
+	_xWHITE [min =0 max =4]							### (7)
+	_xALPHA											### (8)
+	_xWHITE [min =0 max =4]							### (9)
+	dot												### (10)
+	_xWHITE [min =0 max =4]							### (11)
+	_xALPHA											### (12)
+	@@
+
+@CHECK
+if(pnvar(N(8),"country")||pnvar(N(8),"domain"))
+succeed();
+else
+fail();
+@POST
+
+S("dn")= N("$text",4);
+S("tld")=N("$text",8);
+S("nox")=1;
+single();
+@RULES
+_email <-
+	_xWHITE [min=0 max =4]								### (1)
+	at													### (2)
+	_xWHITE [min =0 max =4]								### (3)
+	_xWILD [min =1 max=0 match=(_xALPHA _xNUM \- \_)]	### (4)
+	_xWHITE [min =0 max =4]								### (5)
+	dot													### (6)
+	_xWHITE [min =0 max =4]								### (7)
+	_xALPHA												### (8)
+	@@

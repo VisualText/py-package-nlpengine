@@ -1,0 +1,16 @@
+###############################################
+# FILE: Telep2
+# SUBJ: comment
+# AUTH: Kruthika
+# CREATED: 2023-11-6 14:22:11
+# MODIFIED:
+###############################################
+
+@PATH _ROOT _LINE
+@POST
+N("con",1)= MakeCountCon(G("telephone"),"telephones");
+AddAttrs(N(1));
+@RULES
+_xNIL <-
+	_telephone	### (1)
+	@@

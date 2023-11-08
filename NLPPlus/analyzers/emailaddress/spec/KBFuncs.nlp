@@ -1,0 +1,444 @@
+###############################################
+# FILE: KBFuncs.pat
+# SUBJ: Call the DumpKB function
+# AUTH: Your Name
+# CREATED: 2020-11-19 8:40:53
+# MODIFIED:
+###############################################
+
+@DECL
+
+###############################################
+# General functions
+###############################################
+
+AddUniqueCon(L("concept"),L("name")) {
+	L("con") = findconcept(L("concept"),L("name"));
+	if (!L("con")) L("con") = makeconcept(L("concept"),L("name"));
+	return L("con");
+}
+
+AddUniqueStr(L("concept"),L("attr"),L("value")) {
+	if (L("value")) {
+		L("val") = AttrValues(L("concept"),L("attr"));
+		while (L("val")) {
+			L("str") = getstrval(L("val"));
+			if (L("str") == L("value"))
+				return 0;
+			L("val") = nextval(L("val"));
+		}
+		addstrval(L("concept"),L("attr"),L("value"));
+		return 1;
+	}
+	return 0;
+}
+
+AddUniqueNum(L("concept"),L("attr"),L("value")) {
+	if (L("value")) {
+		L("val") = AttrValues(L("concept"),L("attr"));
+		while (L("val")) {
+			L("num") = getnumval(L("val"));
+			if (L("num") == L("value"))
+				return 0;
+			L("val") = nextval(L("val"));
+		}
+		addnumval(L("concept"),L("attr"),L("value"));
+		return 1;
+	}
+	return 0;
+}
+
+AddUniqueConVal(L("concept"),L("attr"),L("value")) {
+	"unique.txt" << L("attr") << " " << conceptpath(L("concept")) << " ==> " << L("attr") << " -- " << conceptpath(L("value")) << "\n";
+	L("val") = AttrValues(L("concept"),L("attr"));
+	while (L("val")) {
+		L("con") = getconval(L("val"));
+		"unique.txt" << conceptname(L("con")) << "\n";
+		if (conceptpath(L("con")) == conceptpath(L("value")))
+			return 0;
+		L("val") = nextval(L("val"));
+	}
+	addconval(L("concept"),L("attr"),L("value"));
+	return 1;
+}
+
+PathToConcept(L("parent"),L("hier")) {
+	L("cons") = split(L("hier")," ");
+	L("i") = 0;
+	L("con") = L("parent");
+	while (L("cons")[L("i")]) {
+		L("c") = L("cons")[L("i")];
+		L("name") = strsubst(L("c"),"\"",0);
+		if (L("name") != "concept")
+			L("con") = AddUniqueCon(L("con"),L("name"));
+		L("i")++;
+	}
+	return L("con");
+}
+
+CopyAttr(L("from"),L("to"),L("attr")) {
+	L("from value") = strval(L("from"),L("attr"));
+	if (L("from value")) {
+		L("to value") = strval(L("to"),L("attr"));
+		if (L("from value") && !L("to value"))
+			addstrval(L("to"),L("attr"),L("from value"));
+	}
+}
+
+CopyAttrNew(L("from"),L("to"),L("attr from"),L("attr to")) {
+	L("from value") = strval(L("from"),L("attr from"));
+	if (L("from value")) {
+		L("to value") = strval(L("to"),L("attr to"));
+		if (L("from value") && !L("to value"))
+			addstrval(L("to"),L("attr to"),L("from value"));
+	}
+}
+
+CopyConAttr(L("from"),L("to"),L("attr")) {
+	L("from value") = conval(L("from"),L("attr"));
+	if (L("from value")) {
+		L("to value") = conval(L("to"),L("attr"));
+		if (L("from value") && !L("to value"))
+			addconval(L("to"),L("attr"),L("from value"));	
+	}
+}
+
+CopyConAttrs(L("from"),L("to")) {
+	L("attrs") = findattrs(L("from"));
+	while (L("attrs")) {
+		L("vals") = attrvals(L("attrs"));
+		L("name") = attrname(L("attrs"));
+		L("type") = attrtype(L("from"),L("name"));
+
+		while (L("vals")) {
+			if (L("type") == 1) {
+				addnumval(L("to"),L("name"),getnumval(L("vals")));
+			} else if (L("type") == 2) {
+				addconval(L("to"),L("name"),getconval(L("vals")));
+			} else if (L("type") == 3) {
+				addnumval(L("to"),L("name"),getfltval(L("vals")));
+			} else {
+				addstrval(L("to"),L("name"),getstrval(L("vals")));
+			}
+			L("vals") = nextval(L("vals"));
+		}
+		L("attrs") = nextattr(L("attrs"));
+	}		
+}
+
+AttrValues(L("con"),L("attr")) {
+	L("at") = findattr(L("con"),L("attr"));
+	if (L("at"))
+		return attrvals(L("at"));
+	return 0;
+}
+
+ValCount(L("vals")) {
+	while (L("vals")) {
+		L("count")++;
+		L("vals") = nextval(L("vals"));
+	}
+	return L("count");
+}
+
+LastChild(L("parent")) {
+	L("child") = down(L("parent"));
+	while (L("child")) {
+		L("last") = L("child");
+		L("child") = next(L("child"));
+	}
+	return L("last");
+}
+
+MakeCountCon(L("con"),L("count name")) {
+	L("count name") = CountName(L("con"),L("count name"));
+	return makeconcept(L("con"),L("count name"));
+}
+
+IncrementCount(L("con"),L("countname")) {
+	L("count") = numval(L("con"),L("countname"));
+	if (L("count")) {
+		L("count") = L("count") + 1;
+		replaceval(L("con"),L("countname"),L("count"));
+	} else {
+		addnumval(L("con"),L("countname"),1);
+		L("count") = 1;
+	}
+	return L("count");
+}
+
+CountName(L("con"),L("root")) {
+	L("count") = IncrementCount(L("con"),L("root"));
+	return L("root") + str(L("count"));
+}
+
+StripEndDigits(L("name")) {
+	if (strisdigit(L("name"))) return 0;
+	L("len") = strlength(L("name")) - 1;
+	L("i") = L("len") - 1;
+	L("str") = strpiece(L("name"),L("i"),L("len"));
+	while (strisdigit(L("str")) && L("i")) {
+		L("i")--;
+		L("str") = strpiece(L("name"),L("i"),L("len"));
+	}
+	return strpiece(L("name"),0,L("i"));
+}
+
+###############################################
+# KB Dump Functins
+###############################################
+
+DumpKB(L("con"),L("file")) {
+	L("dir") = G("$apppath") + "/kb/";
+	L("filename") = L("dir") + L("file") + ".kb";
+	if (!kbdumptree(L("con"),L("filename"))) {
+		"kb.txt" << "FAILED dump: " << L("filename") << "\n";
+	} else {
+		"kb.txt" << "DUMPED: " << L("filename") << "\n";
+	}
+}
+
+TakeKB(L("filename")) {
+	L("path") = G("$apppath") + "/kb/" + L("filename") + ".kb";
+	"kb.txt" << "Taking: " << L("path") << "\n";
+	if (take(L("path"))) {
+		"kb.txt" << "  Taken successfully: " << L("path") << "\n";
+	} else {
+		"kb.txt" << "  Taken FAILED: " << L("path") << "\n";		
+	}
+} 
+
+ChildCount(L("con")) {
+	L("count") = 0;
+	L("child") = down(L("con"));
+	while (L("child")) {
+		L("count")++;
+		L("child") = next(L("child"));
+	}
+	return L("count");
+}
+
+###############################################
+# KBB DISPLAY FUNCTIONS
+###############################################
+
+###############################################
+# display type:
+#      0 compact with ellipses on long attr values
+#      1 full, more spread out
+#      2 compact without ellipses on long attr values
+###############################################
+
+SaveToKB(L("con"),L("name")) {
+    L("filepath") = G("$kbpath") + L("name") + ".kbb";
+    L("file") = openfile(L("filepath"));
+    SaveKB(L("file"),L("con"),2);
+    closefile(L("file"));
+}
+
+SaveKB(L("file"),L("top con"),L("display type")) {
+	DisplayKBRecurse(L("file"),L("top con"),0,L("display type"));
+	L("file") << "\n";
+	return L("top con");
+}
+
+DisplayKB(L("top con"),L("display type")) {
+	L("file") = DisplayFileName();
+	DisplayKBRecurse(L("file"),L("top con"),0,L("display type"));
+	L("file") << "\n";
+	return L("top con");
+}
+
+KBHeader(L("text")) {
+	L("file") = DisplayFileName();
+	L("file") << "#######################\n";
+	L("file") << "#  " << L("text") << "\n";
+	L("file") << "#######################\n\n";
+}
+
+DisplayFileName() {
+	if (num(G("$passnum")) < 10) {
+		L("file") = "ana00" + str(G("$passnum"));
+	}else if (num(G("$passnum")) < 100) {
+		L("file") = "ana0" + str(G("$passnum"));
+	} else {
+		L("file") = "ana" + str(G("$passnum"));
+	}
+	L("file") = L("file") + ".kbb";
+	return L("file");
+}
+
+DisplayKBRecurse(L("file"),L("parent"),L("level"),L("display type")) {
+	if (L("level") == 0) {
+		L("file") << conceptname(L("parent")) << "\n";
+	}
+	L("con") = down(L("parent"));
+	while (L("con")) {
+		L("file") << SpacesStr(L("level")+1) << conceptname(L("con"));
+		DisplayAttributes(L("file"),L("con"),L("display type"),L("level"));
+		L("file") << "\n";
+		if (down(L("con"))) {
+			L("lev") = 1;
+			DisplayKBRecurse(L("file"),L("con"),L("level")+L("lev"),L("display type"));
+		}
+		L("con") = next(L("con"));
+	}
+}
+
+DisplayAttributes(L("file"),L("con"),L("display type"),L("level")) {
+	L("attrs") = findattrs(L("con"));
+	if (L("attrs")) L("file") << ": ";
+	if (L("display type") == 1 && L("attrs")) L("file") << "\n";
+	L("first attr") = 1;
+	
+	while (L("attrs")) {
+		L("vals") = attrvals(L("attrs"));
+		L("count") = ValCount(L("vals"));
+		if (L("display type") != 1 && !L("first attr")) {
+			L("file") << ", ";
+		}
+		if (L("display type") == 1) {
+			if (!L("first attr")) L("file") << "\n";
+			L("file") << SpacesStr(L("level")+2);
+		}
+		L("name") = attrname(L("attrs"));
+		L("file") << QuoteIfNeeded(L("name")) << "=";
+		L("first") = 1;
+		L("type") = attrtype(L("con"),L("name"));
+
+		while (L("vals")) {
+			if (!L("first"))
+				L("file") << ",";
+			else if (L("type") != 2 && L("count") > 1)
+				L("file") << "[";
+
+			if (L("type") == 1) {
+				L("num") = getnumval(L("vals"));
+				L("file") << str(L("num"));
+
+			} else if (L("type") == 2) {
+				if (L("first"))
+					L("file") << "[";
+				L("c") = getconval(L("vals"));
+				L("file") << conceptpath(L("c"));
+
+			} else if (L("type") == 3) {
+				L("flt") = getfltval(L("vals"));
+				L("file") << str(L("flt"));
+
+			} else {
+				L("val") = getstrval(L("vals"));
+				if (L("display type") == 0 && strlength(L("val")) > 20) {
+					L("shorty") = strpiece(L("val"),0,20);
+					L("val") = L("shorty") + "...";
+				}
+				L("file") << QuoteIfNeeded(str(L("val")));
+			}
+			L("first") = 0;
+			L("vals") = nextval(L("vals"));
+		}
+		
+		if (L("type") == 2 || L("count") > 1)
+			L("file") << "]";
+		L("first attr") = 0;
+		L("attrs") = nextattr(L("attrs"));
+	}
+}
+
+QuoteIfNeeded(L("str")) {
+	if (!L("str"))
+		return 0;
+	L("new") = strsubst(L("str"),"\"","\\\"");
+	if (strcontains(" ",L("str")) || strhaspunct(L("str")))
+		L("new") = "\"" + L("new") + "\"";
+	return L("new");
+}
+
+# Because NLP++ doesn't allow for empty strings,
+# this function can only be called with "num" >= 1
+SpacesStr(L("num")) {
+    L("n") = 1;
+	L("spaces") = "  ";
+	while (L("n") < L("num")) {
+		L("spaces") = L("spaces") + "  ";
+		L("n")++;
+	}
+	return L("spaces");
+}
+
+PadStr(L("num str"),L("pad str"),L("pad len")) {
+	L("len") = strlength(L("num str"));
+	L("pad") = 0;
+	L("to pad") = L("pad len") - L("len");
+	while (L("i")++ < L("to pad")) {
+		L("pad") = L("pad") + L("pad str");
+	}
+	L("padded") = L("pad") + L("num str");
+	return L("padded");
+}
+
+###############################################
+# DICTIONARY FUNCTIONS
+###############################################
+
+DictionaryStart() {
+	G("attrs path") = G("$apppath") + "\\kb\\user\\attrs.kb";
+	G("attrs") = openfile(G("attrs path"));
+}
+
+DictionaryWord(L("word"),L("attrName"),L("value"),L("attrType")) {
+	addword(L("word"));
+	addword(L("attrName"));
+	G("attrs") << "ind attr\n" << findwordpath(L("word")) << "\n0\n";
+	G("attrs") << findwordpath(L("attrName")) << "\n";
+	if (L("attrType") == "str")
+		G("attrs") << "pst\n" << "\"" << L("value") << "\"";
+	else if (L("attrType") == "num")
+		G("attrs") << "pnum\n" << str(L("value"));
+	else if (L("attrType") == "con")
+		G("attrs") << "pcon\n" << conceptpath(L("value"));
+	G("attrs") << "\nend ind\n\n";
+}
+
+DictionaryEnd() {
+	G("attrs") << "\nquit\n\n";
+	closefile(G("attrs"));
+}
+
+OrderByCount(L("words"),L("order")) {
+    L("done") = 0;
+    L("sanity") = 0;
+    while (!L("done")) {
+        L("done") = 1;
+        L("conmax") = 0;
+        L("max") = 0;
+        L("word") = down(L("words"));
+        while (L("word")) {
+            L("check") = numval(L("word"),"checked");
+            if (!L("check")) {
+                L("done") = 0;
+                L("count") = numval(L("word"),"count");
+                if (L("count") > L("max")) {
+                    "max.txt" << conceptname(L("word")) << " " << L("count") << "\n";
+                    L("max") = L("count");
+                    L("conmax") = L("word");
+                }
+            }
+            L("word") = next(L("word"));
+        }
+        if (!L("done") && L("conmax")) {
+            L("word") = conceptname(L("conmax"));
+            L("con") = makeconcept(L("order"),L("word"));
+            if (!spellword(L("word"))) {
+                addnumval(L("con"),"unknown",1);
+            }
+            addnumval(L("con"),"count",L("max"));
+            addnumval(L("conmax"),"checked",1);
+        }
+        if (L("safety")++ > 300) {
+            L("done") = 1;
+        }
+    }
+}
+
+@@DECL

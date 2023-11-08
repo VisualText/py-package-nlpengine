@@ -1,0 +1,31 @@
+###############################################
+# FILE: email5
+# SUBJ: comment
+# AUTH: Kruthika
+# CREATED: 2023-10-28 20:11:2
+# MODIFIED:
+###############################################
+
+@PATH _ROOT _LINE _email
+
+@POST
+excise(1,1);
+noop();
+
+@RULES
+_xNIL <-
+    _xWHITE [s] ### (1)
+    @@
+
+@PRE
+<4,4> var("country");
+@POST
+X("country",3)= N("country",4);
+
+@RULES
+_xNIL <-
+    \.
+	_xALPHA
+	\.
+	_xALPHA
+    @@

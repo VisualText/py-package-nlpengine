@@ -1,0 +1,13 @@
+###############################################
+# FILE: kbdisp01
+# SUBJ: comment
+# AUTH: Kruthika
+# CREATED: 2023-10-28 21:55:36
+# MODIFIED:
+###############################################
+
+@CODE
+
+DisplayKB(G("telephone"),1);
+
+@@CODE

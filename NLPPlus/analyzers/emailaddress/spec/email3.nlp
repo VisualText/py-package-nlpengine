@@ -1,0 +1,20 @@
+###############################################
+# FILE: email3
+# SUBJ: comment
+# AUTH: Kruthika
+# CREATED: 2023-10-28 19:59:31
+# MODIFIED:
+###############################################
+
+
+@PATH _ROOT _LINE _emailx
+@PRE
+<1,1> var("ispart");
+@POST
+X("domain",3)=N("$text",1);
+
+single();
+@RULES
+_word <-	
+	_xWILD [min=1 max=0 match=(\. _xALPHA)]
+	@@

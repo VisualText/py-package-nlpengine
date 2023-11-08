@@ -1,0 +1,18 @@
+###############################################
+# FILE: email7
+# SUBJ: comment
+# AUTH: Kruthika
+# CREATED: 2023-10-28 21:31:21
+# MODIFIED:
+###############################################
+
+
+@PATH _ROOT _LINE
+@POST
+N("con",1) = MakeCountCon(G("email"),"email");
+AddAttrs(N(1));
+@RULES
+_xNIL <-
+    _email
+    @@
+

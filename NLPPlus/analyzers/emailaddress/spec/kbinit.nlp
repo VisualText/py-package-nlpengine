@@ -1,0 +1,14 @@
+###############################################
+# FILE: kbinit
+# SUBJ: comment
+# AUTH: Kruthika
+# CREATED: 2023-10-27 21:47:0
+# MODIFIED:
+###############################################
+
+@CODE
+
+# G("kb") = getconcept(findroot(),"kb");
+# SaveKB("mykb.kbb",G("kb"),2);
+G("email") = getconcept(findroot(),"Emailaddrs");
+@@CODE

@@ -1,0 +1,17 @@
+###############################################
+# FILE: email2
+# SUBJ: comment
+# AUTH: Kruthika
+# CREATED: 2023-10-28 18:18:2
+# MODIFIED:
+###############################################
+
+
+@PATH _ROOT _LINE
+@PRE
+<2,2> var("ispart");
+@RULES
+_emailx <-
+	_email
+	_xWILD [min=1 max=0 match=(\. _xALPHA)]
+	@@

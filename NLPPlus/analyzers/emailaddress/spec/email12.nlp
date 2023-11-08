@@ -1,0 +1,17 @@
+###############################################
+# FILE: email12
+# SUBJ: comment
+# AUTH: Kruthika
+# CREATED: 2023-10-30 14:13:54
+# MODIFIED:
+###############################################
+
+@PATH _ROOT _LINE _emails
+
+@POST
+splice(1,1);
+L("et")=pnrename(X(3),"_email");
+@RULES
+_newem <-
+	_email### (1)
+	@@

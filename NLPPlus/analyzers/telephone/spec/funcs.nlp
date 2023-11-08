@@ -1,0 +1,72 @@
+###############################################
+# FILE: funcs
+# SUBJ: comment
+# AUTH: Kruthika
+# CREATED: 2023-11-2 23:2:50
+# MODIFIED:
+###############################################
+
+@DECL
+
+AddAttrs(L("node"))
+{
+    L("concept")=pnvar(L("node"),"con");
+    addstrval(L("concept"),"text",pnvar(L("node"),"$text"));
+    if(pnvar(L("node"),"area"))
+    addstrval(L("concept"),"area",str(pnvar(L("node"),"area")));
+    if(pnvar(L("node"),"prefix"))
+    addstrval(L("concept"),"prefix",str(pnvar(L("node"),"prefix")));
+    if(pnvar(L("node"),"station"))
+    addstrval(L("concept"),"station",str(pnvar(L("node"),"station")));
+    if(pnvar(L("node"),"type"))
+    addstrval(L("concept"),"type",str(pnvar(L("node"),"type")));
+    
+}
+
+CheckName(L("con"),L("out"))
+{
+    G("attrList") = findattrs(L("con"));
+
+    while(nextattr(G("attrList")))
+    {
+        G("attrName") = attrname(G("attrList"));
+         L("out") <<"\t\t\""<<G("attrName")<<"\":";
+         G("valList") = attrvals(G("attrList"));
+         G("valName") = getstrval(G("valList"));
+                if(getstrval(G("valList"))){
+                L("out") <<"\""<<getstrval(G("valList"))<<"\",\n";
+                }
+            G("attrList") = nextattr(G("attrList"));
+            L("count")++;
+    }
+    G("attrName") = attrname(G("attrList"));
+         L("out") <<"\t\t\""<<G("attrName")<<"\":";
+         G("valList") = attrvals(G("attrList"));
+         G("valName") = getstrval(G("valList"));
+                if(getstrval(G("valList"))){
+                L("out") <<"\""<<getstrval(G("valList"))<<"\"\n";
+}
+}
+XMLOut(L("out")){
+        L("out")<<"{\n\t\"telephone-numbers\""<<":   [\n";
+     L("con") = down(G("telephone"));
+         L("count")=0;
+     while(next(L("con")))
+     {  
+         L("out")<<"\t\t{"<<"\n";
+         L("out") <<"\t\t\""<<"telephone-id"<<"\":"<<"\""+str(L("count"))+"\""+",\n";
+CheckName(L("con"),L("out"));
+ L("out")<<"\t},"<<"\n";
+        L("con") = next(L("con"));
+         L("count")++;
+     }
+     L("out")<<"\t\t{"<<"\n";
+         L("out") <<"\t\t\""<<"telephone-id"<<"\":"<<"\""+str(L("count"))+"\""+",\n";
+CheckName(L("con"),L("out"));
+ L("out")<<"\t}"<<"\n";
+        L("con") = next(L("con"));
+        L("out")<<"\t]\n}";
+
+}
+
+@@DECL
