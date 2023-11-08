@@ -1,0 +1,16 @@
+###############################################
+# FILE: Link3
+# SUBJ: comment
+# AUTH: Kruthika
+# CREATED: 2023-11-2 15:10:45
+# MODIFIED:
+###############################################
+@PATH _ROOT _conlink _link
+
+@POST
+single();
+@RULES
+_extra <-
+	_xWILD [plus match=(\, \- \. \[ \] \( \)\: \?)]	### (1)
+	_xEND										### (2)
+	@@

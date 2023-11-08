@@ -1,0 +1,17 @@
+###############################################
+# FILE: Link1
+# SUBJ: comment
+# AUTH: Kruthika
+# CREATED: 2023-6-3 11:6:33
+# MODIFIED:
+###############################################
+
+@NODES _ROOT 
+@PRE
+<1,1> var("link");
+@POST
+pnrename(N(1),"_conlink");
+@RULES
+_xNIL <-
+	_LINE	### (1)
+	@@

@@ -1,0 +1,12 @@
+###############################################
+# FILE: kbinit
+# SUBJ: comment
+# AUTH: Kruthika
+# CREATED: 2023-11-2 15:48:30
+# MODIFIED:
+###############################################
+
+@CODE
+
+G("links") = getconcept(findroot(),"Links");
+@@CODE

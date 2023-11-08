@@ -1,0 +1,30 @@
+###############################################
+# FILE: Links41
+# SUBJ: comment
+# AUTH: Kruthika
+# CREATED: 2023-11-2 16:26:6
+# MODIFIED:
+###############################################
+@PATH _ROOT _conlink _link
+
+@POST
+X("domain",3)=N("$text",1);
+X("tld",3)=N("domain",2);
+if(N("country",2))
+{
+X("country",3)=N("country",2);
+}
+if(N("countryname",2))
+{
+	X("countryname",3)=N("countryname",2);
+}
+X("pagepath",3)=N("$text",4);
+
+@RULES
+_nameofsite <-																			### (2)
+	_xWILD [min =1 max=0 match=(_xALPHA _xNUM \-)]									### (3)
+	_domain																			### (4)
+	\/
+	_xWILD [min =0 max=0 match=(_xALPHA _xNUM _domain \/ \@ \. \- \_ \$ \? \= \& \+ \! \* \' \( \))]	### (5)
+	@@
+

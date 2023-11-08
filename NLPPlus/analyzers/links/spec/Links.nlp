@@ -1,0 +1,52 @@
+###############################################
+# FILE: Links
+# SUBJ: comment
+# AUTH: Kruthika
+# CREATED: 2023-6-3 11:31:0
+# MODIFIED:
+###############################################
+
+@PATH _ROOT _LINE
+@PRE
+<2,2> var("domain");
+<4,4> var("country");
+@POST
+X("link")=1;
+S("domain")=N("$text",2);
+S("country")=N("$text",4);
+S("countryname")=N("country",4);
+single();
+@RULES
+_domain<-
+	\.	### (1)
+	_xALPHA
+	\.
+	_xALPHA
+	@@
+
+@PRE
+<2,2> var("country");
+@POST
+X("link")=1;
+S("domain")=N("$text",2);
+S("countryname")=N("country",2);
+single();
+@RULES
+_domain<-
+	\.	### (1)
+	_xALPHA
+	@@
+
+@PRE
+<2,2> var("domain");
+@POST
+X("link")=1;
+S("domain")=N("$text",2);
+single();
+@RULES
+_domain<-
+	\.	### (1)
+	_xALPHA
+	@@
+
+

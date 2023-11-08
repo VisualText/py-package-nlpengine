@@ -1,0 +1,24 @@
+###############################################
+# FILE: Link7
+# SUBJ: comment
+# AUTH: Kruthika
+# CREATED: 2023-11-2 15:54:8
+# MODIFIED:
+###############################################
+
+@PATH _ROOT _conlink _link
+@POST
+X("con",3) = MakeCountCon(G("links"),"link");
+AddAttrs(X(3),N("$text",1));
+@RULES
+_xNIL <-
+	_text	### (1)
+	@@
+
+@POST
+X("con",3) = MakeCountCon(G("links"),"link");
+AddAttrs(X(3),N("$text",1));
+@RULES
+_xNIL <-
+	_xWILD [fail =(_xEND)]	### (1)
+	@@

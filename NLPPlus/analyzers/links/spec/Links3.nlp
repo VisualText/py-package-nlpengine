@@ -1,0 +1,21 @@
+###############################################
+# FILE: Links3
+# SUBJ: comment
+# AUTH: Kruthika
+# CREATED: 2023-6-3 11:20:51
+# MODIFIED:
+###############################################
+
+@PATH _ROOT _conlink
+
+@POST
+"Resume Links.txt"<<"Links "<<N("$text",2)+N("$text",3)+N("$text",4)<<"\n";
+single();
+@RULES
+_link <-
+	_xWILD [one match=(_xSTART _xWHITE)]					### (1)
+	_xWILD [min =1 max=0 match=(_xALPHA _xNUM \/ \@ \. \- \_ \$ \+ \! \* \' \( \) )]	
+	_domain ### (2)
+	_xWILD [min =0 max=0 match=(_xALPHA _xNUM \/ \@ \. \- \_ \$ \+ \! \* \' \( \) )]
+	_xWILD [fail=(_xWHITE \n \r)]							### (3)
+	@@

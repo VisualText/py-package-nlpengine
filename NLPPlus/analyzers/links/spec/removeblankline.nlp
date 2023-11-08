@@ -1,0 +1,15 @@
+###############################################
+# FILE: removeblankline
+# SUBJ: comment
+# AUTH: Kruthika
+# CREATED: 2023-6-20 23:31:36
+# MODIFIED:
+###############################################
+
+@NODES _ROOT
+@POST
+excise(1,1);
+@RULES
+_xNIL <-
+	_BLANKLINE	### (1)
+	@@

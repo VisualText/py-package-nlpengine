@@ -1,0 +1,34 @@
+###############################################
+# FILE: linksphno
+# SUBJ: comment
+# AUTH: Kruthika
+# CREATED: 2023-6-29 19:2:39
+# MODIFIED:
+###############################################
+
+@PATH _ROOT _headerZone _LINE
+@POST
+AddLink(X("con",2),N("$text",1));
+
+@RULES
+_xNIL <-
+	_link	### (1)
+	@@
+
+@POST
+AddEmail(X("con",2),N("$text",1));
+
+@RULES
+_xNIL <-
+	_email	### (1)
+	@@
+
+@POST
+S("con")=MakeCountCon(X("con",2),"Telephone");
+AddTelephone(S("con"),N(1));
+
+@RULES
+_xNIL <-
+	_telephone	### (1)
+	@@
+	

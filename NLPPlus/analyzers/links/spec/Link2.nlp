@@ -1,0 +1,27 @@
+###############################################
+# FILE: Link2
+# SUBJ: comment
+# AUTH: Kruthika
+# CREATED: 2023-6-3 11:20:51
+# MODIFIED:
+###############################################
+
+@PATH _ROOT _conlink
+
+@PRE
+<1,1> var("isscheme");
+@POST
+S("scheme")=N("isscheme",1);
+single();
+
+@RULES
+_link <-
+	_xALPHA				
+	\:
+	\/
+	\/		### (1)
+	_xWILD [min =1 max=0 match=(_xALPHA _xNUM \/ \@ \. \- \_ \$ \+ \! \* \' \( \) )]	
+	_domain ### (2)
+	_xWILD [min =0 max=0 match=(_xALPHA _xNUM \/ \@ \. \- \_ \$ \+ \! \* \' \( \) )]
+	_xWILD [fail=( \n \r _xWHITE)]						### (3)
+	@@

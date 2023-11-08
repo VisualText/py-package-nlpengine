@@ -1,0 +1,88 @@
+###############################################
+# FILE: funcs
+# SUBJ: comment
+# AUTH: Kruthika
+# CREATED: 2023-10-24 18:4:14
+# MODIFIED:
+###############################################
+
+@DECL
+
+CheckURL(L("one"))
+{
+    L("node")=pndown(L("one"));
+    while (L("node")) {
+        L("prev") = L("node");
+        L("node") = pnnext(L("node"));
+    }
+    if(strequal(pnvar(L("prev"),"$text"),",")||strequal(pnvar(L("prev"),"$text"),"?"))
+    {
+pnmakevar(L("prev"),"end",1);
+}
+else
+pnmakevar(L("prev"),"end",2);
+}
+AddAttrs(L("node"),L("text"))
+{
+    L("concept")=pnvar(L("node"),"con");
+    addstrval(L("concept"),"linktext",L("text"));
+    if(pnvar(L("node"),"scheme"))
+    addstrval(L("concept"),"scheme",pnvar(L("node"),"scheme"));
+    if(pnvar(L("node"),"tld"))
+    addstrval(L("concept"),"tld",pnvar(L("node"),"tld"));
+    if(pnvar(L("node"),"subdomain"))
+    addstrval(L("concept"),"subdomain",pnvar(L("node"),"subdomain"));
+    if(pnvar(L("node"),"domain"))
+    addstrval(L("concept"),"domain",pnvar(L("node"),"domain"));
+    if(pnvar(L("node"),"country"))
+    addstrval(L("concept"),"country",pnvar(L("node"),"country"));
+    if(pnvar(L("node"),"countryname"))
+    addstrval(L("concept"),"countryname",pnvar(L("node"),"countryname"));
+    if(pnvar(L("node"),"pagepath"))
+    addstrval(L("concept"),"pagepath",pnvar(L("node"),"pagepath"));
+}
+CheckName(L("con"),L("out"))
+{
+    G("attrList") = findattrs(L("con"));
+
+    while(nextattr(G("attrList")))
+    {
+        G("attrName") = attrname(G("attrList"));
+         L("out") <<"\t\t\""<<G("attrName")<<"\":";
+         G("valList") = attrvals(G("attrList"));
+         G("valName") = getstrval(G("valList"));
+                if(getstrval(G("valList"))){
+                L("out") <<"\""<<getstrval(G("valList"))<<"\",\n";
+                }
+            G("attrList") = nextattr(G("attrList"));
+            L("count")++;
+    }
+    G("attrName") = attrname(G("attrList"));
+         L("out") <<"\t\t\""<<G("attrName")<<"\":";
+         G("valList") = attrvals(G("attrList"));
+         G("valName") = getstrval(G("valList"));
+                if(getstrval(G("valList"))){
+                L("out") <<"\""<<getstrval(G("valList"))<<"\"\n";
+}
+}
+XMLOut(L("out")){
+        L("out")<<"{\n\t\"Links\""<<":   [\n";
+     L("con") = down(G("links"));
+         L("count")=0;
+     while(next(L("con")))
+     {  
+         L("out")<<"\t\t{"<<"\n";
+         L("out") <<"\t\t\""<<"link-id"<<"\":"<<"\""+str(L("count"))+"\""+",\n";
+CheckName(L("con"),L("out"));
+ L("out")<<"\t},"<<"\n";
+        L("con") = next(L("con"));
+         L("count")++;
+     }
+     L("out")<<"\t\t{"<<"\n";
+         L("out") <<"\t\t\""<<"link-id"<<"\":"<<"\""+str(L("count"))+"\""+",\n";
+CheckName(L("con"),L("out"));
+ L("out")<<"\t}"<<"\n";
+        L("con") = next(L("con"));
+        L("out")<<"\t]\n}";
+}
+@@DECL

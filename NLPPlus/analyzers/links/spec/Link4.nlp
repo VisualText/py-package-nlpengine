@@ -1,0 +1,32 @@
+###############################################
+# FILE: Link4
+# SUBJ: comment
+# AUTH: Kruthika
+# CREATED: 2023-11-2 10:17:37
+# MODIFIED:
+###############################################
+
+@PATH _ROOT _conlink
+@POST
+S("domain")=N("$text",3);
+S("subdomain")=N("$text",1);
+S("tld")=N("domain",4);
+if(N("country",4))
+{
+S("country")=N("country",4);
+}
+if(N("countryname",4))
+{
+	S("countryname")=N("countryname",4);
+}
+S("pagepath")=N("$text",6);
+single();
+@RULES
+_link <-
+	_xALPHA																			### (1)
+	\.																				### (2)
+	_xWILD [min =1 max=0 match=(_xALPHA _xNUM \-)]									### (3)
+	_domain																			### (4)
+	\/
+	_xWILD [min =0 max=0 match=(_xALPHA _xNUM \/ \@ \. \- \_ \$ \+ \! \* \' \( \) _domain)]	### (5)
+	@@
