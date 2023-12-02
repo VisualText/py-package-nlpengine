@@ -1,0 +1,105 @@
+# USA States & Abbreviations
+alabama  abbrev=AL
+alaska  abbrev=AK
+arizona  abbrev=AZ
+arkansas  abbrev=AR
+california  abbrev=CA
+colorado  abbrev=CO
+connecticut  abbrev=CT
+delaware  abbrev=DE
+florida  abbrev=FL
+georgia  abbrev=GA
+hawaii  abbrev=HI
+idaho  abbrev=ID
+illinois  abbrev=IL
+indiana  abbrev=IN
+iowa  abbrev=IA
+kansas  abbrev=KS
+kentucky  abbrev=KY
+louisiana  abbrev=LA
+maine  abbrev=ME
+maryland  abbrev=MD
+massachusetts  abbrev=MA
+michigan  abbrev=MI
+minnesota  abbrev=MN
+mississippi  abbrev=MS
+missouri  abbrev=MO
+montana  abbrev=MT
+nebraska  abbrev=NE
+nevada  abbrev=NV
+new hampshire  abbrev=NH
+new jersey  abbrev=NJ
+new mexico  abbrev=NM
+new york  abbrev=NY
+north carolina  abbrev=NC
+north dakota  abbrev=ND
+ohio  abbrev=OH
+oklahoma  abbrev=OK
+oregon  abbrev=OR
+pennsylvania  abbrev=PA
+rhode island  abbrev=RI
+south carolina  abbrev=SC
+south dakota  abbrev=SD
+tennessee  abbrev=TN
+texas  abbrev=TX
+utah  abbrev=UT
+vermont  abbrev=VT
+virginia  abbrev=VA
+washington  abbrev=WA
+west virginia  abbrev=WV
+wisconsin  abbrev=WI
+wyoming  abbrev=WY
+
+# ABBREVIATIONS
+
+al  abbrev=1 state=alabama
+ak  abbrev=1 state=alaska
+az  abbrev=1 state=arizona
+ar  abbrev=1 state=arkansas
+ca  abbrev=1 state=california
+co  abbrev=1 state=colorado
+ct  abbrev=1 state=connecticut
+de  abbrev=1 state=delaware
+fl  abbrev=1 state=florida
+ga  abbrev=1 state=georgia
+hi  abbrev=1 state=hawaii
+id  abbrev=1 state=idaho
+il  abbrev=1 state=illinois
+in  abbrev=1 state=indiana
+ia  abbrev=1 state=iowa
+ks  abbrev=1 state=kansas
+ky  abbrev=1 state=kentucky
+la  abbrev=1 state=louisiana
+me  abbrev=1 state=maine
+md  abbrev=1 state=maryland
+ma  abbrev=1 state=massachusetts
+mi  abbrev=1 state=michigan
+mn  abbrev=1 state=minnesota
+ms  abbrev=1 state=mississippi
+mo  abbrev=1 state=missouri
+mt  abbrev=1 state=montana
+ne  abbrev=1 state=nebraska
+nv  abbrev=1 state=nevada
+nh  abbrev=1 state="new hampshire"
+nj  abbrev=1 state="new jersey"
+nm  abbrev=1 state="new mexico"
+ny  abbrev=1 state="new york"
+nc  abbrev=1 state="north carolina"
+nd  abbrev=1 state="north dakota"
+oh  abbrev=1 state=ohio
+ok  abbrev=1 state=oklahoma
+or  abbrev=1 state=oregon
+pa  abbrev=1 state=pennsylvania
+ri  abbrev=1 state="rhode island"
+sc  abbrev=1 state="south carolina"
+sd  abbrev=1 state="south dakota"
+tn  abbrev=1 state=tennessee
+tx  abbrev=1 state=texas
+ut  abbrev=1 state=utah
+vt  abbrev=1 state=vermont
+va  abbrev=1 state=virginia
+wa  abbrev=1 state=washington
+wv  abbrev=1 state="west virginia"
+wi  abbrev=1 state=wisconsin
+wy  abbrev=1 state=wyoming
+

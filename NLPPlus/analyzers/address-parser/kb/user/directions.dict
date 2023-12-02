@@ -1,0 +1,16 @@
+e direction=1 attr=east
+east direction=1 attr=east
+n direction=1 attr=north
+ne direction=1 attr=northeast
+north direction=1 attr=north
+northeast direction=1 attr=northeast
+northwest direction=1 attr=northwest
+nw direction=1 attr=northwest
+s direction=1 attr=south
+se direction=1 attr=southeast
+south direction=1 attr=south
+southeast direction=1 attr=southeast
+southwest direction=1 attr=southwest
+sw direction=1 attr=southwest
+w direction=1 attr=west
+west direction=1 attr=west

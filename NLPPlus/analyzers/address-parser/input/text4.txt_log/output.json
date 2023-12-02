@@ -1,0 +1,53 @@
+{
+	"addresses":   [
+		{
+		"add-id":"0",
+		"city":"Lancaster",
+		"state":"pennsylvania",
+		"pincode":"17601-4321",
+		"type":"RuralRoute",
+		"routenum":"2 ",
+		"boxnum":"123 "
+	},
+		{
+		"add-id":"1",
+		"city":"Springfield",
+		"state":"missouri",
+		"pincode":"65804-5678",
+		"type":"HighwayContract",
+		"hcnum":"45 ",
+		"boxnum":"678 "
+	},
+		{
+		"add-id":"2",
+		"streetnum":"789",
+		"streetname":"Sunset",
+		"streettype":"Lane",
+		"streetsuff":"ln",
+		"city":"Portland",
+		"state":"oregon",
+		"pincode":"97205-3456",
+		"type":"individual"
+	},
+		{
+		"add-id":"3",
+		"streetnum":"456",
+		"streetname":"Country",
+		"streettype":"Road",
+		"streetsuff":"rd",
+		"city":"Lexington",
+		"state":"kentucky",
+		"pincode":"40503-7890",
+		"type":"individual"
+	},
+		{
+		"add-id":"4",
+		"streetnum":"123",
+		"streetname":"Rural",
+		"streettype":"PR",
+		"streetsuff":"pr",
+		"pincode":"00923-4567",
+		"type":"individual"
+	}
+	]
+}
