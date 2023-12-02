@@ -1,0 +1,17 @@
+###############################################
+# FILE: kbmake
+# SUBJ: comment
+# AUTH: Kruthika
+# CREATED: 2023-11-23 20:50:9
+# MODIFIED:
+###############################################
+
+@NODES _ROOT 
+@POST
+N("con",1) = MakeCountCon(G("addresses"),"address");
+AddAttrs(N(1));
+@RULES
+_xNIL <-
+	_address	### (1)
+	@@
+

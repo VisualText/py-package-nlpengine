@@ -1,0 +1,18 @@
+###############################################
+# FILE: countryname
+# SUBJ: comment
+# AUTH: Kruthika
+# CREATED: 2023-11-23 20:42:42
+# MODIFIED:
+###############################################
+
+@NODES _ROOT 
+@PRE
+<2,2> var("country");
+@POST
+N("countryname",1)=N("$text",2);
+@RULES
+_xNIL <-
+	_address	### (1)
+	_xALPHA		### (2)
+	@@

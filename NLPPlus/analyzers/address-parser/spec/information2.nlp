@@ -1,0 +1,19 @@
+###############################################
+# FILE: information2
+# SUBJ: comment
+# AUTH: Kruthika
+# CREATED: 2023-11-22 19:16:10
+# MODIFIED:
+###############################################
+
+@PATH _ROOT _address
+@PRE
+<1,1> var("usps");
+@POST
+X("streetsuff",2)=N("usps",1);
+X("streettype",2)=N("$text",1);
+StreetName(N(1),X(2));
+@RULES
+_xNIL <-
+	_xALPHA	### (1)
+	@@

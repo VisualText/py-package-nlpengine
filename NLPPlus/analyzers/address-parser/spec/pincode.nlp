@@ -1,0 +1,35 @@
+###############################################
+# FILE: pincode
+# SUBJ: comment
+# AUTH: Kruthika
+# CREATED: 2023-11-20 20:3:46
+# MODIFIED:
+###############################################
+
+@PATH _ROOT _LINE
+
+@POST
+N("part1",1)=1;
+N("part2",3)=1;
+N("pin",1)=1;
+single();
+@RULES
+_pincode <-
+	_xNUM	### (1)
+	\-		### (2)
+	_xNUM	### (3)
+	@@
+
+@CHECK
+if(strlength(N("$text",1))>=5&&strlength(N("$text",1))<=7)
+succeed();
+else
+fail();
+@POST
+N("pin")=1;
+"output.txt" << N("$text",1)<<" "<<strlength(N("$text",1)) << "\n";
+single();
+@RULES
+_pincode <-
+	_xNUM	### (1)
+	@@

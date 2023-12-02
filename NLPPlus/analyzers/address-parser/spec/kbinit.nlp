@@ -1,0 +1,15 @@
+###############################################
+# FILE: kbinit
+# SUBJ: comment
+# AUTH: Kruthika
+# CREATED: 2023-11-23 20:49:18
+# MODIFIED:
+###############################################
+
+
+@CODE
+
+G("addresses") = findconcept(findroot(),"addresses");
+if (!G("addresses")) G("addresses") = makeconcept(findroot(),"addresses");
+
+@@CODE

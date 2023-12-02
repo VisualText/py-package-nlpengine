@@ -1,0 +1,42 @@
+###############################################
+# FILE: information3
+# SUBJ: comment
+# AUTH: Kruthika
+# CREATED: 2023-11-22 20:26:51
+# MODIFIED:
+###############################################
+
+@PATH _ROOT _address
+@CHECK
+if(!pnvar(N(2),"streetnum"))
+succeed();
+else
+fail();
+@POST
+X("housenum",2)=N("$text",2);
+@RULES
+_xNIL <-
+	_xSTART	### (1)
+	_xNUM	### (2)
+	@@
+
+@PRE
+<1,1> var("direction");
+@CHECK
+if(num(pnvar(N(1),"direction"))==1)
+succeed();
+else
+fail();
+@POST
+X("direction",2)=N("attr",2);
+@RULES
+_xNIL <-
+	_xALPHA	### (1)
+	@@
+
+@POST
+X("pincode",2)=N("$text",1);
+@RULES
+_xNIL <-
+	_pincode	### (1)
+	@@

@@ -1,0 +1,13 @@
+###############################################
+# FILE: kbdisp01
+# SUBJ: comment
+# AUTH: Kruthika
+# CREATED: 2023-11-23 21:8:7
+# MODIFIED:
+###############################################
+
+@CODE
+
+DisplayKB(G("addresses"),1);
+
+@@CODE

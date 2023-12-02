@@ -1,0 +1,40 @@
+###############################################
+# FILE: PrecedingWords
+# SUBJ: comment
+# AUTH: Kruthika
+# CREATED: 2023-11-22 19:37:0
+# MODIFIED:
+###############################################
+
+@PATH _ROOT _LINE
+
+@PRE
+<1,1> var("address");
+
+@POST
+N("starting",2)=1;
+@RULES
+_xNIL <-
+	_xWILD [min=1 max=0 match=(_xALPHA)]	### (1)
+	_xNUM									### (2)
+	@@
+
+@POST
+N("starting",1)=1;
+
+@RULES
+_xNIL <-
+	_xWILD [one match=(HC RR PO)]	### (1)
+	_xNUM							### (2)
+	@@
+@CHECK
+if(pnvar(N(1),"part1")||pnvar(N(1),"part2")||pnvar(N(1),"pin"))
+fail();
+else
+succeed();
+@POST
+N("starting",1)=1;
+@RULES
+_xNIL <-
+	_xNUM
+	@@

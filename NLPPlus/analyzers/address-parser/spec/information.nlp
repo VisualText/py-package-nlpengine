@@ -1,0 +1,91 @@
+###############################################
+# FILE: information
+# SUBJ: comment
+# AUTH: Kruthika
+# CREATED: 2023-11-23 17:9:50
+# MODIFIED:
+###############################################
+
+@PATH _ROOT _address
+
+@POST
+X("routenum") = N("$text",2)+" "+N("$text",3);
+X("boxnum") = N("$text",5)+" "+N("$text",6);
+# AddRuralRoute(X("con"),"rural-route",L("num1"),L("num2"));
+single();
+
+@RULES
+_ruralroute <-
+	RR		### (1)
+	_xNUM	### (2)
+	_xWILD [min=0 max=1 match=(_xCAPLET)]	### (3)
+	BOX		### (3)
+	_xNUM	### (4)
+	_xWILD [min=0 max=1 match=(_xCAPLET)]	### (6)
+	@@
+
+@POST
+X("routenum") =N("$text",2)+" "+N("$text",3);
+X("boxnum") =  N("$text",5)+" "+N("$text",6);
+# AddRuralRoute(X("con"),"highway-contract",L("num1"),L("num2"));
+single();
+
+@RULES
+_highwayContract <-
+	HC		### (1)
+	_xNUM	### (2)
+	_xWILD [min=0 max=1 match=(_xCAPLET)]	### (3)
+	BOX		### (3)
+	_xNUM	### (4)
+	_xWILD [min=0 max=1 match=(_xCAPLET)]	### (6)
+	@@
+
+@POST
+X("boxnum") = N("$text",2)+" "+N("$text",3);
+# AddPostBox(X("con"),"postbox",L("num2"));
+single();
+
+@RULES
+_postbox <-
+	PO
+	BOX										### (1)
+	_xNUM									### (2)
+	_xWILD [min=0 max=1 match=(_xCAPLET)]	### (3)
+	@@
+
+@PRE
+<1,1> var("state");
+@POST
+X("state",2)=N("state",1);
+if(strequal(str(N("abbrev",1)),"ne"))
+N("direc")
+FindCity(N(1),X(2));
+
+@RULES
+_xNIL <-
+	_xALPHA
+	_pincode
+	@@
+@PRE
+<1,1> var("abbrev");
+@POST
+X("state",2)=N("$text",1);
+FindCity(N(1),X(2));
+
+@RULES
+_xNIL <-
+	_xALPHA
+	_pincode
+	@@
+
+@PRE
+<1,1> var("abbrev");
+@POST
+X("state",2)=N("$text",1);
+FindCity(N(1),X(2));
+
+
+@RULES
+_xNIL <-
+	_xALPHA
+	@@

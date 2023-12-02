@@ -1,0 +1,11 @@
+###############################################
+# FILE: output
+# SUBJ: comment
+# AUTH: Kruthika
+# CREATED: 2023-11-23 21:23:41
+# MODIFIED:
+###############################################
+
+@CODE
+XMLOut("output.json")
+@@CODE

@@ -1,0 +1,17 @@
+###############################################
+# FILE: removelines
+# SUBJ: comment
+# AUTH: Kruthika
+# CREATED: 2023-11-20 20:56:35
+# MODIFIED:
+###############################################
+
+@NODES _ROOT
+@POST
+splice(1,1);
+
+@RULES
+_xNIL <-
+	_LINE	### (1)
+	@@
+

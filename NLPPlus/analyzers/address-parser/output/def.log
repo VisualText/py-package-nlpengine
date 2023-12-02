@@ -1,0 +1,22 @@
+Sequence file is:
+dicttok
+NOHASH rule: _LINE [] [] <- _xWILD [0,0 fails=( 
+)] [] _xWILD [1,1 matches=(
+ _xEND)] [] @@
+NOHASH rule: _xNIL [] [] <- _xWHITE [1,1 singlet] [] @@
+NOHASH rule: _pincode [] [] <- _xNUM [1,1] [] - [1,1] [] _xNUM [1,1] [] @@
+NOHASH rule: _pincode [] [] <- _xNUM [1,1] [] @@
+NOHASH rule: _punct [] [] <- _xPUNCT [1,1 singlet] [] @@
+NOHASH rule: _xNIL [] [] <- _xNUM [1,1] [] _xWILD [1,1 matches=(ST ND RD TH)] [] @@
+NOHASH rule: _xNIL [] [] <- _xWILD [1,0 pre matches=(_xALPHA)] [] _xNUM [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xNUM [1,1] [] @@
+NOHASH rule: _address [] [] <- _xWILD [1,1 pre matches=(_xALPHA _xNUM)] [] _xWILD [1,0 matches=(_xALPHA _xNUM)] [] _pincode [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xALPHA [1,1 pre] [] _pincode [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xALPHA [1,1 pre] [] _pincode [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xALPHA [1,1 pre] [] @@
+NOHASH rule: _xNIL [] [] <- _xALPHA [1,1 pre] [] @@
+NOHASH rule: _xNIL [] [] <- _xSTART [1,1] [] _xNUM [1,1] [] @@
+NOHASH rule: _xNIL [] [] <- _xALPHA [1,1 pre] [] @@
+
+Passes: (dicttok,nil) (nlp,KBFuncs) (nlp,funcs) (nlp,kbinit) (nlp,Lines) (nlp,RemoveWhiteSpace) (nlp,pincode) (nlp,RemoveSpecialChars) (nlp,PrecedingWords) (nlp,removelines) (nlp,Grouping) (nlp,information1) (nlp,information2) (nlp,information3) (nlp,countryname) (nlp,kbmake) (nlp,kbdisp01) (nlp,output) 
+

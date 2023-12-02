@@ -1,0 +1,30 @@
+###############################################
+# FILE: RemoveSpecialChars
+# SUBJ: comment
+# AUTH: Kruthika
+# CREATED: 2023-11-20 19:35:12
+# MODIFIED:
+###############################################
+
+@PATH _ROOT _LINE
+
+@POST
+excise(1,1);
+noop();
+
+@RULES
+
+_punct <-
+    _xPUNCT [s] ### (1)
+    @@
+
+@POST
+excise(2,2);
+noop();
+
+@RULES
+
+_xNIL <-
+    _xNUM								### (1)
+    _xWILD [one match=(ST ND RD TH)]	### (2)
+    @@

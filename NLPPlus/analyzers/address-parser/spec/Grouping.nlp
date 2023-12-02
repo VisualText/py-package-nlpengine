@@ -1,0 +1,17 @@
+###############################################
+# FILE: Grouping
+# SUBJ: comment
+# AUTH: Kruthika
+# CREATED: 2023-11-20 20:56:2
+# MODIFIED:
+###############################################
+
+@NODES _ROOT
+@PRE
+<1,1> var("starting");
+@RULES
+_address <-
+	_xWILD [one match=(_xALPHA _xNUM)]	### (1)
+	_xWILD [plus match=(_xALPHA _xNUM)]	### (2)
+	_pincode							### (3)
+	@@

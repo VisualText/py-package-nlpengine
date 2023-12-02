@@ -1,0 +1,88 @@
+###############################################
+# FILE: information
+# SUBJ: comment
+# AUTH: Kruthika
+# CREATED: 2023-11-22 17:9:50
+# MODIFIED:
+###############################################
+
+@PATH _ROOT _address
+
+@POST
+X("routenum",2) = N("$text",2)+" "+N("$text",3);
+X("boxnum",2) = N("$text",5)+" "+N("$text",6);
+X("type",2) = "RuralRoute";
+
+@RULES
+_ruralroute <-
+	RR		### (1)
+	_xNUM	### (2)
+	_xWILD [min=0 max=1 match=(_xCAPLET)]	### (3)
+	BOX		### (3)
+	_xNUM	### (4)
+	_xWILD [min=0 max=1 match=(_xCAPLET)]	### (6)
+	@@
+
+@POST
+X("hcnum",2) =N("$text",2)+" "+N("$text",3);
+X("boxnum") =  N("$text",5)+" "+N("$text",6);
+X("type",2) =  "HighwayContract";
+
+@RULES
+_highwayContract <-
+	HC		### (1)
+	_xNUM	### (2)
+	_xWILD [min=0 max=1 match=(_xCAPLET)]	### (3)
+	BOX		### (3)
+	_xNUM	### (4)
+	_xWILD [min=0 max=1 match=(_xCAPLET)]	### (6)
+	@@
+
+@POST
+X("boxnum",2) = N("$text",2)+" "+N("$text",3);
+X("type",2) = "post"
+
+@RULES
+_postbox <-
+	PO
+	BOX										### (1)
+	_xNUM									### (2)
+	_xWILD [min=0 max=1 match=(_xCAPLET)]	### (3)
+	@@
+
+@PRE
+<1,1> var("state");
+@POST
+X("state",2)=N("state",1);
+if(strequal(str(N("abbrev",1)),"ne"))
+N("direction")=0;
+FindCity(N(1),X(2));
+
+@RULES
+_xNIL <-
+	_xALPHA		### (1)
+	_pincode	### (2)
+	@@
+@PRE
+<1,1> var("abbrev");
+@POST
+X("state",2)=N("$text",1);
+FindCity(N(1),X(2));
+
+@RULES
+_xNIL <-
+	_xALPHA		### (1)
+	_pincode	### (2)
+	@@
+
+@PRE
+<1,1> var("abbrev");
+@POST
+X("state",2)=N("$text",1);
+FindCity(N(1),X(2));
+
+
+@RULES
+_xNIL <-
+	_xALPHA	### (1)
+	@@
