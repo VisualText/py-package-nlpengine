@@ -6,15 +6,15 @@ Some sample links can be found in input/text.txt
 
 From each hyperlink,the information like:
 
-Sheme of the link(Like https(Secure Hypertext Tranfer Protocol), ftp(File Transfer Protocol))
+- Sheme of the link(Like https(Secure Hypertext Tranfer Protocol), ftp(File Transfer Protocol))
 
-Domain-name(eg: wikipedia)
+- Domain-name(eg: wikipedia)
+ 
+- Sub-domain(like en(English)/jp(Japanese) etc.)
 
-Sub-domain(like en(English)/jp(Japanese) etc.)
+- Page path
 
-Page path
-
-Top Level Domain(like org/edu etc.)is extracted and made available in the json format.
+- Top Level Domain(like org/edu etc.)is extracted and made available in the json format.
 
 A sample output can be found(for the sample text) in input/text.text_log/output.json.
 
