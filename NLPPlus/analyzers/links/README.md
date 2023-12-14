@@ -6,7 +6,7 @@ Some sample links can be found in input/text.txt
 
 From each hyperlink,the information like:
 
-- Sheme of the link(Like https(Secure Hypertext Tranfer Protocol), ftp(File Transfer Protocol))
+- Scheme of the link(Like https(Secure Hypertext Tranfer Protocol), ftp(File Transfer Protocol))
 
 - Domain-name(eg: wikipedia)
  
