@@ -94,10 +94,14 @@ to use vcpkg:
 
     git clone --depth 1 https://github.com/Microsoft/vcpkg.git
     ./vcpkg/bootstrap-vcpkg.sh
-    ./vcpkg/vcpkg install icu
     pip install --no-build-isolation \
         -C cmake.args=-DCMAKE_TOOLCHAIN_FILE='./nlp-engine/vcpkg/scripts/buildsystems/vcpkg.cmake \
         -ve .
+        
+Additionally, on MacOS, you'll probably need a whole lot of other
+things to use vcpkg:
+
+    brew install autoconf-archive autoconf automake pkg-config
 
 Verify that it works:
 

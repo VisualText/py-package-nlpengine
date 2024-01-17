@@ -34,7 +34,7 @@ jobs:
 
   build_wheels_macos:
     name: Build wheels on MacOS
-    runs-on: macos-latest
+    runs-on: macos-11
 
     steps:
       - uses: actions/checkout@v4
@@ -49,20 +49,14 @@ jobs:
           git clone --depth 1 https://github.com/Microsoft/vcpkg.git
           ./vcpkg/bootstrap-vcpkg.sh
 
-      - name: Install 3rd Party
-        run: vcpkg install
-        working-directory: vcpkg
-
       - name: Build wheels
-        uses: pypa/cibuildwheel@v2.16.2
-        env:
-          CIBW_BUILD_VERBOSITY: 3
-          CIBW_CONFIG_SETTINGS: "cmake.args=-DCMAKE_BUILD_TYPE=Release;-DCMAKE_CXX_FLAGS=-std=c++11;-DCMAKE_TOOLCHAIN_FILE=./vcpkg/scripts/buildsystems/vcpkg.cmake"
+        run: |
+          pip wheel -C "cmake.args=-DCMAKE_BUILD_TYPE=Release;-DCMAKE_TOOLCHAIN_FILE=./vcpkg/scripts/buildsystems/vcpkg.cmake" -v .
 
       - uses: actions/upload-artifact@v4
         with:
           name: cibw-wheels-macos-latest
-          path: ./wheelhouse/*.whl
+          path: ./*.whl
 
   build_wheels_windows:
     name: Build wheels on Windows
