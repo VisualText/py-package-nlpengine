@@ -12,6 +12,7 @@ import NLPPlus
 
 DATADIR = Path(__file__).parent / "data"
 
+
 def read_file(path):
     with open(path, "rt") as infh:
         return infh.read()
@@ -41,9 +42,7 @@ class EngineTest(TestCase):
         text = read_file(DATADIR / name / "text.txt")
         results = NLPPlus.engine.analyze(text, name)
         self.assertEqual(results.output_text, "")
-        output = json.loads(
-            read_file(DATADIR / name / "text.txt_log" / "output.json")
-        )
+        output = json.loads(read_file(DATADIR / name / "text.txt_log" / "output.json"))
         self.assertEqual(output, results.output)
 
     def test_address_parser(self):
