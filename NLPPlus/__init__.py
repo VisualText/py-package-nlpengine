@@ -1,10 +1,6 @@
 """Python extension for NLP++ text analysis engine.
 
-On loading this module an analyzer is created with a working folder in
-the current directory.  You may change this with `set_working_folder`.
-
-Basic usage, assuming that you are running from a directory containing
-`analyzers/parse-en-us`:
+Basic usage:
 
     import NLPPlus
     xml = NLPPlus.analyze("This is some text to be parsed")
@@ -12,12 +8,82 @@ Basic usage, assuming that you are running from a directory containing
 
 """
 
-import os
+import json
+import logging
+from shutil import copytree
+from tempfile import TemporaryDirectory
+from os import PathLike, getcwd
+from pathlib import Path
+from typing import Optional, Any
+
 from .bindings import NLP_ENGINE
 
-default_working_folder = os.getcwd()
-current_working_folder = default_working_folder
-engine = NLP_ENGINE(default_working_folder, silent=True)
+LOGGER = logging.getLogger("NLPPlus")
+
+
+def maybe_readfile(path: Path):
+    """Bogus utility function to maybe read a file."""
+    if not path.exists():
+        return None
+    with open(path, "rt") as infh:
+        return infh.read()
+
+
+class Results:
+    """Various results produced by the NLP++ analyzer."""
+
+    def __init__(self, outtext: str, outdir: PathLike):
+        LOGGER.info("Reading output from %s", outdir)
+        self.output_text = outtext
+        self.outdir = Path(outdir)
+
+    @property
+    def final_tree(self) -> Optional[str]:
+        """The final parse tree, if any was produced."""
+        return maybe_readfile(self.outdir / "final.tree")
+
+    @property
+    def output_json(self) -> Optional[str]:
+        """The output JSON text, if any was produced."""
+        return maybe_readfile(self.outdir / "output.json")
+
+    @property
+    def output(self) -> Optional[Any]:
+        """The parsed output Json, if any was produced"""
+        output_json = self.output_json
+        if output_json is not None:
+            return json.loads(output_json)
+        return None
+
+
+class Engine:
+    def __init__(
+        self, working_folder: Optional[PathLike] = None, verbose: bool = False
+    ):
+        if working_folder is not None:
+            self.working_folder = Path(working_folder)
+            self.tmpdir = None
+        else:
+            self.tmpdir = TemporaryDirectory(prefix="NLPPlus-")
+            self.working_folder = Path(self.tmpdir.name)
+            copytree(
+                Path(__file__).parent / "analyzers", self.working_folder / "analyzers"
+            )
+            copytree(Path(__file__).parent / "data", self.working_folder / "data")
+            LOGGER.info(
+                "Initialized temporary working folder in %s", self.working_folder
+            )
+        self.engine = NLP_ENGINE(str(self.working_folder), silent=not verbose)
+
+    def analyze(self, text: str, analyzer_name: str) -> Results:
+        """Analyze text with the named analyzer."""
+        outtext = self.engine.analyze(analyzer_name, text)
+        return Results(
+            outtext, self.working_folder / "analyzers" / analyzer_name / "output"
+        )
+
+
+engine = Engine()
 
 
 def set_working_folder(working_folder: str = None):
@@ -28,15 +94,12 @@ def set_working_folder(working_folder: str = None):
       working_folder(str): Working folder to use, or `None` to use the
                            current working directory.
     """
-    global engine, current_working_folder
+    global engine
     if working_folder is None:
-        working_folder = os.getcwd()
-    if working_folder == current_working_folder:
-        return
-    current_working_folder = working_folder
-    engine = NLP_ENGINE(working_folder, silent=True)
+        working_folder = getcwd()
+    engine = Engine(working_folder)
 
 
 def analyze(str: str, parser: str = "parse-en-us"):
     """Run the analyzer named on the input string."""
-    return engine.analyze(parser, str)
+    return engine.analyze(str, parser).output_text
