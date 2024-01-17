@@ -23,8 +23,9 @@ jobs:
       - name: Build wheels
         uses: pypa/cibuildwheel@v2.16.2
         env:
+          CIBW_BUILD_VERBOSITY: 3
           CIBW_BEFORE_ALL: "yum install -y libicu-devel"
-          CIBW_CONFIG_SETTINGS: "cmake.args='-DCMAKE_BUILD_TYPE=Release -DVCPKG_BUILD_TYPE=release'"
+          CIBW_CONFIG_SETTINGS: "cmake.args=-DCMAKE_BUILD_TYPE=Release"
 
       - uses: actions/upload-artifact@v4
         with:
@@ -40,8 +41,8 @@ jobs:
         with:
           submodules: true
 
-      - name: Install autoconf-archive
-        run: brew install autoconf-archive
+      - name: Install packages
+        run: brew install autoconf-archive autoconf automake pkg-config
 
       - name: vcpkg setup
         run: |
@@ -55,7 +56,8 @@ jobs:
       - name: Build wheels
         uses: pypa/cibuildwheel@v2.16.2
         env:
-          CIBW_CONFIG_SETTINGS: "cmake.args='-DCMAKE_BUILD_TYPE=Release -DVCPKG_BUILD_TYPE=release -DCMAKE_CXX_FLAGS=-std=c++11 -DCMAKE_TOOLCHAIN_FILE=./vcpkg/scripts/buildsystems/vcpkg.cmake'"
+          CIBW_BUILD_VERBOSITY: 3
+          CIBW_CONFIG_SETTINGS: "cmake.args=-DCMAKE_BUILD_TYPE=Release;-DCMAKE_CXX_FLAGS=-std=c++11;-DCMAKE_TOOLCHAIN_FILE=./vcpkg/scripts/buildsystems/vcpkg.cmake"
 
       - uses: actions/upload-artifact@v4
         with:
@@ -86,7 +88,7 @@ jobs:
         uses: pypa/cibuildwheel@v2.16.2
         env:
           CIBW_BUILD_VERBOSITY: 3
-          CIBW_CONFIG_SETTINGS: "cmake.args='-A x64 -DCMAKE_TOOLCHAIN_FILE=./vcpkg/scripts/buildsystems/vcpkg.cmake'"
+          CIBW_CONFIG_SETTINGS: "cmake.args='-A x64;-DCMAKE_BUILD_TYPE=Release;-DCMAKE_TOOLCHAIN_FILE=./vcpkg/scripts/buildsystems/vcpkg.cmake'"
 
       - uses: actions/upload-artifact@v4
         with:
