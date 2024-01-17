@@ -1,25 +1,49 @@
 # NLPPlus
-This is Python package for NLP Engine. It uses nlp-engine as DLL. You could find detailed documentation about nlp-engine here https://github.com/VisualText/nlp-engine.
+
+This is a Python package for the NLP++ engine. You can find detailed
+documentation about nlp-engine at
+https://github.com/VisualText/nlp-engine.
 
 ## Requirements 
-* Python 3.9 x64 or later
-* Windows 10 x64 or later
+* Python 3.8
+* A C++ compiler
+
+## Installation
+
+We suggest you use a virtual environment to install NLPPlus:
+
+    python -m venv nlpplus-venv
+    . nlpplus-venv/bin/activate
+    pip install .
 
 ## Using the Library
-### This library has two functions
-```
-import NLPPlus
 
-NLPPlus.set_working_folder("path_to_working_folder")
-parser = "parse-en-us"
+On importing the `NLPPlus` module, an NLP++ engine instance is created
+with the current working directory as the working folder.  This
+repository is set up already to be used as a working folder.  So, for
+instance, you may run:
 
-NLPPlus.analyze(parser=parser, str="string_to_analyze")
-```
+    import NLPPlus
+    NLPPlus.analyze("My email adress is someone@example.com.",
+                    "emailaddress")
 
-### Set your working folder
+This will run the `email` analyzer on the text provided.  Where the
+output goes depends entirely on the NLP++ code in the analyzer, but in
+this case you can find it in
+`analyzers/emailaddress/output/output.json`.  Some other analyzers
+will return XML code from the call to `analyze`.  For more information
+please contact the author of the analyzer in question.
 
-The folder should include "analyzers" folder and "data" folder. In analyzer folder, there should be parsers as folders. By default, it sets working folder as the installed package folder and there are "parse-en-us" parser and you can use it.
+If you like, you can also copy the `analyzers` and `data` directories
+to your preferred location, and set the working directory with the
+`set_working_folder` function:
 
-### Analyze
+    from NLPPlus import set_working_folder, analyze
+    set_working_folder("somewhere/else")
+    analyze("some text", "my-parser")
 
-NLPPlus.analyze() returns the analyzed result as an XML format.
+It is expected that the working folder contains, at a minimum, the
+directories `analyzers` and `data`.  Each directory inside `analyzers`
+contains the directories `spec`, `input`, `kb`, `tmp`, `logs`, and
+`output`.  The `tmp`, `logs`, and `output` directories, at a minimum,
+need to be writable.

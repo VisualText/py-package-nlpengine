@@ -11,7 +11,7 @@ Basic usage with the `Engine` class:
 import os
 from .bindings import NLP_ENGINE  # noqa: F401, E402
 
-default_working_folder = os.path.dirname(__file__)
+default_working_folder = os.getcwd()
 current_working_folder = None
 engine = NLP_ENGINE(default_working_folder, silent=True)
 

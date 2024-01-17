@@ -33,12 +33,7 @@ wrap_analyze(NLP_ENGINE &engine, const std::string &parser, const std::string &i
 }
 
 NB_MODULE(bindings, m) {
-    nb::class_<NLP_ENGINE>(m, "NLP_ENGINE",
-                           "Instance of the NLP++ Engine.\n\n"
-                           "The working folder (expected to contain the\n"
-                           "`analyzers` and `data` folders) is set to the\n"
-                           "installed package by default but can be changed\n"
-                           "by passing a path to the constructor.")
+    nb::class_<NLP_ENGINE>(m, "NLP_ENGINE", "Instance of the NLP++ Engine.")
         .def(nb::init<std::string, bool>(),
              "workingFolder"_a = ".",
              "silent"_a = true)
