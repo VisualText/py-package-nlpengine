@@ -1,7 +1,6 @@
 #include <cstring>
 #include <cstdlib>
 
-#include <nanobind/eval.h>
 #include <nanobind/nanobind.h>
 #include <nanobind/stl/string.h>
 
@@ -34,18 +33,14 @@ wrap_analyze(NLP_ENGINE &engine, const std::string &parser, const std::string &i
 }
 
 NB_MODULE(bindings, m) {
-    /* Amazingly, this circular import actually works. */
-    nb::object scope = nb::module_::import_("NLPPlus").attr("__dict__");
-    nb::str thisdir = nb::str(nb::eval("THISDIR", scope));
-
-    nb::class_<NLP_ENGINE>(m, "Engine",
+    nb::class_<NLP_ENGINE>(m, "NLP_ENGINE",
                            "Instance of the NLP++ Engine.\n\n"
                            "The working folder (expected to contain the\n"
                            "`analyzers` and `data` folders) is set to the\n"
                            "installed package by default but can be changed\n"
                            "by passing a path to the constructor.")
         .def(nb::init<std::string, bool>(),
-             "workingFolder"_a = thisdir,
+             "workingFolder"_a = ".",
              "silent"_a = true)
         .def("analyze", &wrap_analyze,
              "parser"_a, "input"_a,

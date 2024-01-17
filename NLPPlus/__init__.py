@@ -3,15 +3,29 @@ Python extension for NLP++ text analysis engine.
 
 Basic usage with the `Engine` class:
 
-    from NLPPlus import Engine
-    e = Engine()
-    xml = e.analyze("parse-en-us", "This is some text to be parsed")
+    import NLPPlus
+    xml = NLPPlus.analyze("This is some text to be parsed", "parse-en-us")
     print(xml)
 """
 
 import os
+from .bindings import NLP_ENGINE  # noqa: F401, E402
 
-# NOTE: This definition must precede the import below
-THISDIR = os.path.dirname(__file__)
+default_working_folder = os.path.dirname(__file__)
+current_working_folder = None
+engine = NLP_ENGINE(default_working_folder, silent=True)
 
-from .bindings import Engine  # noqa: F401, E402
+
+def set_working_folder(working_folder=None):
+    global engine, current_working_folder
+    if working_folder == current_working_folder:
+        return
+    current_working_folder = working_folder
+    if working_folder is None:
+        engine = NLP_ENGINE(default_working_folder, silent=True)
+    else:
+        engine = NLP_ENGINE(working_folder, silent=True)
+
+
+def analyze(str, parser="parse-en-us"):
+    return engine.analyze(parser, str)

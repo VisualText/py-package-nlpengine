@@ -4,7 +4,7 @@ build-backend = "scikit_build_core.build"
 
 [project]
 name = "NLPPlus"
-version = "2.0.0"
+version = "1.1.0"
 
 [tool.scikit-build]
 build-dir = "build/{wheel_tag}"
