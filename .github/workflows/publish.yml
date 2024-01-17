@@ -11,7 +11,7 @@ on:
       - published
 
 jobs:
-  build_wheels:
+  build_wheels_linux:
     name: Build wheels on Linux
     runs-on: ubuntu-latest
 
@@ -28,6 +28,59 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: cibw-wheels-ubuntu-latest
+          path: ./wheelhouse/*.whl
+
+  build_wheels_macos:
+    name: Build wheels on MacOS
+    runs-on: macos-latest
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: true
+
+      - name: Install autoconf-archive
+        run: brew install autoconf-archive
+
+      - name: vcpkg setup
+        run: |
+          git clone --depth 1 https://github.com/Microsoft/vcpkg.git
+          ./vcpkg/bootstrap-vcpkg.sh
+
+      - name: Build wheels
+        uses: pypa/cibuildwheel@v2.16.2
+        env:
+          CIBW_CONFIG_SETTINGS: "cmake.args=-DCMAKE_TOOLCHAIN_FILE='./vcpkg/scripts/buildsystems/vcpkg.cmake'"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: cibw-wheels-macos-latest
+          path: ./wheelhouse/*.whl
+
+  build_wheels_windows:
+    name: Build wheels on Windows
+    runs-on: macos-latest
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: true
+
+      - name: vcpkg setup
+        run: git clone --depth 1 https://github.com/Microsoft/vcpkg.git
+
+      - name: Vcpkg bootstrap Windows
+        run: bootstrap-vcpkg.bat
+        working-directory: vcpkg
+
+      - name: Build wheels
+        uses: pypa/cibuildwheel@v2.16.2
+        env:
+          CIBW_CONFIG_SETTINGS: "cmake.args=-DCMAKE_TOOLCHAIN_FILE='./vcpkg/scripts/buildsystems/vcpkg.cmake'"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: cibw-wheels-windows-latest
           path: ./wheelhouse/*.whl
 
   build_sdist:
