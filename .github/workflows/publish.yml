@@ -114,8 +114,8 @@ jobs:
   upload_pypi:
     needs:
       - build_wheels_linux
-      - build_wheels_windows
-      - build_wheels_macos
+      #- build_wheels_windows
+      #- build_wheels_macos
       - build_sdist
     runs-on: ubuntu-latest
     # Comment this line for testing
