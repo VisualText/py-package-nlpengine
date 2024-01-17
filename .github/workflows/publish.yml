@@ -26,68 +26,74 @@ jobs:
           CIBW_BUILD_VERBOSITY: 3
           CIBW_BEFORE_ALL: "yum install -y libicu-devel"
           CIBW_CONFIG_SETTINGS: "cmake.args=-DCMAKE_BUILD_TYPE=Release"
+          # Uncomment for testing
+          CIBW_BUILD: "cp312-*"
 
       - uses: actions/upload-artifact@v4
         with:
           name: cibw-wheels-ubuntu-latest
           path: ./wheelhouse/*.whl
 
-  # build_wheels_macos:
-  #   name: Build wheels on MacOS
-  #   runs-on: macos-11
+  build_wheels_macos:
+    name: Build wheels on MacOS
+    runs-on: macos-11
+    # Uncomment for testing
+    if: false
 
-  #   steps:
-  #     - uses: actions/checkout@v4
-  #       with:
-  #         submodules: true
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: true
 
-  #     - name: Install packages
-  #       run: brew install autoconf-archive autoconf automake pkg-config
+      - name: Install packages
+        run: brew install autoconf-archive autoconf automake pkg-config
 
-  #     - name: vcpkg setup
-  #       run: |
-  #         git clone --depth 1 https://github.com/Microsoft/vcpkg.git
-  #         ./vcpkg/bootstrap-vcpkg.sh
+      - name: vcpkg setup
+        run: |
+          git clone --depth 1 https://github.com/Microsoft/vcpkg.git
+          ./vcpkg/bootstrap-vcpkg.sh
 
-  #     - name: Build wheels
-  #       run: |
-  #         pip wheel -C "cmake.args=-DCMAKE_BUILD_TYPE=Release;-DCMAKE_TOOLCHAIN_FILE=./vcpkg/scripts/buildsystems/vcpkg.cmake" -v .
+      - name: Build wheels
+        run: |
+          pip wheel -C "cmake.args=-DCMAKE_BUILD_TYPE=Release;-DCMAKE_TOOLCHAIN_FILE=./vcpkg/scripts/buildsystems/vcpkg.cmake" -v .
 
-  #     - uses: actions/upload-artifact@v4
-  #       with:
-  #         name: cibw-wheels-macos-latest
-  #         path: ./*.whl
+      - uses: actions/upload-artifact@v4
+        with:
+          name: cibw-wheels-macos-latest
+          path: ./*.whl
 
-  # build_wheels_windows:
-  #   name: Build wheels on Windows
-  #   runs-on: windows-latest
+  build_wheels_windows:
+    name: Build wheels on Windows
+    runs-on: windows-latest
+    # Uncomment for testing
+    if: false
 
-  #   steps:
-  #     - uses: actions/checkout@v4
-  #       with:
-  #         submodules: true
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: true
 
-  #     - name: vcpkg checkout
-  #       run: git clone --depth 1 https://github.com/Microsoft/vcpkg.git
+      - name: vcpkg checkout
+        run: git clone --depth 1 https://github.com/Microsoft/vcpkg.git
 
-  #     - name: Vcpkg bootstrap Windows
-  #       run: bootstrap-vcpkg.bat
-  #       working-directory: vcpkg
+      - name: Vcpkg bootstrap Windows
+        run: bootstrap-vcpkg.bat
+        working-directory: vcpkg
 
-  #     - name: Install 3rd Party
-  #       run: vcpkg install
-  #       working-directory: vcpkg
+      - name: Install 3rd Party
+        run: vcpkg install
+        working-directory: vcpkg
 
-  #     - name: Build wheels
-  #       uses: pypa/cibuildwheel@v2.16.2
-  #       env:
-  #         CIBW_BUILD_VERBOSITY: 3
-  #         CIBW_CONFIG_SETTINGS: "cmake.args='-A x64;-DCMAKE_BUILD_TYPE=Release;-DCMAKE_TOOLCHAIN_FILE=./vcpkg/scripts/buildsystems/vcpkg.cmake'"
+      - name: Build wheels
+        uses: pypa/cibuildwheel@v2.16.2
+        env:
+          CIBW_BUILD_VERBOSITY: 3
+          CIBW_CONFIG_SETTINGS: "cmake.args='-A x64;-DCMAKE_BUILD_TYPE=Release;-DCMAKE_TOOLCHAIN_FILE=./vcpkg/scripts/buildsystems/vcpkg.cmake'"
 
-  #     - uses: actions/upload-artifact@v4
-  #       with:
-  #         name: cibw-wheels-windows-latest
-  #         path: ./wheelhouse/*.whl
+      - uses: actions/upload-artifact@v4
+        with:
+          name: cibw-wheels-windows-latest
+          path: ./wheelhouse/*.whl
 
   build_sdist:
     name: Build source distribution
@@ -108,13 +114,17 @@ jobs:
   upload_pypi:
     needs:
       - build_wheels_linux
-      #- build_wheels_windows
-      #- build_wheels_macos
+      - build_wheels_windows
+      - build_wheels_macos
       - build_sdist
     runs-on: ubuntu-latest
-    environment: pypi
+    # Comment this line for testing
+    # environment: pypi
+    # Uncomment this line for testing
+    environment: testpypi
     permissions:
       id-token: write
+    # Comment this line for testing
     # if: github.event_name == 'release' && github.event.action == 'published'
     steps:
       - uses: actions/download-artifact@v4
@@ -124,6 +134,6 @@ jobs:
           path: dist
           merge-multiple: true
       - uses: pypa/gh-action-pypi-publish@release/v1
-        # Comment out the next lines when ready to publish to main PyPI
+        # Uncomment these lines for testing
         with:
           repository-url: https://test.pypi.org/legacy/
