@@ -20,3 +20,4 @@ vtrun_logfile.out
 __pycache__
 bin/
 dummy.txt
+*~
