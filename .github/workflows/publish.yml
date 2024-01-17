@@ -20,18 +20,10 @@ jobs:
         with:
           submodules: true
 
-      - name: Install autoconf-archive
-        run: sudo apt-get install -y autoconf-archive
-
-      - name: vcpkg setup
-        run: |
-          git clone --depth 1 https://github.com/Microsoft/vcpkg.git
-          ./vcpkg/bootstrap-vcpkg.sh
-
       - name: Build wheels
         uses: pypa/cibuildwheel@v2.16.2
         env:
-          CIBW_CONFIG_SETTINGS: "cmake.args=-DCMAKE_TOOLCHAIN_FILE='./vcpkg/scripts/buildsystems/vcpkg.cmake'"
+          CIBW_BEFORE_ALL: "yum install -y libicu-devel"
 
       - uses: actions/upload-artifact@v4
         with:

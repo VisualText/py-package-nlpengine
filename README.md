@@ -79,7 +79,10 @@ virtual environment:
 On Linux, generally, you can simply install the ICU development
 libraries system-wide:
 
+    # On Ubuntu / Debian /etc
     sudo apt install libicu-dev
+    # On CentOS / RHEL / etc
+    sudo yum install libicu-devel
     
 Now you can build the module as a "writable" install, which will allow
 you to test changes as you make them:
