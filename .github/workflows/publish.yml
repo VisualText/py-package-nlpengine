@@ -20,14 +20,14 @@ jobs:
         with:
           submodules: true
 
+      - name: Install autoconf-archive
+        run: sudo apt-get install -y autoconf-archive
+
       - name: vcpkg Install
         run: |
           git clone --depth 1 https://github.com/Microsoft/vcpkg.git
           ./vcpkg/bootstrap-vcpkg.sh
           ./vcpkg/vcpkg install --debug icu
-
-      - name: Install autoconf-archive
-        run: sudo apt-get install -y autoconf-archive
 
       - name: Build wheels
         uses: pypa/cibuildwheel@v2.16.2
