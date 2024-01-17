@@ -27,7 +27,7 @@ jobs:
           CIBW_BEFORE_ALL: "yum install -y libicu-devel"
           CIBW_CONFIG_SETTINGS: "cmake.args=-DCMAKE_BUILD_TYPE=Release"
           # Uncomment for testing
-          CIBW_BUILD: "cp312-*"
+          # CIBW_BUILD: "cp312-*"
 
       - uses: actions/upload-artifact@v4
         with:
@@ -38,7 +38,7 @@ jobs:
     name: Build wheels on MacOS
     runs-on: macos-11
     # Uncomment for testing
-    if: false
+    # if: false
 
     steps:
       - uses: actions/checkout@v4
@@ -66,7 +66,7 @@ jobs:
     name: Build wheels on Windows
     runs-on: windows-latest
     # Uncomment for testing
-    if: false
+    # if: false
 
     steps:
       - uses: actions/checkout@v4
@@ -114,18 +114,19 @@ jobs:
   upload_pypi:
     needs:
       - build_wheels_linux
-      #- build_wheels_windows
-      #- build_wheels_macos
       - build_sdist
+      # Comment the next two for testing
+      - build_wheels_windows
+      - build_wheels_macos
     runs-on: ubuntu-latest
     # Comment this line for testing
-    # environment: pypi
+    environment: pypi
     # Uncomment this line for testing
-    environment: testpypi
+    # environment: testpypi
     permissions:
       id-token: write
     # Comment this line for testing
-    # if: github.event_name == 'release' && github.event.action == 'published'
+    if: github.event_name == 'release' && github.event.action == 'published'
     steps:
       - uses: actions/download-artifact@v4
         with:
@@ -135,5 +136,5 @@ jobs:
           merge-multiple: true
       - uses: pypa/gh-action-pypi-publish@release/v1
         # Uncomment these lines for testing
-        with:
-          repository-url: https://test.pypi.org/legacy/
+        # with:
+        #   repository-url: https://test.pypi.org/legacy/
