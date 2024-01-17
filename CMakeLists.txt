@@ -26,6 +26,6 @@ find_package(Python 3.8 COMPONENTS Interpreter Development.Module REQUIRED)
 find_package(nanobind CONFIG REQUIRED)
 
 nanobind_add_module(bindings NB_STATIC bindings.cpp)
-target_link_libraries(bindings PRIVATE prim kbm consh words lite)
+target_link_libraries(bindings PRIVATE prim kbm consh words lite dl pthread)
 install(TARGETS bindings LIBRARY DESTINATION NLPPlus)
 
