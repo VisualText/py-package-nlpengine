@@ -5,6 +5,7 @@ documentation about nlp-engine at
 https://github.com/VisualText/nlp-engine.
 
 ## Requirements 
+
 * Python 3.8
 
 ## Installation
@@ -76,6 +77,8 @@ virtual environment:
     . venv/bin/activate
     pip install -r requirements-dev.txt
     
+### Linux Setup
+
 On Linux, generally, you can simply install the ICU development
 libraries system-wide:
 
@@ -89,19 +92,39 @@ you to test changes as you make them:
 
     pip install --no-build-isolation -ve .
 
+### MacOS and other Unix Setup
+
 If you were not able to install ICU above (such as on MacOS), you have
 to use vcpkg:
 
     git clone --depth 1 https://github.com/Microsoft/vcpkg.git
     ./vcpkg/bootstrap-vcpkg.sh
-    pip install --no-build-isolation \
-        -C cmake.args=-DCMAKE_TOOLCHAIN_FILE='./nlp-engine/vcpkg/scripts/buildsystems/vcpkg.cmake \
-        -ve .
-        
+
 Additionally, on MacOS, you'll probably need a whole lot of other
 things to use vcpkg:
 
     brew install autoconf-archive autoconf automake pkg-config
+
+Now you can install with this somewhat more complicated command:
+
+    pip install --no-build-isolation \
+        -C cmake.args=-DCMAKE_TOOLCHAIN_FILE=./nlp-engine/vcpkg/scripts/buildsystems/vcpkg.cmake \
+        -ve .
+
+### Windows Setup
+
+On Windows, the vcpkg setup is just slightly different:
+
+    cd vcpkg
+    bootstrap-vcpkg.bat
+
+But the compilation should be the same:
+
+    pip install --no-build-isolation \
+        -C cmake.args=-DCMAKE_TOOLCHAIN_FILE=./nlp-engine/vcpkg/scripts/buildsystems/vcpkg.cmake \
+        -ve .
+
+### Testing
 
 Verify that it works:
 
