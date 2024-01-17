@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<vertice>
+  <id>1</id>
+  <label>_TEXTZONE</label>
+</vertice>
+<vertice>
+  <id>2</id>
+  <label>_sent</label>
+</vertice>
+<edge>
+  <source>1</source>
+  <target>2</target>
+</edge>
+<vertice>
+  <id>3</id>
+  <label>_clause</label>
+</vertice>
+<edge>
+  <source>2</source>
+  <target>3</target>
+</edge>
+<vertice stem="hello">
+  <id>4</id>
+  <label>_noun</label>
+</vertice>
+<edge>
+  <source>3</source>
+  <target>4</target>
+</edge>
+<vertice stem="hello">
+  <id>5</id>
+  <label>Hello</label>
+</vertice>
+<edge>
+  <source>4</source>
+  <target>5</target>
+</edge>
+<vertice stem="world">
+  <id>6</id>
+  <label>_noun</label>
+</vertice>
+<edge>
+  <source>3</source>
+  <target>6</target>
+</edge>
+<vertice stem="world">
+  <id>7</id>
+  <label>world</label>
+</vertice>
+<edge>
+  <source>6</source>
+  <target>7</target>
+</edge>
+<vertice>
+  <id>8</id>
+  <label>_qEOS</label>
+</vertice>
+<edge>
+  <source>1</source>
+  <target>8</target>
+</edge>

@@ -23,6 +23,12 @@ class EngineTest(TestCase):
 
     maxDiff = None
 
+    def test_simple(self):
+        """Test the simplest possible usage with parse-en-us."""
+        xml = NLPPlus.analyze("Hello world.")
+        hello = read_file(DATADIR / "hello.xml")
+        self.assertEqual(xml, hello)
+
     def test_basic(self):
         """Run the "basic" analyzer and verify that it works."""
 
