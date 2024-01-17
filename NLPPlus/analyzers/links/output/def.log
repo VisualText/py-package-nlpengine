@@ -1,20 +1,0 @@
-Sequence file is:
-dicttok
-NOHASH rule: _LINE [] [] <- _xWILD [0,0 fails=( 
-)] [] _xWILD [1,1 matches=(
- _xEND)] [] @@
-NOHASH rule: _link [] [] <- _xALPHA [1,1 pre] [] : [1,1] [] / [1,1] [] / [1,1] [] _xWILD [1,0 matches=(_xALPHA _xNUM / @ . - _ $ + ! * ' ( )) hmatch] [] _domain [1,1] [] _xWILD [0,0 matches=(_xALPHA _xNUM / @ . - _ $ + ! * ' ( )) hmatch] [] _xWILD [0,0 fails=(
-  _xWHITE)] [] @@
-NOHASH rule: _link [] [] <- _xALPHA [1,1] [] . [1,1] [] _xWILD [1,0 matches=(_xALPHA _xNUM -)] [] _domain [1,1] [] / [1,1] [] _xWILD [0,0 matches=(_xALPHA _xNUM / @ . - _ $ + ! * ' ( ) _domain) hmatch] [] @@
-NOHASH rule: _text [] [] <- _xWILD [0,0 fails=(_extra)] [] _extra [1,1] [] @@
-NOHASH rule: _nameofsite [] [] <- _xALPHA [1,1] [] _domain [1,1] [] _domain [1,1] [] / [1,1] [] _xWILD [0,0 matches=(_xALPHA _xNUM _domain / @ . - _ $ ? = & + ! * ' ( )) hmatch] [] @@
-NOHASH rule: _nameofsite [] [] <- _xALPHA [1,1] [] . [1,1] [] _xWILD [1,0 matches=(_xALPHA _xNUM -)] [] _domain [1,1] [] / [1,1] [] _xWILD [0,0 matches=(_xALPHA _xNUM _domain / @ . - _ $ ? = & + ! * ' ( )) hmatch] [] @@
-NOHASH rule: _nameofsite [] [] <- _xALPHA [1,1] [] . [1,1] [] _xWILD [1,0 matches=(_xALPHA _xNUM -)] [] _domain [1,1] [] / [1,1] [] _xWILD [0,0 matches=(_xALPHA _xNUM _domain / @ . - _ $ ? = & + ! * ' ( )) hmatch] [] @@
-NOHASH rule: _nameofsite [] [] <- _xWILD [1,0 matches=(_xALPHA _xNUM -)] [] _domain [1,1] [] / [1,1] [] _xWILD [0,0 matches=(_xALPHA _xNUM _domain / @ . - _ $ ? = & + ! * ' ( )) hmatch] [] @@
-NOHASH rule: _nameofsite [] [] <- _xALPHA [1,1] [] _domain [1,1] [] _domain [1,1] [] / [1,1] [] _xWILD [0,0 matches=(_xALPHA _xNUM _domain / @ . - _ $ ? = & + ! * ' ( )) hmatch] [] @@
-NOHASH rule: _nameofsite [] [] <- _xALPHA [1,1] [] . [1,1] [] _xWILD [1,0 matches=(_xALPHA _xNUM -)] [] _domain [1,1] [] / [1,1] [] _xWILD [0,0 matches=(_xALPHA _xNUM _domain / @ . - _ $ ? = & + ! * ' ( )) hmatch] [] @@
-NOHASH rule: _nameofsite [] [] <- _xWILD [1,0 matches=(_xALPHA _xNUM -)] [] _domain [1,1] [] / [1,1] [] _xWILD [0,0 matches=(_xALPHA _xNUM _domain / @ . - _ $ ? = & + ! * ' ( )) hmatch] [] @@
-NOHASH rule: _xNIL [] [] <- _xWILD [0,0 fails=(_xEND)] [] @@
-
-Passes: (dicttok,nil) (nlp,KBFuncs) (nlp,funcs) (nlp,kbinit) (nlp,Lines) (nlp,removeblankline) (nlp,Links) (nlp,Link1) (nlp,Link2) (nlp,Link3) (nlp,Link4) (nlp,Link5) (nlp,Link6) (nlp,Link7) (nlp,Link8) (nlp,output) 
-
