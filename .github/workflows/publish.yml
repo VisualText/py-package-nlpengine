@@ -18,21 +18,17 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          submodules: recursive
+          submodules: true
 
-      - name: Vcpkg Bootstrap Shell
+      - name: vcpkg Install
         run: |
-          ln -s nlp-engine/vcpkg* .
-          cd vcpkg
-          bash bootstrap-vcpkg.sh
+          git clone --depth 1 https://github.com/Microsoft/vcpkg.git
+          ./vcpkg/bootstrap-vcpkg.sh
+          ./vcpkg/vcpkg install icu
 
       - name: Install autoconf-archive
         run: sudo apt-get install -y autoconf-archive
 
-      - name: Install 3rd Party
-        run: ./vcpkg install
-        working-directory: vcpkg
-        
       - name: Build wheels
         uses: pypa/cibuildwheel@v2.16.2
         env:

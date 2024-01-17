@@ -87,15 +87,11 @@ you to test changes as you make them:
     pip install --no-build-isolation -ve .
 
 If you were not able to install ICU above (such as on MacOS), you have
-to use vcpkg.  For whatever reason, it cannot work from the
-`nlp-engine` submodule and has to be at the top level of the build, so
-grab it from there:
+to use vcpkg:
 
-    ln -s nlp-engine/vcpkg* .
-    cd vcpkg
-    sh bootstrap-vcpkg.sh
-    ./vcpkg install
-    cd ..
+    git clone --depth 1 https://github.com/Microsoft/vcpkg.git
+    ./vcpkg/bootstrap-vcpkg.sh
+    ./vcpkg/vcpkg install icu
     pip install --no-build-isolation \
         -C cmake.args=-DCMAKE_TOOLCHAIN_FILE='./nlp-engine/vcpkg/scripts/buildsystems/vcpkg.cmake \
         -ve .
