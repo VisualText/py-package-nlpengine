@@ -4,6 +4,8 @@ Test the basic engine functionality.
 
 from unittest import TestCase, main
 from pathlib import Path
+from shutil import copytree
+from tempfile import TemporaryDirectory
 
 import json
 import logging
@@ -18,8 +20,8 @@ def read_file(path):
         return infh.read()
 
 
-class EngineTest(TestCase):
-    """Test the NLPPlus library"""
+class ModuleTest(TestCase):
+    """Test the NLPPlus module"""
 
     maxDiff = None
 
@@ -29,18 +31,22 @@ class EngineTest(TestCase):
         hello = read_file(DATADIR / "hello.xml")
         self.assertEqual(xml, hello)
 
-    def test_basic(self):
-        """Run the "basic" analyzer and verify that it works."""
-
-        output = NLPPlus.analyze("Hello world!", "basic")
-        # This analyzer does not produce any output :)
-        self.assertEqual(output, "")
-        # Here's a better API!
+    def test_working_dir(self):
+        """Test that set_working_folder works."""
+        tmpdir = TemporaryDirectory(prefix="test-nlpplus")
+        copytree(DATADIR.parent / "analyzers", Path(tmpdir.name) / "analyzers")
+        NLPPlus.set_working_folder(tmpdir.name)
         text = read_file(DATADIR / "basic" / "text.txt")
         results = NLPPlus.engine.analyze(text, "basic")
         self.assertEqual(results.output_text, "")
         final_tree = read_file(DATADIR / "basic" / "text.txt_log" / "final.tree")
         self.assertEqual(final_tree, results.final_tree)
+
+
+class EngineTest(TestCase):
+    """Test the NLPPlus Engine class"""
+
+    maxDiff = None
 
     # FIXME: we have to do this to get them in separate tests, but
     # with pytest we could do a parameterized test case.

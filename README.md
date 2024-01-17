@@ -56,3 +56,30 @@ it at an existing working folder using `set_working_folder`:
 
 This working folder is expected to contain the directories `analyzers`
 and `data`.
+
+## Module Development
+
+This module is built using
+[scikit-build-core](https://scikit-build-core.readthedocs.io/en/latest/index.html)
+and [nanobind](https://nanobind.readthedocs.io/en/latest/index.html).
+To set up for development, make sure you have a C++ compiler that
+works, and clone the source with:
+
+    git clone --recursive-submodules https://github.com/VisualText/py-package-nlpengine.git
+
+For development it is convenient to disable build isolation, so
+install the necessary build dependencies:
+
+    cd py-package-nlpengine
+    pip install -r requirements-dev.txt
+
+Now you can build it as a "writable" install in a virtual environment,
+which will allow you to test changes as you make them:
+
+    python -m venv venv
+    . venv/bin/activate
+    pip install --no-build-isolation -ve .
+
+Verify that it works:
+
+    python -m unittest discover -s tests
