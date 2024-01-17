@@ -1,2 +1,3 @@
 nanobind
-scikit-build-core
+scikit-build-core[pyproject]
+

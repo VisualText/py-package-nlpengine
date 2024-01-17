@@ -12,23 +12,35 @@ on:
 
 jobs:
   build_wheels:
-    name: Build wheels on ${{ matrix.os }}
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
+    name: Build wheels on Linux
+    runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v4
         with:
           submodules: recursive
 
+      - name: Vcpkg Bootstrap Shell
+        run: |
+          ln -s nlp-engine/vcpkg* .
+          cd vcpkg
+          bash bootstrap-vcpkg.sh
+
+      - name: Install autoconf-archive
+        run: sudo apt-get install -y autoconf-archive
+
+      - name: Install 3rd Party
+        run: ./vcpkg install
+        working-directory: vcpkg
+        
       - name: Build wheels
         uses: pypa/cibuildwheel@v2.16.2
+        env:
+          CIBW_CONFIG_SETTINGS: "cmake.args=-DCMAKE_TOOLCHAIN_FILE='./vcpkg/scripts/buildsystems/vcpkg.cmake'"
 
       - uses: actions/upload-artifact@v4
         with:
-          name: cibw-wheels-${{ matrix.os }}-${{ strategy.job-index }}
+          name: cibw-wheels-ubuntu-latest
           path: ./wheelhouse/*.whl
 
   build_sdist:

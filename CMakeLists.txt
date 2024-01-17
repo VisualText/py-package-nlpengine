@@ -7,6 +7,7 @@ include_directories(nlp-engine/include)
 include_directories(nlp-engine/include/Api)
 include_directories(nlp-engine/include/Api/lite)
 include_directories(nlp-engine/include)
+include_directories(${ICU_INCLUDE_DIR})
 
 if(WIN32)
   add_definitions( -DMSVC_VERSION=${MSVC_VERSION} -D_CRT_SECURE_NO_WARNINGS )

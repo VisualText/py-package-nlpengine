@@ -68,18 +68,42 @@ works, and clone the source with:
     git clone --recursive-submodules https://github.com/VisualText/py-package-nlpengine.git
 
 For development it is convenient to disable build isolation, so
-install the necessary build dependencies:
+install the necessary build dependencies.  We suggest doing this in a
+virtual environment:
 
     cd py-package-nlpengine
-    pip install -r requirements-dev.txt
-
-Now you can build it as a "writable" install in a virtual environment,
-which will allow you to test changes as you make them:
-
     python -m venv venv
     . venv/bin/activate
+    pip install -r requirements-dev.txt
+    
+On Linux, generally, you can simply install the ICU development
+libraries system-wide:
+
+    sudo apt install libicu-dev
+    
+Now you can build the module as a "writable" install, which will allow
+you to test changes as you make them:
+
     pip install --no-build-isolation -ve .
+
+If you were not able to install ICU above (such as on MacOS), you have
+to use vcpkg.  For whatever reason, it cannot work from the
+`nlp-engine` submodule and has to be at the top level of the build, so
+grab it from there:
+
+    ln -s nlp-engine/vcpkg* .
+    cd vcpkg
+    sh bootstrap-vcpkg.sh
+    ./vcpkg install
+    cd ..
+    pip install --no-build-isolation \
+        -C cmake.args=-DCMAKE_TOOLCHAIN_FILE='./nlp-engine/vcpkg/scripts/buildsystems/vcpkg.cmake \
+        -ve .
 
 Verify that it works:
 
     python -m unittest discover -s tests
+
+Note that you might get undefined C++ symbols if you are using Python
+from miniconda on Linux.  In this case, please use the system Python
+instead.
