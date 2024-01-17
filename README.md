@@ -29,10 +29,10 @@ instance, you may run:
 
 This will run the `email` analyzer on the text provided.  Where the
 output goes depends entirely on the NLP++ code in the analyzer, but in
-this case you can find it in
+many cases you can find it in
 `analyzers/emailaddress/output/output.json`.  Some other analyzers
-will return XML code from the call to `analyze`.  For more information
-please contact the author of the analyzer in question.
+will also return XML code from the call to `analyze`.  For more
+information please contact the author of the analyzer in question.
 
 If you like, you can also copy the `analyzers` and `data` directories
 to your preferred location, and set the working directory with the

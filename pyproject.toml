@@ -6,8 +6,9 @@ build-backend = "scikit_build_core.build"
 name = "NLPPlus"
 version = "1.1.0"
 authors = [
-    {name = "David De Hilster", email="ddh@visualtext.org"}
+    {name = "David De Hilster", email="contact@visualtext.org"}
 ]
+description = "Python extension for the NLP++ text analysis engine"
 
 [tool.scikit-build]
 build-dir = "build/{wheel_tag}"
