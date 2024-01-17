@@ -1,3 +1,0 @@
-include x64/*.dll
-recursive-include NLPPlus/analyzers *
-recursive-include NLPPlus/data *

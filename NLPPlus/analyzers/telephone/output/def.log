@@ -1,16 +1,0 @@
-Sequence file is:
-dicttok
-NOHASH rule: _LINE [] [] <- _xWILD [0,0 fails=( 
-)] [] _xWILD [1,1 matches=(
- _xEND)] [] @@
-NOHASH rule: _telephone [] [] <- _xWILD [0,0 matches=(+ - 1 ()] [] _xNUM [1,1 pre] [] _xWILD [0,0 matches=() . - _xWHITE)] [] _xNUM [1,1 pre] [] _xWILD [0,0 matches=(. - _xWHITE)] [] _xNUM [1,1 pre] [] @@
-NOHASH rule: _telephone [] [] <- _xWILD [0,0 matches=(+ - 1 ()] [] _xNUM [1,1 pre] [] _xWILD [0,0 matches=() . - _xWHITE)] [] _xNUM [1,1 pre] [] _xWILD [0,0 matches=(. - _xWHITE)] [] _xNUM [1,1 pre] [] @@
-NOHASH rule: _telephone [] [] <- _xWILD [0,0 matches=(+ - 1 ()] [] _xNUM [1,1 pre] [] _xWILD [0,0 matches=() . - _xWHITE)] [] _xNUM [1,1 pre] [] _xWILD [0,0 matches=(. - _xWHITE)] [] _xNUM [1,1 pre] [] @@
-NOHASH rule: _telephone [] [] <- + [0,1] [] _xNUM [1,1] [] @@
-NOHASH rule: _telephone [] [] <- _xWILD [0,0 matches=(+ - 1 91 ()] [] _xNUM [1,1 pre] [] _xWILD [0,0 matches=() . - _xWHITE)] [] _xNUM [1,1 pre] [] @@
-NOHASH rule: _telephone [] [] <- _xNUM [1,1 pre] [] _xWILD [0,0 matches=() . - _xWHITE)] [] _xNUM [1,1 pre] [] _xWILD [0,0 matches=(. - _xWHITE)] [] _xNUM [1,1 pre] [] @@
-NOHASH rule: _telephone [] [] <- _xNUM [1,1 pre] [] _xWILD [0,0 matches=(. - _xWHITE)] [] _xNUM [1,1 pre] [] _xWILD [0,0 matches=(. - _xWHITE)] [] _xNUM [1,1 pre] [] @@
-NOHASH rule: _telephone [] [] <- _xNUM [1,1 pre] [] _xWILD [0,0 matches=(. - _xWHITE)] [] _xNUM [1,1 pre] [] _xWILD [0,0 matches=(. - _xWHITE)] [] _xNUM [1,1 pre] [] @@
-
-Passes: (dicttok,nil) (nlp,KBFuncs) (nlp,funcs) (nlp,kbinit) (nlp,Lines) (nlp,Telep1) (nlp,Telep2) (nlp,kbdisp01) (nlp,output) 
-

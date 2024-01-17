@@ -14,4 +14,8 @@ share/python-wheels/
 *.egg-info/
 .installed.cfg
 *.egg
-/venv
+venv/
+vtrun_logfile.out
+*.exe
+__pycache__
+bin/
