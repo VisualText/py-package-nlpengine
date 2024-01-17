@@ -15,15 +15,19 @@ namespace nb = nanobind;
 using namespace nb::literals;
 
 /**
- * Wrap the analyze() method to have a more Pythonic interface.
+ * Wrap the analyze() method to deal with C++ friction.
  *
  * Takes an analyzer name (presumed to exist in the "analyzers"
  * subdirectory of the working folder) and a string, returns a string.
+ * Note that few analyzers actually return a string, but instead
+ * generally write stuff to the "output" directory in their working
+ * folder.  That gets handled by the Python code in `__init__.py`.
  *
  * The output string gets copied a few times, because C++.
  */
 const std::string
-wrap_analyze(NLP_ENGINE &engine, const std::string &parser, const std::string &input) {
+wrap_analyze(NLP_ENGINE &engine, const std::string &parser,
+             const std::string &input) {
     _TCHAR *_parser = _tcsdup(parser.c_str());
     std::istringstream instream(input);
     std::ostringstream outstream;

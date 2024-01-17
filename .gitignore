@@ -19,3 +19,6 @@ vtrun_logfile.out
 *.exe
 __pycache__
 bin/
+dummy.txt
+*~
+wheelhouse
