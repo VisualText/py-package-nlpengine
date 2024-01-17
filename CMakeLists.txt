@@ -1,4 +1,6 @@
 cmake_minimum_required(VERSION 3.15)
+project(${SKBUILD_PROJECT_NAME} LANGUAGES CXX)
+
 add_subdirectory(nlp-engine)
 include_directories(nlp-engine/cs/include)
 include_directories(nlp-engine/include)
@@ -22,7 +24,7 @@ set_property(TARGET lite PROPERTY POSITION_INDEPENDENT_CODE on)
 find_package(Python 3.8 COMPONENTS Interpreter Development.Module REQUIRED)
 find_package(nanobind CONFIG REQUIRED)
 
-nanobind_add_module(NLPPlus NB_STATIC bindings.cpp)
-target_link_libraries(NLPPlus PRIVATE prim kbm consh words lite)
-install(TARGETS NLPPlus LIBRARY DESTINATION .)
+nanobind_add_module(bindings NB_STATIC bindings.cpp)
+target_link_libraries(bindings PRIVATE prim kbm consh words lite)
+install(TARGETS bindings LIBRARY DESTINATION NLPPlus)
 

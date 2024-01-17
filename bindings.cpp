@@ -1,6 +1,7 @@
 #include <cstring>
 #include <cstdlib>
 
+#include <nanobind/eval.h>
 #include <nanobind/nanobind.h>
 #include <nanobind/stl/string.h>
 
@@ -32,10 +33,24 @@ wrap_analyze(NLP_ENGINE &engine, const std::string &parser, const std::string &i
     return outstream.str();
 }
 
-NB_MODULE(NLPPlus, m) {
-    nb::class_<NLP_ENGINE>(m, "Engine")
+NB_MODULE(bindings, m) {
+    /* Amazingly, this circular import actually works. */
+    nb::object scope = nb::module_::import_("NLPPlus").attr("__dict__");
+    nb::str thisdir = nb::str(nb::eval("THISDIR", scope));
+
+    nb::class_<NLP_ENGINE>(m, "Engine",
+                           "Instance of the NLP++ Engine.\n\n"
+                           "The working folder (expected to contain the\n"
+                           "`analyzers` and `data` folders) is set to the\n"
+                           "installed package by default but can be changed\n"
+                           "by passing a path to the constructor.")
         .def(nb::init<std::string, bool>(),
-             "workingFolder"_a = ".",
+             "workingFolder"_a = thisdir,
              "silent"_a = true)
-        .def("analyze", &wrap_analyze);
+        .def("analyze", &wrap_analyze,
+             "parser"_a, "input"_a,
+             "Analyze `input` with `parser`.\n"
+             "The `parser` argument refers to an analyzer contained in the\n"
+             "`analyzers` folder inside the workingFolder used to create\n"
+             "this `Engine` instance.");
 }
