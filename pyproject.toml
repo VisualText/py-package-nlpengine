@@ -20,12 +20,8 @@ build = [
       "cp312-*",
 ]
 skip = [
-     "cp*-macosx_x86_64",
      "cp*-macosx_arm64",
      "*_i686",
      "*musl*",
      "*-win32",
 ]
-
-[tool.cibuildwheel.macos]
-archs = ["x86_64", "universal2", "arm64"]
