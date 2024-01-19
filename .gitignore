@@ -22,3 +22,4 @@ bin/
 dummy.txt
 *~
 wheelhouse
+NLPPlus/_version.py
