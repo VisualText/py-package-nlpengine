@@ -1,3 +1,4 @@
 nanobind
 scikit-build-core[pyproject]
-
+cmake
+setuptools_scm

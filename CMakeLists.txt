@@ -1,6 +1,10 @@
 cmake_minimum_required(VERSION 3.15)
 project(${SKBUILD_PROJECT_NAME} LANGUAGES CXX)
 
+if(NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/nlp-engine)
+  message(FATAL_ERROR "Could not find nlp-engine in source directory.  Did you run `git submodule update --init`?")
+endif()
+
 add_subdirectory(nlp-engine)
 include_directories(nlp-engine/cs/include)
 include_directories(nlp-engine/include)
