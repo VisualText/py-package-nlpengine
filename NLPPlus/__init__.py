@@ -10,18 +10,18 @@ Basic usage:
 
 import json
 import logging
-from shutil import copytree
+from shutil import copytree, rmtree
 from tempfile import TemporaryDirectory
 from os import PathLike, getcwd
 from pathlib import Path
 from typing import Optional, Any
 
-from .bindings import NLP_ENGINE
+from .bindings import NLP_ENGINE  # type: ignore
 
 LOGGER = logging.getLogger("NLPPlus")
 
 
-def maybe_readfile(path: Path):
+def maybe_readfile(path: Path) -> Optional[str]:
     """Bogus utility function to maybe read a file."""
     if not path.exists():
         return None
@@ -77,16 +77,15 @@ class Engine:
 
     def analyze(self, text: str, analyzer_name: str) -> Results:
         """Analyze text with the named analyzer."""
+        outdir = self.working_folder / "analyzers" / analyzer_name / "output"
         outtext = self.engine.analyze(analyzer_name, text)
-        return Results(
-            outtext, self.working_folder / "analyzers" / analyzer_name / "output"
-        )
+        return Results(outtext, outdir)
 
 
 engine = Engine()
 
 
-def set_working_folder(working_folder: str = None):
+def set_working_folder(working_folder: Optional[str] = None):
     """Reinitialize the NLP++ engine with a different working folder.
 
     Args:
@@ -97,7 +96,7 @@ def set_working_folder(working_folder: str = None):
     global engine
     if working_folder is None:
         working_folder = getcwd()
-    engine = Engine(working_folder)
+    engine = Engine(Path(working_folder))
 
 
 def analyze(str: str, parser: str = "parse-en-us"):
