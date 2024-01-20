@@ -33,7 +33,8 @@
 		{
 		"emailadd-id":"5",
 		"local":"alice.smith",
-		"domainname":"dept.departmentname.university"
+		"domainname":"dept.departmentname.university",
+		"country":"UnitedKingdom"
 	},
 		{
 		"emailadd-id":"6",
@@ -50,12 +51,18 @@
 		{
 		"emailadd-id":"8",
 		"local":"user_name",
-		"domainname":"subdomain.co.uk"
+		"domainname":"subdomain",
+		"tld":"co",
+		"cd":"uk",
+		"country":"UnitedKingdom"
 	},
 		{
 		"emailadd-id":"9",
 		"local":"kenethfpp",
-		"domainname":"mails.yahoo.uk"
+		"domainname":"mails",
+		"tld":"yahoo",
+		"cd":"uk",
+		"country":"UnitedKingdom"
 	},
 		{
 		"emailadd-id":"10",
@@ -78,7 +85,10 @@
 		{
 		"emailadd-id":"13",
 		"local":"jane_doe",
-		"domainname":"outlook.co.uk"
+		"domainname":"outlook",
+		"tld":"co",
+		"cd":"uk",
+		"country":"UnitedKingdom"
 	},
 		{
 		"emailadd-id":"14",
@@ -129,24 +139,48 @@
 	},
 		{
 		"emailadd-id":"22",
+		"local":"webmaster",
+		"domainname":"emailserver",
+		"tld":"biz"
+	},
+		{
+		"emailadd-id":"23",
 		"local":"no_reply",
 		"domainname":"noreply-domain",
 		"tld":"info"
 	},
 		{
-		"emailadd-id":"23",
+		"emailadd-id":"24",
 		"local":"admin",
 		"domainname":"server123",
 		"tld":"net"
 	},
 		{
-		"emailadd-id":"24",
+		"emailadd-id":"25",
+		"local":"test.email",
+		"domainname":"emailprovider",
+		"tld":"co"
+	},
+		{
+		"emailadd-id":"26",
 		"local":"marketing.department",
 		"domainname":"email",
 		"tld":"org"
 	},
 		{
-		"emailadd-id":"25",
+		"emailadd-id":"27",
+		"local":"me",
+		"domainname":"myname",
+		"tld":"me"
+	},
+		{
+		"emailadd-id":"28",
+		"local":"contact-sales",
+		"domainname":"email-service",
+		"tld":"io"
+	},
+		{
+		"emailadd-id":"29",
 		"local":"support",
 		"domainname":"customer-service",
 		"tld":"pro"
