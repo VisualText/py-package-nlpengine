@@ -73,16 +73,14 @@ jobs:
         with:
           submodules: true
 
-      - name: vcpkg checkout
-        run: git clone --depth 1 https://github.com/Microsoft/vcpkg.git
-
-      - name: Vcpkg bootstrap Windows
-        run: bootstrap-vcpkg.bat
-        working-directory: vcpkg
-
-      - name: Install 3rd Party
-        run: vcpkg install
-        working-directory: vcpkg
+      - name: vcpkg build
+        id: vcpkg
+        uses: johnwason/vcpkg-action@v6
+        with:
+          manifest-dir: ${{ github.workspace }}
+          triplet: x64-windows-release
+          token: ${{ github.token }}
+          github-binarycache: true
 
       - name: Build wheels
         uses: pypa/cibuildwheel@v2.16.2

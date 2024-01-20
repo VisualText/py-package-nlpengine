@@ -23,3 +23,5 @@ dummy.txt
 *~
 wheelhouse
 NLPPlus/_version.py
+vcpkg_installed/
+vcpkg/
