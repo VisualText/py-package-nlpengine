@@ -1,13 +1,24 @@
 # NLPPlus
 
-This is a Python package for the NLP++ engine. You can find detailed
-documentation about nlp-engine at
-https://github.com/VisualText/nlp-engine.
+NLPPlus is the first 100% customizable NLP package for Python. NLPPlus
+uses the [open-source NLP Engine](https://github.com/VisualText/nlp-engine).
+Unlike other NLP packages which are black boxes, NLPPlus analyzers are
+100% NLP++ code that can be modified. NLPPlus comes with four starter
+analyzers: telephone numbers, links, emails, and a full English parser.
 
-The NLP++ engine is a 100% editable engine for natural language
-processing - no black boxes!  This module allows you to integrate
-NLP++ with your Python code.
+If for example, the telephone number analyzer is not working properly for your
+application, you can use the [NLP++ VSCode extension](http://vscode.visualtect.org)
+to edit and test the NLP++ code, and then use updated code instantly. Universities
+around the world are starting to use NLP++ to write human digital readers for
+[many different applications](https://nluglob.org/category/projects/).
 
+## Learn More About NLP++
+
+* [Lectures on NLP++ by NLP++ co-author David de Hilster](http://talks.visualtext.org)
+* [YouTube tutorials on NLP++](http://tutorials.visualtext.org)
+* [VisualText website](http://visualtext.org)
+* [Natural Language Understanding Global Initiative website](http://nluglob.org)
+ 
 ## Requirements 
 
 * Python 3.8
