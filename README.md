@@ -25,8 +25,8 @@ around the world are starting to use NLP++ to write human digital readers for
 
 ## Installation
 
-NLPPlus should be installable from PyPI using pip.  If your platform
-is not supported you can also compile it from source, which will
+Approval is still waiting to be able to install NLPPlus using PyPI using pip.
+If your platform is not supported you can also compile it from source, which will
 require a working C++ compiler.
 
 We suggest you use a virtual environment to install NLPPlus:
