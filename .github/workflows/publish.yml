@@ -36,7 +36,8 @@ jobs:
 
   build_wheels_macos:
     name: Build wheels on MacOS
-    runs-on: macos-latest
+    # Otherwise people with older Macs are out of luck
+    runs-on: macos-12
     # Uncomment for testing
     # if: false
 
