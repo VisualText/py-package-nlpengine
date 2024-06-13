@@ -33,6 +33,13 @@ point you can simply run:
 For the moment, you can find the installable "wheel" files under each
 release in the [Releases
 page](https://github.com/VisualText/py-package-nlpengine/releases/).
+Choose the correct version for your platform and Python version based
+on the filename, for instance, wheels for Python 3.12 and MacOS will
+have `cp312` and `macos` in the filename, for Windows you will find
+`cp312` and `win`, and for Linux `linux`.  These files can be
+installed with `pip` on the command line, for example:
+
+    pip install nlpplus-0.1.2-cp310-cp310-win_amd64.whl
 
 For the most recent version you can also download them from [the
 GitHub actions
@@ -54,7 +61,7 @@ will see a file with a name like
 means Python 3.10.  For Python 3.12 it would be `cp312`, and so forth.
 You can install this file with `pip`:
 
-    pip install nlpplus-0.1.dev1+g55d691d-cp310-cp310-win_amd64.whl
+    pip install nlpplus-0.1.2-cp310-cp310-win_amd64.whl
     
 For specific instructions on setting up Python on your platform please
 consult the Python documentation.
