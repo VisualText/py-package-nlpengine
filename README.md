@@ -30,8 +30,12 @@ point you can simply run:
 
     pip install nlpplus
 
-For the moment, you can download the installable "wheel" files
-for your platform from [the GitHub actions
+For the moment, you can find the installable "wheel" files under each
+release in the [Releases
+page](https://github.com/VisualText/py-package-nlpengine/releases/).
+
+For the most recent version you can also download them from [the
+GitHub actions
 page](https://github.com/VisualText/py-package-nlpengine/actions/workflows/publish.yml?query=is%3Asuccess).
 Click on the link at the top of the list of "workflow run results"
 under "Build and upload to PyPI".  After scrolling to the bottom of
@@ -181,3 +185,13 @@ Verify that it works:
 Note that you might get undefined C++ symbols if you are using Python
 from miniconda on Linux.  In this case, please use the system Python
 instead.
+
+## Making a release
+
+For developer reference: the release process is managed using GitHub
+actions.  To make a release from the `main` branch, make a tag of the
+form `vX.Y` (e.g. `v0.1.3`) and push the tag and the branch:
+
+    git tag v0.1.3
+    git push --follow-tags
+    

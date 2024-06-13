@@ -37,10 +37,9 @@ jobs:
 
   build_wheels_macos:
     name: Build wheels on MacOS
-    # Older MacOS has some issues with nanobind
-    runs-on: macos-11
+    runs-on: macos-latest
     # Uncomment for testing
-    # if: false
+    if: false
 
     steps:
       - uses: actions/checkout@v4
@@ -68,7 +67,7 @@ jobs:
     name: Build wheels on Windows
     runs-on: windows-latest
     # Uncomment for testing
-    # if: false
+    if: false
 
     steps:
       - uses: actions/checkout@v4
