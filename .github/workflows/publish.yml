@@ -113,6 +113,25 @@ jobs:
           name: cibw-sdist
           path: dist/*.tar.gz
 
+  release:
+    name: Make release
+    needs:
+      - build_wheels_linux
+      - build_sdist
+      - build_wheels_windows
+      - build_wheels_macos
+    if: github.event_name == 'release' && github.event.action == 'published'
+    steps:
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+        with:
+          # unpacks all CIBW artifacts into dist/
+          pattern: cibw-*
+          merge-multiple: true
+      - name: Release
+        uses: softprops/action-gh-release@v2
+        files: cibw-*
+
   upload_pypi:
     needs:
       - build_wheels_linux
