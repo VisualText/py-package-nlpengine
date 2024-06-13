@@ -16,6 +16,8 @@ jobs:
   build_wheels_linux:
     name: Build wheels on Linux
     runs-on: ubuntu-latest
+    # Uncomment for testing
+    if: false
 
     steps:
       - uses: actions/checkout@v4
@@ -118,9 +120,9 @@ jobs:
     name: Make release
     runs-on: ubuntu-latest
     needs:
-      - build_wheels_linux
       - build_sdist
-      # Comment the next two for testing
+      # Comment the next ones for testing
+      # - build_wheels_linux
       # - build_wheels_windows
       # - build_wheels_macos
     if: startsWith(github.ref, 'refs/tags/')
@@ -130,11 +132,14 @@ jobs:
         with:
           # unpacks all CIBW artifacts into dist/
           pattern: cibw-*
+          path: dist
           merge-multiple: true
+      - name: List
+        run: find
       - name: Release
         uses: softprops/action-gh-release@v2
         with:
-          files: cibw-*
+          files: dist/cibw-*
 
   upload_pypi:
     needs:
@@ -150,8 +155,10 @@ jobs:
     # environment: testpypi
     permissions:
       id-token: write
-    # Comment this line for testing
-    if: github.event_name == 'release' && github.event.action == 'published'
+    # Comment this once we have PyPI authorization
+    if: false
+    # Uncomment this once we have PyPI authorization
+    # if: startsWith(github.ref, 'refs/tags/')
     steps:
       - uses: actions/download-artifact@v4
         with:
