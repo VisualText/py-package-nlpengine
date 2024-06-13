@@ -25,10 +25,14 @@ around the world are starting to use NLP++ to write human digital readers for
 
 ## Installation
 
+### Future Installation (waiting for approval)
+
 NLPPlus should eventually be installable from PyPI using pip, at which
 point you can simply run:
 
     pip install nlpplus
+
+### Installing By Downloading the Package (currently the only method)
 
 For the moment, you can find the installable "wheel" files under each
 release in the [Releases
