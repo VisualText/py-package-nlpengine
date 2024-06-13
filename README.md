@@ -189,9 +189,10 @@ instead.
 ## Making a release
 
 For developer reference: the release process is managed using GitHub
-actions.  To make a release from the `main` branch, make a tag of the
-form `vX.Y` (e.g. `v0.1.3`) and push the tag and the branch:
+actions.  To make a release from the `main` branch, make an
+*annotated* tag (with `-m` and `-a`, this is important) of the form
+`vX.Y` or `vX.Y.Z` (e.g. `v0.1.3`) and push the tag and the branch:
 
-    git tag v0.1.3
+    git tag -m 'Release 0.1.3' -a v0.1.3
     git push --follow-tags
     
