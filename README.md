@@ -10,19 +10,43 @@ NLP++ with your Python code.
 
 ## Requirements 
 
-* Python 3.8
+* Python 3.10 or newer
 
 ## Installation
 
-NLPPlus should be installable from PyPI using pip.  If your platform
-is not supported you can also compile it from source, which will
-require a working C++ compiler.
+NLPPlus should eventually be installable from PyPI using pip, at which
+point you can simply run:
 
-We suggest you use a virtual environment to install NLPPlus:
+    pip install nlpplus
 
-    python -m venv nlpplus-venv
-    . nlpplus-venv/bin/activate
-    pip install .
+For the moment, you can download the installable "wheel" files
+for your platform from [the GitHub actions
+page](https://github.com/VisualText/py-package-nlpengine/actions/workflows/publish.yml?query=is%3Asuccess).
+Click on the link at the top of the list of "workflow run results"
+under "Build and upload to PyPI".  After scrolling to the bottom of
+the page, you should see a section marked "Artifacts".  Click on the
+appropriate link for your platform:
+
+- For Linux: `cibw-wheels-linux`
+- For MacOS 11 and later: `cibw-wheels-macos`
+- For Windows 10 and later: `cibw-wheels-windows`
+
+This will download a ZIP file containing installation files for each
+supported version of Python on your platform.  The version number is
+shown in the filename, for instance, for Python 3.10 on Windows you
+will see a file with a name like
+`nlpplus-0.1.dev1+g55d691d-cp310-cp310-win_amd64.whl` - the `cp310`
+means Python 3.10.  For Python 3.12 it would be `cp312`, and so forth.
+You can install this file with `pip`:
+
+    pip install nlpplus-0.1.dev1+g55d691d-cp310-cp310-win_amd64.whl
+    
+For specific instructions on setting up Python on your platform please
+consult the Python documentation.
+
+If your platform is not supported you can also compile it from source,
+which will require a working C++ compiler.  See the platform specific
+instructions below for the requirements to build.
 
 ## Using the Library
 
@@ -134,7 +158,8 @@ necessary to build a wheel file and "repair" it with
 [delvewheel](https://pypi.org/project/delvewheel/) to package the DLLs
 correctly, then install that wheel.
 
-If that sounds like too much trouble then just install from PyPI.
+If that sounds like too much trouble then just install from PyPI or
+the wheel files [as described above](#Installation)
 
 ### Testing
 

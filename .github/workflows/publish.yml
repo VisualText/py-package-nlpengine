@@ -24,6 +24,7 @@ jobs:
         uses: pypa/cibuildwheel@v2.16.2
         env:
           CIBW_BUILD_VERBOSITY: 3
+          # Note use of yum because anylinux is ancient CentOS
           CIBW_BEFORE_ALL: "yum install -y libicu-devel"
           CIBW_CONFIG_SETTINGS: "cmake.args=-DCMAKE_BUILD_TYPE=Release"
           # Uncomment for testing
@@ -31,11 +32,12 @@ jobs:
 
       - uses: actions/upload-artifact@v4
         with:
-          name: cibw-wheels-ubuntu-latest
+          name: cibw-wheels-linux
           path: ./wheelhouse/*.whl
 
   build_wheels_macos:
     name: Build wheels on MacOS
+    # Older MacOS has some issues with nanobind
     runs-on: macos-11
     # Uncomment for testing
     # if: false
@@ -59,7 +61,7 @@ jobs:
 
       - uses: actions/upload-artifact@v4
         with:
-          name: cibw-wheels-macos-latest
+          name: cibw-wheels-macos
           path: ./*.whl
 
   build_wheels_windows:
@@ -92,7 +94,7 @@ jobs:
 
       - uses: actions/upload-artifact@v4
         with:
-          name: cibw-wheels-windows-latest
+          name: cibw-wheels-windows
           path: ./wheelhouse/*.whl
 
   build_sdist:
