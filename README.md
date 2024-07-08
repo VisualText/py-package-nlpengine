@@ -95,7 +95,7 @@ default.  You will have to use the extended API to get the parse tree
 or JSON output from them:
 
     import NLPPlus
-    results = NLPPlus.engine.analyze("Reach me at hello@example.com")
+    results = NLPPlus.engine.analyze("Reach me at hello@example.com","emailaddress")
     parsed_address = results.output["email_address"][0]
     parse_tree = results.final_tree
 
