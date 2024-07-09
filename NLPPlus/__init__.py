@@ -10,7 +10,7 @@ Basic usage:
 
 import json
 import logging
-from shutil import copytree, rmtree
+from shutil import copytree
 from tempfile import TemporaryDirectory
 from os import PathLike, getcwd
 from pathlib import Path
@@ -27,6 +27,10 @@ def maybe_readfile(path: Path) -> Optional[str]:
         return None
     with open(path, "rt") as infh:
         return infh.read()
+
+
+class EngineException(BaseException):
+    pass
 
 
 class Results:
@@ -58,20 +62,31 @@ class Results:
 
 class Engine:
     def __init__(
-        self, working_folder: Optional[PathLike] = None, verbose: bool = False
+        self,
+        working_folder: Optional[PathLike] = None,
+        verbose: bool = False,
+        initialize: bool = False,
     ):
-        if working_folder is not None:
-            self.working_folder = Path(working_folder)
-            self.tmpdir = None
-        else:
+        if working_folder is None:
             self.tmpdir = TemporaryDirectory(prefix="NLPPlus-")
             self.working_folder = Path(self.tmpdir.name)
+            initialize = True
+        else:
+            self.tmpdir = None
+            self.working_folder = Path(working_folder)
+        if initialize:
             copytree(
                 Path(__file__).parent / "analyzers", self.working_folder / "analyzers"
             )
             copytree(Path(__file__).parent / "data", self.working_folder / "data")
-            LOGGER.info(
-                "Initialized temporary working folder in %s", self.working_folder
+            LOGGER.info("Initialized working folder in %s", self.working_folder)
+        if not (self.working_folder / "analyzers").is_dir():
+            raise EngineException(
+                f"analyzers directory not found in folder '{working_folder}'"
+            )
+        if not (self.working_folder / "data").is_dir():
+            raise EngineException(
+                f"data directory not found in folder '{working_folder}'"
             )
         self.engine = NLP_ENGINE(str(self.working_folder), silent=not verbose)
 
@@ -85,18 +100,20 @@ class Engine:
 engine = Engine()
 
 
-def set_working_folder(working_folder: Optional[str] = None):
+def set_working_folder(working_folder: Optional[str] = None, initialize: bool = False):
     """Reinitialize the NLP++ engine with a different working folder.
 
     Args:
 
       working_folder(str): Working folder to use, or `None` to use the
                            current working directory.
+      initialize(bool): Initialize the new working folder with the built-in
+                        analyzers and data.  (Optional, default=False)
     """
     global engine
     if working_folder is None:
         working_folder = getcwd()
-    engine = Engine(Path(working_folder))
+    engine = Engine(Path(working_folder), initialize=initialize)
 
 
 def analyze(str: str, parser: str = "parse-en-us"):
