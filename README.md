@@ -110,7 +110,11 @@ it at an existing working folder using `set_working_folder`:
     NLPPlus.set_working_folder("somewhere/else")
 
 This working folder is expected to contain the directories `analyzers`
-and `data`.
+and `data`.  If you wish to initialize a new working folder with the
+default analyzers and data, you can pass `initialize=True`:
+
+    import NLPPlus
+    NLPPlus.set_working_folder("somewhere/else", initialize=True)
 
 ## Module Development
 
