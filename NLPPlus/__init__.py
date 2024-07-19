@@ -61,6 +61,19 @@ class Results:
 
 
 class Engine:
+    """NLP++ Engine for a given working folder.
+
+    Args:
+
+      working_folder(optional, PathLike): Working folder for this
+           instance.  If None, a temporary directory will be created
+           and initialized with the default analyzers.  Otherwise,
+           this must contain an `analyzers` and a `data` folder,
+           unless `initialize` is `True`.
+      verbose(optional, bool): Be more verbose.
+      initialize(optional, bool): Initialize `working_folder` with
+           the default analyzers.
+    """
     def __init__(
         self,
         working_folder: Optional[PathLike] = None,
