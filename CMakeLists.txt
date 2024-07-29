@@ -10,7 +10,6 @@ include_directories(nlp-engine/cs/include)
 include_directories(nlp-engine/include)
 include_directories(nlp-engine/include/Api)
 include_directories(nlp-engine/include/Api/lite)
-include_directories(nlp-engine/include)
 include_directories(${ICU_INCLUDE_DIR})
 
 if(WIN32)
