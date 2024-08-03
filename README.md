@@ -3,7 +3,7 @@
 NLPPlus is the first 100% customizable NLP package for Python. NLPPlus
 uses the [open-source NLP Engine](https://github.com/VisualText/nlp-engine).
 Unlike other NLP packages which are black boxes, NLPPlus analyzers are
-100% NLP++ code that can be modified. NLPPlus comes with four starter
+100% NLP++ code that can be modified. NLPPlus comes with five starter
 analyzers: telephone numbers, links, emails, and a full English parser.
 
 If for example, the telephone number analyzer is not working properly for your
