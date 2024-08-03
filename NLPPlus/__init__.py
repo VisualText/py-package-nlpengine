@@ -77,6 +77,7 @@ class Engine:
     def __init__(
         self,
         working_folder: Optional[PathLike] = None,
+        analyzer_name: str = "parse-en-us",
         verbose: bool = False,
         initialize: bool = False,
     ):
@@ -105,10 +106,18 @@ class Engine:
 
     def analyze(self, text: str, analyzer_name: str) -> Results:
         """Analyze text with the named analyzer."""
+        self.analyzer_name = analyzer_name
         outdir = self.working_folder / "analyzers" / analyzer_name / "output"
         outtext = self.engine.analyze(analyzer_name, text)
         return Results(outtext, outdir)
-
+    
+    def input_text(self, analyzer_name: str, file_name: str) -> str:
+        """Return the text from a file in the input directory."""
+        file_path: str = self.working_folder / "analyzers" / analyzer_name / "input" / file_name
+        with open(file_path, "rt", encoding="utf-8") as file:
+            text = file.read()
+        return text
+    
 
 engine = Engine()
 
@@ -132,3 +141,8 @@ def set_working_folder(working_folder: Optional[str] = None, initialize: bool = 
 def analyze(str: str, parser: str = "parse-en-us"):
     """Run the analyzer named on the input string."""
     return engine.analyze(str, parser).output_text
+
+
+def input_text(analyzer_name: str, file_name: str):
+    """Return the text from a file in the input directory."""
+    return engine.intput_text(analyzer_name, file_name)
