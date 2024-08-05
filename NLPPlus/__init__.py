@@ -77,7 +77,7 @@ class Engine:
     def __init__(
         self,
         working_folder: Optional[PathLike] = None,
-        analyzer_name: str = "parse-en-us",
+        analyzer_path: str = None,
         verbose: bool = False,
         initialize: bool = False,
     ):
@@ -88,6 +88,7 @@ class Engine:
         else:
             self.tmpdir = None
             self.working_folder = Path(working_folder)
+        self.analyzer_path = None
         if initialize:
             copytree(
                 Path(__file__).parent / "analyzers", self.working_folder / "analyzers"
@@ -106,17 +107,28 @@ class Engine:
 
     def analyze(self, text: str, analyzer_name: str) -> Results:
         """Analyze text with the named analyzer."""
-        self.analyzer_name = analyzer_name
+        analyzer_name = Path(analyzer_name)
         outdir = self.working_folder / "analyzers" / analyzer_name / "output"
-        outtext = self.engine.analyze(analyzer_name, text)
+        if self.analyzer_path:
+            analyzer_name = Path(self.analyzer_path) / analyzer_name
+            outdir = Path(self.analyzer_path) / "analyzers" / analyzer_name / "output"
+        outtext = self.engine.analyze(str(analyzer_name), text)
         return Results(outtext, outdir)
     
     def input_text(self, analyzer_name: str, file_name: str) -> str:
         """Return the text from a file in the input directory."""
-        file_path: str = self.working_folder / "analyzers" / analyzer_name / "input" / file_name
+        file_path = Path(self.analyzer_path) / analyzer_name / "input" / file_name
+        if not file_path.is_file():
+            raise EngineException(
+                f"File not found in input directory '{file_path}'"
+            )
         with open(file_path, "rt", encoding="utf-8") as file:
             text = file.read()
         return text
+    
+    def set_analyzers_folder(self, analyzer_name: str):
+        """Set analyzers directory path."""
+        self.analyzer_path = analyzer_name
     
 
 engine = Engine()
@@ -136,6 +148,11 @@ def set_working_folder(working_folder: Optional[str] = None, initialize: bool = 
     if working_folder is None:
         working_folder = getcwd()
     engine = Engine(Path(working_folder), initialize=initialize)
+
+
+def set_analyzers_folder(analyzer_folder_path: str):
+    """Run the analyzer named on the input string."""
+    engine.set_analyzers_folder(analyzer_folder_path)
 
 
 def analyze(str: str, parser: str = "parse-en-us"):

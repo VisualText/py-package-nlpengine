@@ -13,7 +13,7 @@ import logging
 import NLPPlus
 
 DATADIR = Path(__file__).parent / "data"
-ANADATADIR = Path(__file__).parent.parent / "NLPPlus" / "data"
+NLPPLUSDIR = Path(__file__).parent.parent / "NLPPlus"
 
 
 def read_file(path):
@@ -36,7 +36,7 @@ class ModuleTest(TestCase):
         """Test that set_working_folder works."""
         tmpdir = TemporaryDirectory(prefix="test-nlpplus")
         copytree(DATADIR.parent / "analyzers", Path(tmpdir.name) / "analyzers")
-        copytree(ANADATADIR, Path(tmpdir.name) / "data")
+        copytree(NLPPLUSDIR / "data", Path(tmpdir.name) / "data")
         NLPPlus.set_working_folder(tmpdir.name)
         text = read_file(DATADIR / "basic" / "text.txt")
         results = NLPPlus.engine.analyze(text, "basic")
