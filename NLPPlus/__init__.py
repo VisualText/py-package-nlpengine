@@ -15,6 +15,8 @@ from tempfile import TemporaryDirectory
 from os import PathLike, getcwd
 from pathlib import Path
 from typing import Optional, Any
+import os
+import glob
 
 from .bindings import NLP_ENGINE  # type: ignore
 
@@ -112,6 +114,10 @@ class Engine:
         if self.analyzer_path:
             analyzer_name = Path(self.analyzer_path) / analyzer_name
             outdir = Path(self.analyzer_path) / "analyzers" / analyzer_name / "output"
+        # Delete all files in the outdir
+        file_list = glob.glob(str(outdir / "*"))
+        for file_path in file_list:
+            os.remove(file_path)
         outtext = self.engine.analyze(str(analyzer_name), text)
         return Results(outtext, outdir)
     
