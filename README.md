@@ -1,6 +1,6 @@
 # NLPPlus
 
-## <span style='color:red'>READ FIRST</span>
+## $${\textsf{\color{red}READ FIRST}}$$
 
 Current NLP python packages have the "intention" of being plug-and-play
 systems that perform natural language tasks without modification. The
@@ -21,7 +21,7 @@ any non-NLP coder to become a computational linguist using the NLP++ VSCode
 Language Extension appropriately called "VisualText". The VisualText
 extension allows for the visualization of any NLP process. Coders can "see"
 the syntactic parse tree along each step of the process, see rule matches
-directly in the ext, and print out the knowledge base at any point in the
+directly in the text, and print out the knowledge base at any point in the
 process. Plus, dictionaries and knowledge bases are human readable unlike
 json files or databases.
 
