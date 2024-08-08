@@ -1,6 +1,6 @@
 # NLPPlus
 
-## <## <span style='color:red'>READ FIRST</span>
+## <span style='color:red'>READ FIRST</span>
 
 Current NLP python packages have the "intention" of being plug-and-play
 systems that perform natural language tasks without modification. The
