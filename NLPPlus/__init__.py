@@ -10,7 +10,7 @@ Basic usage:
 
 import json
 import logging
-from shutil import copytree
+from shutil import copytree, rmtree
 from tempfile import TemporaryDirectory
 from os import PathLike, getcwd
 from pathlib import Path
@@ -135,7 +135,23 @@ class Engine:
     def set_analyzers_folder(self, analyzer_name: str):
         """Set analyzers directory path."""
         self.analyzer_path = analyzer_name
-    
+
+    def copy_library_analyzers(self, to_dir: str, overwrite: bool=True):
+        """Copy the library files to a directory."""
+        copy_it = True
+
+        if os.path.exists(to_dir):
+            if overwrite:
+                rmtree(to_dir)
+            else:
+                copy_it = False
+
+        if copy_it:
+            copytree(
+                Path(__file__).parent / "analyzers", Path(to_dir)
+            )
+        self.analyzer_path = str(to_dir)
+
 
 engine = Engine()
 
@@ -156,14 +172,19 @@ def set_working_folder(working_folder: Optional[str] = None, initialize: bool = 
     engine = Engine(Path(working_folder), initialize=initialize)
 
 
+def copy_library_analyzers(analyzer_folder_path: str, overwrite=True):
+    """Run the analyzer named on the input string."""
+    engine.copy_library_analyzers(analyzer_folder_path, overwrite)
+
+
 def set_analyzers_folder(analyzer_folder_path: str):
     """Run the analyzer named on the input string."""
     engine.set_analyzers_folder(analyzer_folder_path)
 
 
-def analyze(str: str, parser: str = "parse-en-us"):
+def analyze(text: str, parser: str = "parse-en-us"):
     """Run the analyzer named on the input string."""
-    return engine.analyze(str, parser).output_text
+    return engine.analyze(text, parser).output_text
 
 
 def input_text(analyzer_name: str, file_name: str):
