@@ -1,10 +1,33 @@
 # NLPPlus
 
-NLPPlus is the first 100% customizable NLP package for Python. NLPPlus
-uses the [open-source NLP Engine](https://github.com/VisualText/nlp-engine).
-Unlike other NLP packages which are black boxes, NLPPlus analyzers are
-100% NLP++ code that can be modified. NLPPlus comes with five starter
-analyzers: telephone numbers, links, emails, and a full English parser.
+## <## <span style='color:red'>READ FIRST</span>
+
+Current NLP python packages have the "intention" of being plug-and-play
+systems that perform natural language tasks without modification. The
+problem is that when these systems ultimately fail in critical situations,
+coders are left with no real way to fix these systems and they are quickly
+abandoned.
+
+The problem is that most all of these packages rely on statistical methods
+such as machine learning or neural networks, or in the simpler cases, they
+rely on Regex. Statistical systems cannot logically be corrected and Regex
+is extremely limited and unreadable and impossible to maintain or extend.
+Plus, these systems offer little if any means to modify them even though
+every NLP task is slightly different in important ways.
+
+The NLPPlus Python Package is different from all other NLP Python packages.
+All its analyzers are 100% human readable and modifiable code that allows
+any non-NLP coder to become a computational linguist using the NLP++ VSCode
+Language Extension appropriately called "VisualText". The VisualText
+extension allows for the visualization of any NLP process. Coders can "see"
+the syntactic parse tree along each step of the process, see rule matches
+directly in the ext, and print out the knowledge base at any point in the
+process. Plus, dictionaries and knowledge bases are human readable unlike
+json files or databases.
+
+NLPPlus comes with five starter analyzers: telephone numbers, links, emails,
+addresses, and a full English parser. And because NLP++ is a glassbox, all
+analyzers can easily be modified by any coder.
 
 If for example, the telephone number analyzer is not working properly for your
 application, you can use the [NLP++ VSCode extension](http://vscode.visualtect.org)
@@ -23,7 +46,7 @@ around the world are starting to use NLP++ to write human digital readers for
 
 * Python 3.10 or newer
 
-## Installation
+## <span style='color:orange'>Installation</span>
 
 ### Future Installation (waiting for approval)
 
@@ -63,9 +86,6 @@ shown in the filename, for instance, for Python 3.10 on Windows you
 will see a file with a name like
 `nlpplus-0.1.dev1+g55d691d-cp310-cp310-win_amd64.whl` - the `cp310`
 means Python 3.10.  For Python 3.12 it would be `cp312`, and so forth.
-You can install this file with `pip`:
-
-    pip install nlpplus-0.1.2-cp310-cp310-win_amd64.whl
     
 For specific instructions on setting up Python on your platform please
 consult the Python documentation.
@@ -74,7 +94,49 @@ If your platform is not supported you can also compile it from source,
 which will require a working C++ compiler.  See the platform specific
 instructions below for the requirements to build.
 
-## Using the Library
+## <span style='color:green'>Why Use NLP++?</span>
+
+There are many reasons to consider using NLP++. Whether it be to be
+able to write Regex-like rule patterns, to having the ability to 
+modify 100% of the NLP code, or to visualize the NLP analyzer in
+an intunitive way, NLP++ should be in every coder and programmer's
+toolkit.
+
+To put it simply, NLP++ turns any coder or programmer into an NLP
+engineer.
+
+### 1000 Times Better than Regex
+
+For matching patterns in text, NLP++ is a Regex killer. The rule
+matching system in NLP++ is human readable and is performed by calling
+rules in a sequence, making creating and debugging rule-based patterns
+a breeze. Along with 
+
+### 100% Modifiable
+
+The main reason to use NLP++
+it is to engineer an NLP system to a specific task. Most all extraction
+or understanding tasks in NLP require specific processing that is never
+included in "generic" systems. NLP++ allows for the creation or
+modification of any NLP++ system.
+
+It must be emphasized that what separates NLPPlus from all the other
+NLP packages in Python is that fact that all parsers are 100% modifiable
+using the VSCode NLP++ Language Extension. Other NLP packages use regex
+patterns which are impossible to modify or use trained machine learning
+or neural network systems which cannot be fixed when 
+
+### VisualText Editor
+
+Writing an NLP system from scratch is thought to be for only those in
+computational linguistics. But VisualText, NLP++, and the conceptual
+Grammar changes all that.
+
+Taking full advantage of the familiar VSCode environment, the NLP++
+language extension makes NLP a visual process and logical process that
+is easy to understand.
+
+## <span style='color:yellow;'>Usng the NLPPlus Python Package</span>
 
 Very basic usage, which runs the default parser for US English and
 returns parsing results as xML:
@@ -99,7 +161,53 @@ or JSON output from them:
     parsed_address = results.output["email_address"][0]
     parse_tree = results.final_tree
 
-## NLP++ Development
+### NLPPlus Engine Functions
+
+#### set_analyzer_folder(analyzer_folder_path: str)
+This is used to set the folder where your analyzers are located.
+
+#### analyze(text: str, parser: str = "parse-en-us"): str
+This calls one of the analyzers in the analyzer folder on the text.
+If the analyzer folder was not set, it will use the library analyzers
+that come with NLPPlus. It is recommended that you use the function
+copy_library_analyzers to copy the analyzers to avoid having them
+overwritten when a new version of NLPPlus is installed.
+
+The analyze function a results object that make the analyzer
+output files easily accessible to python. (see reults below)
+
+#### copy_library_analyzers(self, to_dir: str, overwrite: bool=True)
+This function copies the NLPPlus library analyzers into a safe
+folder away from where they can be overwritten by newer versions
+of the NLPPlus package. This allows coders to edit and modify the
+analyzers to their liking. Remember to use the set_analyzers_folder
+if you want to call your versions of these library analyzers
+using the NLPPlus package.
+
+#### input_text(analyzer_name: str, file_name: str)
+When developing or editing NLP++ analyzers and calling them from
+Python, it is convenient to test your python code on text you
+have used to develop your analyzer. This function retrieves the
+text from a file in the analyzer's input directory for easy
+access while developing your python code in conjunction with
+and NLP++ analyzer.
+
+### NLPPlus Engine Results
+
+#### output
+This returns a json object based on the parsed output.json file
+producted by the analyzer. THe analyzer has to purposly construct
+the output.json file for this to work.
+
+#### output.json
+The output file produced by the analyzer that is a string, not
+a jsoh object. This file must explicity be produced by the analyzer.
+
+#### final.tree
+All analyzers output a final tree of the text that is being processed.
+This file is in the NLP++ tree format.
+
+## <span style='color:orange'>NLP++ Development</span>
 
 By default the `NLPPlus` module will create a temporary working
 directory with the default parser and the small set of analyzers
