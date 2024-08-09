@@ -1,6 +1,6 @@
 # NLPPlus
 
-## $${\textsf{\color{red}READ FIRST}}$$
+## READ FIRST
 
 Current NLP python packages have the "intention" of being plug-and-play
 systems that perform natural language tasks without modification. The
