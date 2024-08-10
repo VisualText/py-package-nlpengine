@@ -2,6 +2,9 @@
 
 ## READ FIRST
 
+It is important to understand that the NLPPlus package for Python is very different from ALL other NLP packages
+in a very important and practical way.
+
 Current NLP python packages have the "intention" of being plug-and-play
 systems that perform natural language tasks without modification. The
 problem is that when these systems ultimately fail in critical situations,
