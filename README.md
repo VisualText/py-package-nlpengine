@@ -172,11 +172,11 @@ This is used to set the folder where your analyzers are located.
 #### analyze(text: str, parser: str = "parse-en-us"): str
 This calls one of the analyzers in the analyzer folder on the text.
 If the analyzer folder was not set, it will use the library analyzers
-that come with NLPPlus. It is recommended that you use the function
+that come with NLPPlus. If you are planning to modify the library analyzers, it is recommended that you use the function
 copy_library_analyzers to copy the analyzers to avoid having them
 overwritten when a new version of NLPPlus is installed.
 
-The analyze function a results object that make the analyzer
+The analyze function returns a results object that make the analyzer
 output files easily accessible to python. (see reults below)
 
 #### copy_library_analyzers(self, to_dir: str, overwrite: bool=True)
@@ -190,7 +190,7 @@ using the NLPPlus package.
 #### input_text(analyzer_name: str, file_name: str)
 When developing or editing NLP++ analyzers and calling them from
 Python, it is convenient to test your python code on text you
-have used to develop your analyzer. This function retrieves the
+have used to develop your analyzer in in the NLP++ VisualText extension for VSCode. This function retrieves the
 text from a file in the analyzer's input directory for easy
 access while developing your python code in conjunction with
 and NLP++ analyzer.
@@ -199,12 +199,12 @@ and NLP++ analyzer.
 
 #### output
 This returns a json object based on the parsed output.json file
-producted by the analyzer. THe analyzer has to purposly construct
+producted by the analyzer. The analyzer has to purposely construct
 the output.json file for this to work.
 
 #### output.json
 The output file produced by the analyzer that is a string, not
-a jsoh object. This file must explicity be produced by the analyzer.
+a json object. This file must explicity be created by the analyzer.
 
 #### final.tree
 All analyzers output a final tree of the text that is being processed.
