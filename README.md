@@ -20,7 +20,7 @@ every NLP task is slightly different in important ways.
 
 The NLPPlus Python Package is different from all other NLP Python packages.
 All its analyzers are 100% human readable and modifiable code that allows
-any non-NLP coder to become a computational linguist using the NLP++ VSCode
+any non-NLP coder to become a NLP programmer using the NLP++ VSCode
 Language Extension appropriately called "VisualText". The VisualText
 extension allows for the visualization of any NLP process. Coders can "see"
 the syntactic parse tree along each step of the process, see rule matches
