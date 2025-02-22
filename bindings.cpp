@@ -27,11 +27,11 @@ using namespace nb::literals;
  */
 const std::string
 wrap_analyze(NLP_ENGINE &engine, const std::string &parser,
-             const std::string &input) {
+             const std::string &input, const bool develop) {
     _TCHAR *_parser = _tcsdup(parser.c_str());
     std::istringstream instream(input);
     std::ostringstream outstream;
-    int rv = engine.analyze(_parser, &instream, &outstream);
+    int rv = engine.analyze(_parser, &instream, &outstream, develop);
     free(_parser);
     return outstream.str();
 }
@@ -42,7 +42,7 @@ NB_MODULE(bindings, m) {
              "workingFolder"_a = ".",
              "silent"_a = true)
         .def("analyze", &wrap_analyze,
-             "parser"_a, "input"_a,
+             "parser"_a, "input"_a, "develop"_a = false,
              "Analyze `input` with `parser`.\n"
              "The `parser` argument refers to an analyzer contained in the\n"
              "`analyzers` folder inside the workingFolder used to create\n"
