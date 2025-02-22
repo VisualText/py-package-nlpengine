@@ -107,7 +107,7 @@ class Engine:
             )
         self.engine = NLP_ENGINE(str(self.working_folder), silent=not verbose)
 
-    def analyze(self, text: str, analyzer_name: str) -> Results:
+    def analyze(self, text: str, analyzer_name: str, develop: bool = False) -> Results:
         """Analyze text with the named analyzer."""
         analyzer_name = Path(analyzer_name)
         outdir = self.working_folder / "analyzers" / analyzer_name / "output"
@@ -118,7 +118,7 @@ class Engine:
         file_list = glob.glob(str(outdir / "*"))
         for file_path in file_list:
             os.remove(file_path)
-        outtext = self.engine.analyze(str(analyzer_name), text)
+        outtext = self.engine.analyze(str(analyzer_name), text, develop)
         return Results(outtext, outdir)
     
     def input_text(self, analyzer_name: str, file_name: str) -> str:
@@ -182,9 +182,9 @@ def set_analyzers_folder(analyzer_folder_path: str):
     engine.set_analyzers_folder(analyzer_folder_path)
 
 
-def analyze(text: str, parser: str = "parse-en-us"):
+def analyze(text: str, parser: str = "parse-en-us", develop: bool = False) -> str:
     """Run the analyzer named on the input string."""
-    return engine.analyze(text, parser).output_text
+    return engine.analyze(text, parser, develop).output_text
 
 
 def input_text(analyzer_name: str, file_name: str):
