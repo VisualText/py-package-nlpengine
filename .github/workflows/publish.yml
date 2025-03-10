@@ -8,93 +8,93 @@ on:
       - 'v*'
 
 jobs:
-  build_wheels_linux:
-    name: Build wheels on Linux
-    runs-on: ubuntu-latest
-    # Uncomment for testing
-    # if: false
+  # build_wheels_linux:
+  #   name: Build wheels on Linux
+  #   runs-on: ubuntu-latest
+  #   # Uncomment for testing
+  #   # if: false
 
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          submodules: true
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #       with:
+  #         submodules: true
 
-      - name: Build wheels
-        uses: pypa/cibuildwheel@v2.19.2
-        env:
-          CIBW_BUILD_VERBOSITY: 3
-          # Note use of yum because anylinux is ancient CentOS
-          CIBW_BEFORE_ALL: "yum install -y libicu-devel"
-          CIBW_CONFIG_SETTINGS: "cmake.args=-DCMAKE_BUILD_TYPE=Release"
-          # Uncomment for testing
-          # CIBW_BUILD: "cp312-*"
+  #     - name: Build wheels
+  #       uses: pypa/cibuildwheel@v2.19.2
+  #       env:
+  #         CIBW_BUILD_VERBOSITY: 3
+  #         # Note use of yum because anylinux is ancient CentOS
+  #         CIBW_BEFORE_ALL: "yum install -y libicu-devel"
+  #         CIBW_CONFIG_SETTINGS: "cmake.args=-DCMAKE_BUILD_TYPE=Release"
+  #         # Uncomment for testing
+  #         # CIBW_BUILD: "cp312-*"
 
-      - uses: actions/upload-artifact@v4
-        with:
-          name: cibw-wheels-linux
-          path: ./wheelhouse/*.whl
+  #     - uses: actions/upload-artifact@v4
+  #       with:
+  #         name: cibw-wheels-linux
+  #         path: ./wheelhouse/*.whl
 
-  build_wheels_macos:
-    name: Build wheels on MacOS
-    # Otherwise people with older Macs are out of luck
-    runs-on: macOS-latest
-    # Uncomment for testing
-    # if: false
+  # build_wheels_macos:
+  #   name: Build wheels on MacOS
+  #   # Otherwise people with older Macs are out of luck
+  #   runs-on: macOS-latest
+  #   # Uncomment for testing
+  #   # if: false
 
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          submodules: true
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #       with:
+  #         submodules: true
 
-      - name: Install packages
-        run: brew install autoconf-archive autoconf automake pkg-config
+  #     - name: Install packages
+  #       run: brew install autoconf-archive autoconf automake pkg-config
 
-      - name: vcpkg setup
-        run: |
-          git clone --depth 1 https://github.com/Microsoft/vcpkg.git
-          ./vcpkg/bootstrap-vcpkg.sh
+  #     - name: vcpkg setup
+  #       run: |
+  #         git clone --depth 1 https://github.com/Microsoft/vcpkg.git
+  #         ./vcpkg/bootstrap-vcpkg.sh
 
-      - name: Build wheels
-        run: |
-          pip wheel -C "cmake.args=-DCMAKE_BUILD_TYPE=Release;-DCMAKE_TOOLCHAIN_FILE=./vcpkg/scripts/buildsystems/vcpkg.cmake" -v .
+  #     - name: Build wheels
+  #       run: |
+  #         pip wheel -C "cmake.args=-DCMAKE_BUILD_TYPE=Release;-DCMAKE_TOOLCHAIN_FILE=./vcpkg/scripts/buildsystems/vcpkg.cmake" -v .
 
-      - uses: actions/upload-artifact@v4
-        with:
-          name: cibw-wheels-macos
-          path: ./*.whl
+  #     - uses: actions/upload-artifact@v4
+  #       with:
+  #         name: cibw-wheels-macos
+  #         path: ./*.whl
 
-  build_wheels_windows:
-    name: Build wheels on Windows
-    runs-on: windows-latest
-    # Uncomment for testing
-    # if: false
+  # build_wheels_windows:
+  #   name: Build wheels on Windows
+  #   runs-on: windows-latest
+  #   # Uncomment for testing
+  #   # if: false
 
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          submodules: true
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #       with:
+  #         submodules: true
 
-      - name: vcpkg build
-        id: vcpkg
-        uses: johnwason/vcpkg-action@v6
-        with:
-          manifest-dir: ${{ github.workspace }}
-          triplet: x64-windows-release
-          token: ${{ github.token }}
-          github-binarycache: true
+  #     - name: vcpkg build
+  #       id: vcpkg
+  #       uses: johnwason/vcpkg-action@v6
+  #       with:
+  #         manifest-dir: ${{ github.workspace }}
+  #         triplet: x64-windows-release
+  #         token: ${{ github.token }}
+  #         github-binarycache: true
 
-      - name: Build wheels
-        uses: pypa/cibuildwheel@v2.19.2
-        env:
-          CIBW_BUILD_VERBOSITY: 3
-          CIBW_BEFORE_BUILD_WINDOWS: "pip install delvewheel"
-          CIBW_REPAIR_WHEEL_COMMAND_WINDOWS: "delvewheel repair --add-path ${{ github.workspace }}/vcpkg/installed/x64-windows-release/bin -w {dest_dir} {wheel}"
-          CIBW_CONFIG_SETTINGS: "cmake.args='-A x64;-DCMAKE_BUILD_TYPE=Release;-DCMAKE_TOOLCHAIN_FILE=${{ github.workspace }}/vcpkg/scripts/buildsystems/vcpkg.cmake'"
+  #     - name: Build wheels
+  #       uses: pypa/cibuildwheel@v2.19.2
+  #       env:
+  #         CIBW_BUILD_VERBOSITY: 3
+  #         CIBW_BEFORE_BUILD_WINDOWS: "pip install delvewheel"
+  #         CIBW_REPAIR_WHEEL_COMMAND_WINDOWS: "delvewheel repair --add-path ${{ github.workspace }}/vcpkg/installed/x64-windows-release/bin -w {dest_dir} {wheel}"
+  #         CIBW_CONFIG_SETTINGS: "cmake.args='-A x64;-DCMAKE_BUILD_TYPE=Release;-DCMAKE_TOOLCHAIN_FILE=${{ github.workspace }}/vcpkg/scripts/buildsystems/vcpkg.cmake'"
 
-      - uses: actions/upload-artifact@v4
-        with:
-          name: cibw-wheels-windows
-          path: ./wheelhouse/*.whl
+  #     - uses: actions/upload-artifact@v4
+  #       with:
+  #         name: cibw-wheels-windows
+  #         path: ./wheelhouse/*.whl
 
   build_sdist:
     name: Build source distribution
@@ -141,9 +141,9 @@ jobs:
     needs:
       - build_sdist
       # Comment the next three for testing
-      - build_wheels_linux
-      - build_wheels_windows
-      - build_wheels_macos
+      # - build_wheels_linux
+      # - build_wheels_windows
+      # - build_wheels_macos
     runs-on: ubuntu-latest
     environment: pypi
     permissions:
