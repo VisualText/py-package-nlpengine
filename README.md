@@ -14,7 +14,7 @@ to create text analyzers 100% taylored to their needs.
 
 NLP++ allows any programmer to write text and NLP programs that can be
 shared by everyone. It represents the first universal programming
-language for text and NLP. [As the community grows](https://nluglog.org), the number of open-source
+language for text and NLP. [As the community grows](https://nluglob.org), the number of open-source
 solutions including dictionaries, knowledge bases, and analyzers will
 grow - all of which can be modified by any programmer using the NLP++
 Language Extension for VSCode.
@@ -52,7 +52,7 @@ addresses, and a full English parser. And because NLP++ is a glassbox, all
 analyzers can easily be modified by any coder.
 
 If for example, the telephone number analyzer is not working properly for your
-application, you can use the [NLP++ VSCode extension](http://vscode.visualtect.org)
+application, you can use the [NLP++ VSCode extension](http://vscode.visualtext.org)
 to edit and test the NLP++ code, and then use updated code instantly. Universities
 around the world are starting to use NLP++ to write human digital readers for
 [many different applications](https://nluglob.org/category/projects/).
