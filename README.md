@@ -1,9 +1,28 @@
 # NLPPlus
 
+The NLPPlus Python Package is the package that allows for python scripts
+to call text and NLP analyzers created using [NLP++](https://visualtext.org). The package uses
+the C++ libraries for the [NLP Engine](https://github.com/VisualText/nlp-engine) making the calling more efficient than
+using the [NLP++ python class](https://github.com/VisualText/python) that calls command line version of the NLP
+Engine "nlp.exe".
+
+The major advantage of NLPPlus over other NLP packages is that is 100%
+rule-based and modifiable and allows for any non-linguistic programmer
+to create text analyzers 100% taylored to their needs.
+
+## Long-Term Open-Source, Glass-Box Project
+
+NLP++ allows any programmer to write text and NLP programs that can be
+shared by everyone. It represents the first universal programming
+language for text and NLP. [As the community grows](https://nluglog.org), the number of open-source
+solutions including dictionaries, knowledge bases, and analyzers will
+grow - all of which can be modified by any programmer using the NLP++
+Language Extension for VSCode.
+
 ## READ FIRST
 
-It is important to understand that the NLPPlus package for Python is very different from ALL other NLP packages
-in a very important and practical way.
+It is important to understand that the NLPPlus package for Python is very
+different from ALL other NLP packages in a very important and practical way.
 
 Current NLP python packages have the "intention" of being plug-and-play
 systems that perform natural language tasks without modification. The
@@ -51,16 +70,15 @@ around the world are starting to use NLP++ to write human digital readers for
 
 ## <span style='color:orange'>Installation</span>
 
-### Future Installation (waiting for approval)
+### Installation
 
-NLPPlus should eventually be installable from PyPI using pip, at which
-point you can simply run:
+NLPPlus can be installed using pip:
 
     pip install nlpplus
 
-### Installing By Downloading the Package (currently the only method)
+### Installing By Downloading the Package Manually
 
-For the moment, you can find the installable "wheel" files under each
+You can find the installable "wheel" files under each
 release in the [Releases
 page](https://github.com/VisualText/py-package-nlpengine/releases/).
 Choose the correct version for your platform and Python version based
@@ -165,6 +183,8 @@ or JSON output from them:
     parse_tree = results.final_tree
 
 ### NLPPlus Engine Functions
+
+These are the current functions that come with the NLPPlus package.
 
 #### set_analyzer_folder(analyzer_folder_path: str)
 This is used to set the folder where your analyzers are located.
