@@ -10,14 +10,14 @@ The major advantage of NLPPlus over other NLP packages is that is 100%
 rule-based and modifiable and allows for any non-linguistic programmer
 to create text analyzers 100% taylored to their needs.
 
-## Long-Term Open-Source, Glass-Box Project
+## Long-Term, Open-Source, Glass-Box Project
 
 NLP++ allows any programmer to write text and NLP programs that can be
 shared by everyone. It represents the first universal programming
 language for text and NLP. [As the community grows](https://nluglob.org), the number of open-source
 solutions including dictionaries, knowledge bases, and analyzers will
-grow - all of which can be modified by any programmer using the NLP++
-Language Extension for VSCode.
+grow - all of which can be modified by any programmer using the [NLP++
+Language Extension for VSCode](https://vscode.visualtext.org).
 
 ## READ FIRST
 
