@@ -72,7 +72,7 @@ around the world are starting to use NLP++ to write human digital readers for
 
 ### Installation
 
-NLPPlus can be installed using pip:
+The NLPPlus python package is registered in [pypi.org](https://pypi.org/project/NLPPlus/). NLPPlus can be installed using pip:
 
     pip install nlpplus
 
