@@ -1,6 +1,6 @@
 # NLPPlus
 
-[![NLP++ Textbook](assets/TextbookLaunch01_LinkedIn Banner.png)](https://book.visualtext.org)
+[![NLP++ Textbook](assets/TextbookLaunch01_LinkedIn%20Banner.png)](https://book.visualtext.org)
 
 [![PyPI Downloads](https://static.pepy.tech/personalized-badge/nlpplus?period=total&units=INTERNATIONAL_SYSTEM&left_color=BLACK&right_color=GREEN&left_text=downloads)](https://pepy.tech/projects/nlpplus)
 
