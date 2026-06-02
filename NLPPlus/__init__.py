@@ -84,7 +84,18 @@ class Engine:
         initialize: bool = False,
     ):
         if working_folder is None:
-            self.tmpdir = TemporaryDirectory(prefix="NLPPlus-")
+            # ignore_cleanup_errors=True: the nlp-engine's static `cgerr`
+            # ofstream holds <analyzer>/logs/cgerr.log open for the
+            # lifetime of the process. Python's TemporaryDirectory
+            # cleanup runs during atexit, but the C++ static destructor
+            # that would close cgerr runs *after* atexit (Python returns
+            # control to the OS first). On Windows that ordering means
+            # cleanup hits a still-open file and raises PermissionError.
+            # Swallow it — the OS reclaims the tempdir at process exit
+            # regardless. Tracked engine-side as NLP-ENGINE-523.
+            self.tmpdir = TemporaryDirectory(
+                prefix="NLPPlus-", ignore_cleanup_errors=True
+            )
             self.working_folder = Path(self.tmpdir.name)
             initialize = True
         else:
