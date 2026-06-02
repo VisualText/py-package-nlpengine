@@ -72,7 +72,31 @@ wrap_compile(NLP_ENGINE &engine, const std::string &analyzer,
     free(_analyzer);
 }
 
+/**
+ * Return the bundled nlp-engine version string (e.g. "3.1.49").
+ *
+ * `cloud_compile()` in __init__.py uses this to populate the manifest
+ * sent to the nlp-compile-service dispatcher — the dispatcher matches
+ * it against published `nlpengine-compile-libs-<platform>.zip` release
+ * artifacts in github.com/VisualText/nlp-engine.
+ *
+ * NLP_ENGINE_VERSION is the compile-time string baked into nlp/main.cpp;
+ * scikit-build-core defines it via target_compile_definitions in
+ * CMakeLists.txt.  If unset (older build), we fall back to "unknown" so
+ * Python-side callers can detect the missing version cleanly.
+ */
+const std::string
+wrap_engine_version() {
+#ifdef NLP_ENGINE_VERSION
+    return NLP_ENGINE_VERSION;
+#else
+    return "unknown";
+#endif
+}
+
 NB_MODULE(bindings, m) {
+    m.def("engine_version", &wrap_engine_version,
+          "Return the bundled nlp-engine version string (e.g. '3.1.49').");
     nb::class_<NLP_ENGINE>(m, "NLP_ENGINE", "Instance of the NLP++ Engine.")
         .def(nb::init<std::string, bool>(),
              "workingFolder"_a = ".",

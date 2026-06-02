@@ -151,10 +151,8 @@ class Engine:
 
         The generated C++ still needs to be built into shared
         libraries before :meth:`analyze` can load them with
-        ``compiled=True``.  That build step is platform-specific and
-        not (yet) wrapped by this package — use the upstream
-        ``nlp-compile-service`` cloud build or run ``cmake`` against
-        the engine's published compile-libs locally.
+        ``compiled=True``.  Use :meth:`cloud_compile` to do the build
+        step via the public nlp-compile-service in one call.
         """
         analyzer_name_p = Path(analyzer_name)
         if self.analyzer_path:
@@ -169,6 +167,50 @@ class Engine:
             engine_arg = str(analyzer_name_p)
         self.engine.compile(engine_arg, develop, kb_only)
         return analyzer_dir
+
+    def cloud_compile(self, analyzer_name: str,
+                      dispatcher_url: Optional[str] = None,
+                      kb_only: bool = False,
+                      develop: bool = False,
+                      poll_interval: float = 2.0,
+                      timeout: float = 30 * 60,
+                      skip_local_compile: bool = False) -> Path:
+        """End-to-end compile: codegen + cloud build + stage into bin/.
+
+        Runs :meth:`compile` to produce the analyzer's ``run/`` + ``kb/``
+        C++ trees (unless ``skip_local_compile=True``), packages them
+        plus an auto-generated ``StdAfx.h`` stub into a tarball, submits
+        that tarball to the public nlp-compile-service dispatcher, polls
+        for the GitHub-Actions runner build to complete, downloads the
+        resulting shared library, and stages it into
+        ``<analyzer>/bin/`` as ``run.<ext>`` and ``kb.<ext>`` (and the
+        Windows ``runu.<ext>`` / ``kbu.<ext>`` variants).  After this
+        returns, :meth:`analyze` with ``compiled=True`` will load the
+        compiled artifact.
+
+        Returns the ``bin/`` directory path.
+
+        Args:
+          analyzer_name: analyzer under the engine's working folder.
+          dispatcher_url: override the public dispatcher endpoint
+            (default: ``cloud.DEFAULT_DISPATCHER_URL``).
+          kb_only: compile only the KB.
+          develop: forwarded to local ``-COMPILE``.
+          poll_interval: seconds between job-status checks.
+          timeout: max seconds to wait for the runner build.
+          skip_local_compile: if True, assume ``run/`` and ``kb/``
+            already exist under the analyzer dir.
+        """
+        # Import here so the rest of the package keeps working in
+        # environments that don't have an `urllib`-friendly TLS stack.
+        from . import cloud
+        return cloud.cloud_compile(
+            self, analyzer_name,
+            dispatcher_url=dispatcher_url or cloud.DEFAULT_DISPATCHER_URL,
+            kb_only=kb_only, develop=develop,
+            poll_interval=poll_interval, timeout=timeout,
+            skip_local_compile=skip_local_compile,
+        )
     
     def input_text(self, analyzer_name: str, file_name: str) -> str:
         """Return the text from a file in the input directory."""
@@ -252,6 +294,27 @@ def compile(analyzer: str = "parse-en-us", develop: bool = False,
     before :func:`analyze` can load them with ``compiled=True``.
     """
     return engine.compile(analyzer, develop, kb_only)
+
+
+def cloud_compile(analyzer: str = "parse-en-us",
+                  dispatcher_url: Optional[str] = None,
+                  kb_only: bool = False,
+                  develop: bool = False,
+                  poll_interval: float = 2.0,
+                  timeout: float = 30 * 60,
+                  skip_local_compile: bool = False):
+    """Compile an analyzer end-to-end via the public nlp-compile-service.
+
+    Wraps :meth:`Engine.cloud_compile` — see that method for the full
+    docstring.  After this call returns, ``analyze(..., compiled=True)``
+    will pick up the staged shared libraries from the analyzer's
+    ``bin/`` directory.
+    """
+    return engine.cloud_compile(
+        analyzer, dispatcher_url=dispatcher_url, kb_only=kb_only,
+        develop=develop, poll_interval=poll_interval, timeout=timeout,
+        skip_local_compile=skip_local_compile,
+    )
 
 
 def input_text(analyzer_name: str, file_name: str):
