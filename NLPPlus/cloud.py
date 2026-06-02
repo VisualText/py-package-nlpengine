@@ -48,6 +48,32 @@ DEFAULT_DISPATCHER_URL = (
     "https://nlp-compile-dispatcher.dehilster.workers.dev"
 )
 
+# Cloudflare's browser-integrity check (the worker sits behind it) rejects
+# urllib's default `Python-urllib/3.x` UA with HTTP 403 / error code 1010.
+# Identify ourselves clearly so the worker accepts the request and so the
+# server-side logs can attribute traffic. Engine version is filled in
+# lazily on first call (it requires the bindings module).
+_USER_AGENT = "NLPPlus (Python urllib)"
+
+
+def _user_agent() -> str:
+    """Return the User-Agent string, lazily including the engine version.
+
+    Kept lazy so this module can be imported (and tested) without the
+    compiled bindings being available — useful for the platform-key /
+    sha-helper unit tests.
+    """
+    global _USER_AGENT
+    if "/" not in _USER_AGENT:
+        try:
+            from . import bindings as _bindings  # type: ignore
+            _USER_AGENT = (
+                f"NLPPlus/{_bindings.engine_version()} (Python urllib)"
+            )
+        except Exception:
+            pass
+    return _USER_AGENT
+
 # Auto-generated header that the engine's -COMPILE output expects.  Each
 # generated pass*.cpp begins with `#include "StdAfx.h"`; cmake on the
 # runner force-includes this file too via /FI on MSVC and -include on
@@ -215,6 +241,7 @@ def _post_multipart(
                 "multipart/form-data; boundary=" + boundary
             ),
             "Content-Length": str(len(body)),
+            "User-Agent": _user_agent(),
         },
     )
     try:
@@ -236,7 +263,10 @@ def _poll_job(
     last_status: Optional[str] = None
     while time.monotonic() < deadline:
         try:
-            with urllib.request.urlopen(url) as resp:
+            req = urllib.request.Request(
+                url, headers={"User-Agent": _user_agent()}
+            )
+            with urllib.request.urlopen(req) as resp:
                 payload = json.loads(resp.read())
         except urllib.error.HTTPError as exc:
             raise CloudCompileError(
@@ -264,7 +294,8 @@ def _poll_job(
 def _download(url: str, dest: Path) -> None:
     """Stream-download `url` to `dest` (overwriting if exists)."""
     dest.parent.mkdir(parents=True, exist_ok=True)
-    with urllib.request.urlopen(url) as resp:
+    req = urllib.request.Request(url, headers={"User-Agent": _user_agent()})
+    with urllib.request.urlopen(req) as resp:
         with open(dest, "wb") as out:
             shutil.copyfileobj(resp, out, length=1 << 16)
 
