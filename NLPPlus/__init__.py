@@ -107,8 +107,25 @@ class Engine:
             )
         self.engine = NLP_ENGINE(str(self.working_folder), silent=not verbose)
 
-    def analyze(self, text: str, analyzer_name: str, develop: bool = False) -> Results:
-        """Analyze text with the named analyzer."""
+    def analyze(self, text: str, analyzer_name: str, develop: bool = False,
+                compiled: bool = False) -> Results:
+        """Analyze text with the named analyzer.
+
+        Args:
+          text: input text to analyze.
+          analyzer_name: name of the analyzer under the working folder.
+          develop: if True, the engine emits intermediate log/tree files
+                   into the analyzer's `_log` directory.
+          compiled: if True, the engine loads the analyzer's compiled
+                    shared libraries (``bin/run.<ext>`` for the analyzer
+                    body and ``bin/kb.<ext>`` for the compiled KB)
+                    instead of running interpreted from the ``.nlp``
+                    source.  See :meth:`compile` to produce the
+                    generated C++ sources for those libraries, and the
+                    package README for the cmake / cloud build step
+                    that turns them into the actual ``.so``/``.dylib``/
+                    ``.dll`` files.
+        """
         analyzer_name = Path(analyzer_name)
         outdir = self.working_folder / "analyzers" / analyzer_name / "output"
         if self.analyzer_path:
@@ -118,8 +135,40 @@ class Engine:
         file_list = glob.glob(str(outdir / "*"))
         for file_path in file_list:
             os.remove(file_path)
-        outtext = self.engine.analyze(str(analyzer_name), text, develop)
+        outtext = self.engine.analyze(str(analyzer_name), text, develop,
+                                      compiled)
         return Results(outtext, outdir)
+
+    def compile(self, analyzer_name: str, develop: bool = False,
+                kb_only: bool = False) -> Path:
+        """Generate C++ source files for the named analyzer.
+
+        Runs the engine in ``-COMPILE`` mode (or ``-COMPILEKB`` if
+        ``kb_only=True``), which emits the analyzer body under
+        ``<analyzer>/run/`` and the knowledge base under
+        ``<analyzer>/kb/``.  Returns the analyzer directory containing
+        those generated trees.
+
+        The generated C++ still needs to be built into shared
+        libraries before :meth:`analyze` can load them with
+        ``compiled=True``.  That build step is platform-specific and
+        not (yet) wrapped by this package — use the upstream
+        ``nlp-compile-service`` cloud build or run ``cmake`` against
+        the engine's published compile-libs locally.
+        """
+        analyzer_name_p = Path(analyzer_name)
+        if self.analyzer_path:
+            analyzer_dir = (
+                Path(self.analyzer_path) / "analyzers" / analyzer_name_p
+            )
+            engine_arg = str(Path(self.analyzer_path) / analyzer_name_p)
+        else:
+            analyzer_dir = (
+                self.working_folder / "analyzers" / analyzer_name_p
+            )
+            engine_arg = str(analyzer_name_p)
+        self.engine.compile(engine_arg, develop, kb_only)
+        return analyzer_dir
     
     def input_text(self, analyzer_name: str, file_name: str) -> str:
         """Return the text from a file in the input directory."""
@@ -182,9 +231,27 @@ def set_analyzers_folder(analyzer_folder_path: str):
     engine.set_analyzers_folder(analyzer_folder_path)
 
 
-def analyze(text: str, parser: str = "parse-en-us", develop: bool = False) -> str:
-    """Run the analyzer named on the input string."""
-    return engine.analyze(text, parser, develop).output_text
+def analyze(text: str, parser: str = "parse-en-us", develop: bool = False,
+            compiled: bool = False) -> str:
+    """Run the analyzer named on the input string.
+
+    If ``compiled=True``, the engine loads the analyzer's compiled
+    shared libraries (``bin/run.<ext>`` and ``bin/kb.<ext>``) instead of
+    running interpreted.  See :func:`compile` for producing those.
+    """
+    return engine.analyze(text, parser, develop, compiled).output_text
+
+
+def compile(analyzer: str = "parse-en-us", develop: bool = False,
+            kb_only: bool = False):
+    """Generate C++ source files for the named analyzer.
+
+    Wraps :meth:`Engine.compile`.  The generated trees land under
+    ``<analyzer>/run/`` and ``<analyzer>/kb/`` inside the engine's
+    working folder; they still need to be built into shared libraries
+    before :func:`analyze` can load them with ``compiled=True``.
+    """
+    return engine.compile(analyzer, develop, kb_only)
 
 
 def input_text(analyzer_name: str, file_name: str):

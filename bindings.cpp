@@ -23,17 +23,53 @@ using namespace nb::literals;
  * generally write stuff to the "output" directory in their working
  * folder.  That gets handled by the Python code in `__init__.py`.
  *
+ * `compiled=true` tells the engine to dlopen the analyzer's
+ * `bin/run.<ext>` and `bin/kb.<ext>` shared libraries (produced by an
+ * earlier `compile()` call plus a cmake/cloud build step).  Without
+ * it, the engine runs interpreted from the .nlp source.
+ *
  * The output string gets copied a few times, because C++.
  */
 const std::string
 wrap_analyze(NLP_ENGINE &engine, const std::string &parser,
-             const std::string &input, const bool develop) {
+             const std::string &input, const bool develop,
+             const bool compiled) {
     _TCHAR *_parser = _tcsdup(parser.c_str());
     std::istringstream instream(input);
     std::ostringstream outstream;
-    int rv = engine.analyze(_parser, &instream, &outstream, develop);
+    int rv = engine.analyze(_parser, &instream, &outstream,
+                            develop, /*silent*/false,
+                            /*compile*/false, compiled,
+                            /*compileKB*/false);
     free(_parser);
     return outstream.str();
+}
+
+/**
+ * Trigger the engine's `-COMPILE` mode for the named analyzer.
+ *
+ * This generates the C++ source files for the analyzer (under
+ * `<analyzer>/run/`) and the knowledge base (under `<analyzer>/kb/`).
+ * Those still need to be built into a shared library by an external
+ * step — either cmake locally or the nlp-compile-service in the
+ * cloud — before they can be loaded via `analyze(..., compiled=True)`.
+ *
+ * Maps directly to the engine's `init(analyzer, develop, silent,
+ * compile=true, compiled=false, compileKB=false)` call (see
+ * nlp/main.cpp's `if (compile)` branch).
+ *
+ * `kbOnly=true` switches to KB-only codegen — the analyzer grammar is
+ * skipped and only `<analyzer>/kb/` is emitted.  Matches `init(...,
+ * compileKB=true)`.
+ */
+void
+wrap_compile(NLP_ENGINE &engine, const std::string &analyzer,
+             const bool develop, const bool kbOnly) {
+    _TCHAR *_analyzer = _tcsdup(analyzer.c_str());
+    engine.init(_analyzer, develop, /*silent*/false,
+                /*compile*/!kbOnly, /*compiled*/false,
+                /*compileKB*/kbOnly);
+    free(_analyzer);
 }
 
 NB_MODULE(bindings, m) {
@@ -43,8 +79,21 @@ NB_MODULE(bindings, m) {
              "silent"_a = true)
         .def("analyze", &wrap_analyze,
              "parser"_a, "input"_a, "develop"_a = false,
+             "compiled"_a = false,
              "Analyze `input` with `parser`.\n"
              "The `parser` argument refers to an analyzer contained in the\n"
              "`analyzers` folder inside the workingFolder used to create\n"
-             "this `Engine` instance.");
+             "this `Engine` instance.\n"
+             "If `compiled=True`, the engine loads bin/run.<ext> and\n"
+             "bin/kb.<ext> from the analyzer dir instead of running\n"
+             "interpreted from the .nlp source.  Build those shared\n"
+             "libraries first via `compile()` plus an external cmake/\n"
+             "cloud build step.")
+        .def("compile", &wrap_compile,
+             "analyzer"_a, "develop"_a = false, "kbOnly"_a = false,
+             "Emit C++ source files for `analyzer`.\n"
+             "Generates <analyzer>/run/*.cpp and <analyzer>/kb/*.cpp\n"
+             "(or just <analyzer>/kb/*.cpp if `kbOnly=True`).  Those\n"
+             "still need to be built into shared libraries before\n"
+             "`analyze(..., compiled=True)` can load them.");
 }
