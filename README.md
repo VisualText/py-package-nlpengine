@@ -20,6 +20,12 @@ The major advantage of NLPPlus over other NLP packages is that is 100%
 rule-based and modifiable and allows for any non-linguistic programmer
 to create text analyzers 100% taylored to their needs.
 
+Analyzers can be run in two modes: **interpreted** (the default, runs
+straight from the `.nlp` source) or **compiled** (analyzer code is
+compiled to a native shared library once and loaded at runtime). See
+[Compiled Mode](#compiled-mode) below for the `cloud_compile()`
+one-call build path.
+
 ## Long-Term, Open-Source, Glass-Box Project
 
 NLP++ allows any programmer to write text and NLP programs that can be
@@ -199,15 +205,45 @@ These are the current functions that come with the NLPPlus package.
 #### set_analyzer_folder(analyzer_folder_path: str)
 This is used to set the folder where your analyzers are located.
 
-#### analyze(text: str, parser: str = "parse-en-us"): str
+#### analyze(text: str, parser: str = "parse-en-us", develop: bool = False, compiled: bool = False): str
 This calls one of the analyzers in the analyzer folder on the text.
 If the analyzer folder was not set, it will use the library analyzers
-that come with NLPPlus. If you are planning to modify the library analyzers, it is recommended that you use the function
+that come with NLPPlus. If you are planning to modify the library
+analyzers, it is recommended that you use the function
 copy_library_analyzers to copy the analyzers to avoid having them
 overwritten when a new version of NLPPlus is installed.
 
+If `compiled=True`, the engine loads the analyzer's compiled shared
+libraries (`bin/run.<ext>` and `bin/kb.<ext>`) instead of running
+interpreted from the `.nlp` source. See `compile()` and
+`cloud_compile()` below for producing those libraries.
+
 The analyze function returns a results object that make the analyzer
 output files easily accessible to python. (see reults below)
+
+#### compile(analyzer: str = "parse-en-us", develop: bool = False, kb_only: bool = False)
+Generates C++ source files for the analyzer by running the engine in
+`-COMPILE` mode. The output lands under `<analyzer>/run/*.cpp` and
+`<analyzer>/kb/*.cpp` (or just `<analyzer>/kb/*.cpp` if `kb_only=True`).
+The generated files still need to be built into shared libraries
+before `analyze(..., compiled=True)` can load them — see
+`cloud_compile()` for the one-call end-to-end path.
+
+#### cloud_compile(analyzer: str = "parse-en-us", dispatcher_url: Optional[str] = None, kb_only: bool = False, develop: bool = False, poll_interval: float = 2.0, timeout: float = 1800, skip_local_compile: bool = False)
+End-to-end compile via the public nlp-compile-service cloud build:
+runs `compile()` to produce the C++ trees, tars them up, submits to a
+Cloudflare-Worker dispatcher, polls the GitHub-Actions runner build,
+downloads the resulting shared library and stages it into
+`<analyzer>/bin/` as `run.<ext>` + `runu.<ext>` + `kb.<ext>` +
+`kbu.<ext>` (or just `kb.<ext>` + `kbu.<ext>` for `kb_only=True`).
+After it returns, `analyze(..., compiled=True)` will pick up the
+staged libraries.
+
+`dispatcher_url` defaults to the same public Cloudflare-Worker the
+VSCode NLP++ extension uses; override per-call to point at a
+self-hosted deployment. `timeout` caps the wait for the runner build
+(default 30 minutes — GitHub-Actions Windows free-tier queues can
+stall 5-10 minutes before the build even starts).
 
 #### copy_library_analyzers(self, to_dir: str, overwrite: bool=True)
 This function copies the NLPPlus library analyzers into a safe
@@ -239,6 +275,43 @@ a json object. This file must explicity be created by the analyzer.
 #### final.tree
 All analyzers output a final tree of the text that is being processed.
 This file is in the NLP++ tree format.
+
+## <span style='color:cyan'>Compiled Mode</span>
+
+Analyzers normally run **interpreted** from their `.nlp` source — fine
+for development, but slower on large inputs and unaffected by source
+edits (i.e., you can't ship a "frozen" version without bundling the
+sources). NLPPlus now supports **compiled mode**: generate native
+shared libraries from the analyzer's `.nlp` files once, then load
+them at analyze time. Source edits after the build don't change the
+output until you re-compile.
+
+The simplest path is one call to `cloud_compile`, which uses the
+public nlp-compile-service to build the right shared library for your
+platform:
+
+    import NLPPlus
+
+    # Generate run/*.cpp + kb/*.cpp, ship to the cloud builder, download
+    # the .so/.dylib/.dll, stage into <analyzer>/bin/.
+    NLPPlus.cloud_compile("parse-en-us")
+
+    # Now run with the compiled artifacts instead of the interpreter.
+    xml = NLPPlus.analyze("Hello world.", compiled=True)
+
+The cloud build takes anywhere from ~1 minute (small analyzer, cache
+hit) up to ~10 minutes (`parse-en-us`, cold Windows runner queue).
+The first build for a given source hash is the slow one — subsequent
+builds against the same code hit the dispatcher's cache.
+
+If you'd rather generate the C++ trees and build them yourself (e.g.
+air-gapped, custom toolchain), use `compile()` for the codegen step
+and run `cmake` against the engine's
+[published compile-libs](https://github.com/VisualText/nlp-engine/releases)
+to produce the shared library, then stage the result as
+`<analyzer>/bin/run.<ext>` and `<analyzer>/bin/kb.<ext>`. See the
+[nlp-compile-service emit-cmake.sh](https://github.com/VisualText/nlp-compile-service/blob/master/scripts/emit-cmake.sh)
+for the exact CMake invocation the cloud uses.
 
 ## <span style='color:orange'>NLP++ Development</span>
 
