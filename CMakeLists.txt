@@ -34,5 +34,19 @@ if(WIN32)
 else()
   target_link_libraries(bindings PRIVATE prim kbm consh words lite dl pthread)
 endif()
+
+# Extract the engine version from nlp-engine/nlp/main.cpp and forward it as
+# a compile-time string macro to bindings.cpp.  The dispatcher's manifest
+# wants this string to look up matching nlpengine-compile-libs releases.
+file(READ ${CMAKE_CURRENT_SOURCE_DIR}/nlp-engine/nlp/main.cpp _engine_main)
+string(REGEX MATCH "#define NLP_ENGINE_VERSION \"([^\"]+)\"" _ ${_engine_main})
+if(CMAKE_MATCH_1)
+  target_compile_definitions(bindings PRIVATE NLP_ENGINE_VERSION="${CMAKE_MATCH_1}")
+  message(STATUS "Bundled nlp-engine version: ${CMAKE_MATCH_1}")
+else()
+  message(WARNING "Could not parse NLP_ENGINE_VERSION from nlp-engine/nlp/main.cpp; engine_version() will return 'unknown'")
+endif()
+unset(_engine_main)
+
 install(TARGETS bindings LIBRARY DESTINATION NLPPlus)
 
