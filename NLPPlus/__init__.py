@@ -83,16 +83,18 @@ class Engine:
         verbose: bool = False,
         initialize: bool = False,
     ):
+        self._closed = False
         if working_folder is None:
-            # ignore_cleanup_errors=True: the nlp-engine's static `cgerr`
-            # ofstream holds <analyzer>/logs/cgerr.log open for the
-            # lifetime of the process. Python's TemporaryDirectory
-            # cleanup runs during atexit, but the C++ static destructor
-            # that would close cgerr runs *after* atexit (Python returns
-            # control to the OS first). On Windows that ordering means
-            # cleanup hits a still-open file and raises PermissionError.
-            # Swallow it — the OS reclaims the tempdir at process exit
-            # regardless. Tracked engine-side as NLP-ENGINE-523.
+            # ignore_cleanup_errors=True is now defense-in-depth: close()
+            # / __exit__ / __del__ explicitly call self.engine.close()
+            # before TemporaryDirectory.cleanup, which closes the engine's
+            # cgerr.log handle and lets Windows delete the temp dir
+            # cleanly. The flag still catches the corner case of an
+            # interpreter shutdown where __del__ never runs (e.g. crash,
+            # os._exit) — the OS reclaims the tempdir at process exit
+            # regardless, so swallowing the cleanup error keeps stderr
+            # quiet for users who never explicitly close. Engine-side
+            # fix shipped in NLP-ENGINE-523 (engine v3.1.55+).
             self.tmpdir = TemporaryDirectory(
                 prefix="NLPPlus-", ignore_cleanup_errors=True
             )
@@ -117,6 +119,57 @@ class Engine:
                 f"data directory not found in folder '{working_folder}'"
             )
         self.engine = NLP_ENGINE(str(self.working_folder), silent=not verbose)
+
+    def close(self):
+        """Tear down the underlying engine and release the working folder.
+
+        Idempotent: safe to call multiple times. After ``close()``, any
+        call to :meth:`analyze`, :meth:`compile`, or :meth:`cloud_compile`
+        is undefined behavior — create a new ``Engine`` instead.
+
+        On Windows in particular, calling ``close()`` (or using ``Engine``
+        as a context manager) is what makes the auto-created
+        ``TemporaryDirectory`` working folder delete cleanly: the engine
+        keeps a file handle on ``<workfolder>/logs/cgerr.log`` open for
+        the lifetime of the C++ instance, and Windows refuses to delete
+        a directory that contains an open file. ``close()`` calls into
+        the C++ engine's ``close()`` (NLP-ENGINE-523, engine v3.1.55+),
+        which releases that handle before the tempdir is removed.
+        """
+        if self._closed:
+            return
+        self._closed = True
+        # Engine.close() is idempotent on the C++ side as of engine
+        # v3.1.55; older engines just no-op the second teardown.
+        try:
+            self.engine.close()
+        except AttributeError:
+            # Pre-3.1.55 binding without the close() method exposed;
+            # fall back to letting __del__ tear it down. The tempdir
+            # cleanup below will still hit the PermissionError on
+            # Windows in that case — same situation as before 2.0.4.
+            pass
+        if self.tmpdir is not None:
+            self.tmpdir.cleanup()
+            self.tmpdir = None
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, exc_type, exc_value, traceback):
+        self.close()
+        return False
+
+    def __del__(self):
+        # Best-effort: __del__ may run during interpreter shutdown when
+        # modules are being torn down and the bindings module may already
+        # be gone. Swallow anything that goes wrong here; the explicit
+        # close() / context-manager paths are the supported way to get
+        # deterministic cleanup.
+        try:
+            self.close()
+        except Exception:
+            pass
 
     def analyze(self, text: str, analyzer_name: str, develop: bool = False,
                 compiled: bool = False) -> Results:
