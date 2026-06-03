@@ -119,5 +119,20 @@ NB_MODULE(bindings, m) {
              "Generates <analyzer>/run/*.cpp and <analyzer>/kb/*.cpp\n"
              "(or just <analyzer>/kb/*.cpp if `kbOnly=True`).  Those\n"
              "still need to be built into shared libraries before\n"
-             "`analyze(..., compiled=True)` can load them.");
+             "`analyze(..., compiled=True)` can load them.")
+        // NLP_ENGINE has two close() overloads: close() and
+        // close(_TCHAR *analyzer). Cast to pick the nullary one
+        // (we want the global teardown, not the per-analyzer one).
+        .def("close",
+             static_cast<int (NLP_ENGINE::*)()>(&NLP_ENGINE::close),
+             "Tear down the engine's VTRun runtime and release the open\n"
+             "<workfolder>/logs/cgerr.log handle. Safe to call multiple\n"
+             "times (engine v3.1.55+ NLP-ENGINE-523 made close()\n"
+             "idempotent). After close() returns, any subsequent\n"
+             "analyze()/compile() call on this instance is undefined\n"
+             "behavior. NLPPlus.Engine.close() / __exit__ / __del__\n"
+             "calls this before deleting the TemporaryDirectory backing\n"
+             "the working folder; this is what makes the temp-dir\n"
+             "cleanup safe on Windows where an open file handle would\n"
+             "otherwise block the rmtree.");
 }
