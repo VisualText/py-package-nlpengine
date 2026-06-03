@@ -120,7 +120,11 @@ NB_MODULE(bindings, m) {
              "(or just <analyzer>/kb/*.cpp if `kbOnly=True`).  Those\n"
              "still need to be built into shared libraries before\n"
              "`analyze(..., compiled=True)` can load them.")
-        .def("close", &NLP_ENGINE::close,
+        // NLP_ENGINE has two close() overloads: close() and
+        // close(_TCHAR *analyzer). Cast to pick the nullary one
+        // (we want the global teardown, not the per-analyzer one).
+        .def("close",
+             static_cast<int (NLP_ENGINE::*)()>(&NLP_ENGINE::close),
              "Tear down the engine's VTRun runtime and release the open\n"
              "<workfolder>/logs/cgerr.log handle. Safe to call multiple\n"
              "times (engine v3.1.55+ NLP-ENGINE-523 made close()\n"
