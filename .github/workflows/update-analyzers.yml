@@ -1,4 +1,4 @@
-# Install at: ddehilster/py-package-nlpengine -> .github/workflows/update-analyzers.yml
+# Install at: VisualText/py-package-nlpengine -> .github/workflows/update-analyzers.yml
 #
 # Listener in the cross-repo percolation chain (see
 # VisualText/nlp-engine/docs/PERCOLATION.md).
