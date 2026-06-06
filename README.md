@@ -1,5 +1,7 @@
 # NLPPlus
 
+**NLP++ lets you build fully customized text analyzers using the [NLP++ VSCode language extension](https://vscode.visualtext.org), giving you 100% visibility into — and complete control over — every rule and decision your analyzer makes. Unlike other NLP packages that are statistical black boxes you cannot inspect or change, every NLP++ analyzer is glass-box code you own and can tailor to your exact needs.**
+
 [![NLP++ Textbook](https://github.com/VisualText/py-package-nlpengine/raw/main/assets/TextbookLaunch01_LinkedIn%20Banner.png)](https://book.visualtext.org)
 
 ## First Textbook on the NLP++ Programming Langauge
