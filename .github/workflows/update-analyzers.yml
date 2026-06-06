@@ -3,18 +3,16 @@
 # Listener in the cross-repo percolation chain (see
 # VisualText/nlp-engine/docs/PERCOLATION.md).
 #
-# Bumps the `NLPPlus/analyzers` submodule (VisualText/package-analyzers) to the
-# latest upstream and opens a PR.
+# Fully automatic: when package-analyzers releases (event-type
+# package-analyzers-release), bump the `NLPPlus/analyzers` submodule, commit, and
+# push the next v* tag. The tag fires publish.yml, which builds the wheels +
+# sdist and publishes to PyPI (trusted publishing). The package version is
+# derived from the tag by setuptools_scm, so no file edit is needed.
 #
-# Why a PR (not commit+tag+release): this package has its own version and
-# publishes to PyPI via publish.yml. A submodule bump must NOT auto-publish or
-# land on main unreviewed. Merging the PR is a human action; publishing stays a
-# deliberate, separate step.
-#
-# Event-driven: fired by package-analyzers (event-type package-analyzers-release)
-# when it releases. Still runnable by hand.
+# The commit + tag are pushed with CLASSIC_PAT so the tag actually triggers
+# publish.yml (a GITHUB_TOKEN-pushed tag would not).
 
-name: Update analyzers submodule
+name: Update analyzers & publish
 
 on:
   workflow_dispatch: {}
@@ -23,34 +21,69 @@ on:
 
 permissions:
   contents: write
-  pull-requests: write
 
 jobs:
-  bump-analyzers:
+  bump-and-release:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         with:
           submodules: recursive
           fetch-depth: 0
+          token: ${{ secrets.CLASSIC_PAT }}
+
+      - name: Configure git identity
+        run: |
+          git config user.name  'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
 
       - name: Move analyzers to latest upstream
+        id: bump
         run: |
+          set -euo pipefail
+          before=$(git rev-parse HEAD:NLPPlus/analyzers)
           git submodule update --remote --recursive NLPPlus/analyzers
-          echo "Status:"; git submodule status NLPPlus/analyzers
+          after=$(git -C NLPPlus/analyzers rev-parse HEAD)
+          echo "before=$before" >> "$GITHUB_OUTPUT"
+          echo "after=$after"   >> "$GITHUB_OUTPUT"
+          if [ "$before" = "$after" ]; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            echo "analyzers already current ($after) — nothing to publish"
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+            echo "analyzers: $before -> $after"
+          fi
 
-      - name: Open PR if the pointer moved
-        uses: peter-evans/create-pull-request@v6
-        with:
-          branch: auto/bump-analyzers
-          delete-branch: true
-          title: "Auto: bump analyzers submodule to latest package-analyzers"
-          commit-message: "Auto: bump analyzers submodule to latest package-analyzers"
-          body: |
-            Automated bump of the `NLPPlus/analyzers` submodule
-            (VisualText/package-analyzers) to its latest released commit, which
-            includes whatever has percolated into it (e.g. parse-en-us fixes).
+      - name: Compute next version
+        if: steps.bump.outputs.changed == 'true'
+        id: version
+        run: |
+          set -euo pipefail
+          latest=$(git tag --sort=-v:refname \
+                   | grep -E '^v[0-9]+\.[0-9]+\.[0-9]+$' \
+                   | head -n1 || true)
+          latest=${latest:-v0.0.0}
+          IFS='.' read -r major minor patch <<<"${latest#v}"
+          patch=$((patch + 1))
+          new="v${major}.${minor}.${patch}"
+          echo "new=$new" >> "$GITHUB_OUTPUT"
+          echo "Bumping $latest -> $new"
 
-            Review the pointer change and merge. Merging does NOT publish to PyPI
-            — run the publish workflow deliberately. If this PR is empty,
-            analyzers was already current.
+      - name: Commit, tag, push
+        if: steps.bump.outputs.changed == 'true'
+        run: |
+          set -euo pipefail
+          git add NLPPlus/analyzers
+          git commit -m "Bump analyzers submodule to ${{ steps.bump.outputs.after }} (${{ steps.version.outputs.new }})"
+          git tag -a "${{ steps.version.outputs.new }}" -m "Release ${{ steps.version.outputs.new }} (analyzers bump)"
+          git push origin HEAD
+          git push origin "${{ steps.version.outputs.new }}"
+
+      - name: Summary
+        run: |
+          {
+            echo "### Update analyzers & publish"
+            echo "- analyzers changed: \`${{ steps.bump.outputs.changed }}\`"
+            echo "- analyzers: \`${{ steps.bump.outputs.before }}\` → \`${{ steps.bump.outputs.after }}\`"
+            echo "- new tag: \`${{ steps.version.outputs.new }}\`"
+          } >> "$GITHUB_STEP_SUMMARY"
