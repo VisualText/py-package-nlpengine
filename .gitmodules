@@ -1,3 +1,6 @@
 [submodule "nlp-engine"]
 	path = nlp-engine
 	url = https://github.com/VisualText/nlp-engine.git
+[submodule "NLPPlus/analyzers"]
+	path = NLPPlus/analyzers
+	url = https://github.com/VisualText/package-analyzers.git

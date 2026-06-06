@@ -1,7 +1,0 @@
-apt desgn=apartment
-bldg desgn=building
-fl desgn=floor
-ste desgn=suite
-unit desgn=unit
-rm desgn=room
-dept desgn=department
