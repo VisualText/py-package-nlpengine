@@ -1,0 +1,115 @@
+# Install at: VisualText/py-package-nlpengine -> .github/workflows/release.yml
+#
+# Manual "release button". Bumps the version (creates the next v* tag) and lets
+# publish.yml build the wheels + sdist and upload to PyPI (trusted publishing).
+#
+# Use this when you want a new PyPI release on demand — e.g. after the
+# package-analyzers submodule was updated, or to republish after doc / metadata
+# changes. The package version is derived from the tag by setuptools_scm, so no
+# file edit is needed.
+#
+# Difference from update-analyzers.yml: that workflow only fires when the
+# analyzers submodule actually changed (it is the automatic percolation
+# listener). This one always publishes, lets you pick patch/minor/major, and can
+# optionally refresh analyzers first.
+#
+# The commit + tag are pushed with CLASSIC_PAT so the tag actually triggers
+# publish.yml (a GITHUB_TOKEN-pushed tag would not).
+
+name: Release (manual bump & publish)
+
+on:
+  workflow_dispatch:
+    inputs:
+      bump:
+        description: 'Version part to bump'
+        type: choice
+        options:
+          - patch
+          - minor
+          - major
+        default: patch
+      update_analyzers:
+        description: 'Pull latest package-analyzers submodule before tagging'
+        type: boolean
+        default: true
+
+permissions:
+  contents: write
+
+jobs:
+  bump-and-release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          fetch-depth: 0
+          token: ${{ secrets.CLASSIC_PAT }}
+
+      - name: Configure git identity
+        run: |
+          git config user.name  'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+
+      - name: Refresh analyzers submodule
+        if: ${{ inputs.update_analyzers }}
+        id: bump
+        run: |
+          set -euo pipefail
+          before=$(git rev-parse HEAD:NLPPlus/analyzers)
+          git submodule update --remote --recursive NLPPlus/analyzers
+          after=$(git -C NLPPlus/analyzers rev-parse HEAD)
+          echo "before=$before" >> "$GITHUB_OUTPUT"
+          echo "after=$after"   >> "$GITHUB_OUTPUT"
+          if [ "$before" = "$after" ]; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            echo "analyzers already current ($after)"
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+            echo "analyzers: $before -> $after"
+          fi
+
+      - name: Compute next version
+        id: version
+        run: |
+          set -euo pipefail
+          latest=$(git tag --sort=-v:refname \
+                   | grep -E '^v[0-9]+\.[0-9]+\.[0-9]+$' \
+                   | head -n1 || true)
+          latest=${latest:-v0.0.0}
+          IFS='.' read -r major minor patch <<<"${latest#v}"
+          case "${{ inputs.bump }}" in
+            major) major=$((major + 1)); minor=0; patch=0 ;;
+            minor) minor=$((minor + 1)); patch=0 ;;
+            patch) patch=$((patch + 1)) ;;
+          esac
+          new="v${major}.${minor}.${patch}"
+          echo "new=$new" >> "$GITHUB_OUTPUT"
+          echo "Bumping $latest -> $new"
+
+      - name: Commit, tag, push
+        run: |
+          set -euo pipefail
+          # Commit the analyzers bump only if it actually changed; otherwise just
+          # tag the current HEAD so the build picks up the new version.
+          if [ "${{ steps.bump.outputs.changed }}" = "true" ]; then
+            git add NLPPlus/analyzers
+            git commit -m "Bump analyzers submodule to ${{ steps.bump.outputs.after }} (${{ steps.version.outputs.new }})"
+            git push origin HEAD
+          fi
+          git tag -a "${{ steps.version.outputs.new }}" -m "Release ${{ steps.version.outputs.new }}"
+          git push origin "${{ steps.version.outputs.new }}"
+
+      - name: Summary
+        run: |
+          {
+            echo "### Release"
+            echo "- bump: \`${{ inputs.bump }}\`"
+            echo "- update analyzers: \`${{ inputs.update_analyzers }}\`"
+            echo "- analyzers changed: \`${{ steps.bump.outputs.changed }}\`"
+            echo "- analyzers: \`${{ steps.bump.outputs.before }}\` → \`${{ steps.bump.outputs.after }}\`"
+            echo "- new tag: \`${{ steps.version.outputs.new }}\`"
+            echo ""
+            echo "Tag pushed → \`publish.yml\` builds wheels + sdist and uploads to PyPI."
+          } >> "$GITHUB_STEP_SUMMARY"
