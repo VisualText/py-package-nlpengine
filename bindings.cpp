@@ -61,14 +61,18 @@ wrap_analyze(NLP_ENGINE &engine, const std::string &parser,
  * `kbOnly=true` switches to KB-only codegen — the analyzer grammar is
  * skipped and only `<analyzer>/kb/` is emitted.  Matches `init(...,
  * compileKB=true)`.
+ *
+ * `analyzerOnly=true` switches to analyzer-only codegen — only
+ * `<analyzer>/run/` is emitted and the KB is left alone.  Matches
+ * `init(..., compileAna=true)`.  Mutually exclusive with kbOnly.
  */
 void
 wrap_compile(NLP_ENGINE &engine, const std::string &analyzer,
-             const bool develop, const bool kbOnly) {
+             const bool develop, const bool kbOnly, const bool analyzerOnly) {
     _TCHAR *_analyzer = _tcsdup(analyzer.c_str());
     engine.init(_analyzer, develop, /*silent*/false,
-                /*compile*/!kbOnly, /*compiled*/false,
-                /*compileKB*/kbOnly);
+                /*compile*/(!kbOnly && !analyzerOnly), /*compiled*/false,
+                /*compileKB*/kbOnly, /*compileAna*/analyzerOnly);
     free(_analyzer);
 }
 
@@ -115,9 +119,11 @@ NB_MODULE(bindings, m) {
              "cloud build step.")
         .def("compile", &wrap_compile,
              "analyzer"_a, "develop"_a = false, "kbOnly"_a = false,
+             "analyzerOnly"_a = false,
              "Emit C++ source files for `analyzer`.\n"
              "Generates <analyzer>/run/*.cpp and <analyzer>/kb/*.cpp\n"
-             "(or just <analyzer>/kb/*.cpp if `kbOnly=True`).  Those\n"
+             "(or just <analyzer>/kb/*.cpp if `kbOnly=True`, or just\n"
+             "<analyzer>/run/*.cpp if `analyzerOnly=True`).  Those\n"
              "still need to be built into shared libraries before\n"
              "`analyze(..., compiled=True)` can load them.")
         // NLP_ENGINE has two close() overloads: close() and

@@ -223,21 +223,25 @@ interpreted from the `.nlp` source. See `compile()` and
 The analyze function returns a results object that make the analyzer
 output files easily accessible to python. (see reults below)
 
-#### compile(analyzer: str = "parse-en-us", develop: bool = False, kb_only: bool = False)
+#### compile(analyzer: str = "parse-en-us", develop: bool = False, kb_only: bool = False, analyzer_only: bool = False)
 Generates C++ source files for the analyzer by running the engine in
 `-COMPILE` mode. The output lands under `<analyzer>/run/*.cpp` and
-`<analyzer>/kb/*.cpp` (or just `<analyzer>/kb/*.cpp` if `kb_only=True`).
-The generated files still need to be built into shared libraries
-before `analyze(..., compiled=True)` can load them — see
-`cloud_compile()` for the one-call end-to-end path.
+`<analyzer>/kb/*.cpp` — or just `<analyzer>/kb/*.cpp` if `kb_only=True`
+(`-COMPILEKB`), or just `<analyzer>/run/*.cpp` if `analyzer_only=True`
+(`-COMPILEANA`). Use `analyzer_only=True` when only the rules changed
+and the KB is already compiled; `kb_only` and `analyzer_only` are
+mutually exclusive. The generated files still need to be built into
+shared libraries before `analyze(..., compiled=True)` can load them —
+see `cloud_compile()` for the one-call end-to-end path.
 
-#### cloud_compile(analyzer: str = "parse-en-us", dispatcher_url: Optional[str] = None, kb_only: bool = False, develop: bool = False, poll_interval: float = 2.0, timeout: float = 1800, skip_local_compile: bool = False)
+#### cloud_compile(analyzer: str = "parse-en-us", dispatcher_url: Optional[str] = None, kb_only: bool = False, analyzer_only: bool = False, develop: bool = False, poll_interval: float = 2.0, timeout: float = 1800, skip_local_compile: bool = False)
 End-to-end compile via the public nlp-compile-service cloud build:
 runs `compile()` to produce the C++ trees, tars them up, submits to a
 Cloudflare-Worker dispatcher, polls the GitHub-Actions runner build,
 downloads the resulting shared library and stages it into
 `<analyzer>/bin/` as `run.<ext>` + `runu.<ext>` + `kb.<ext>` +
-`kbu.<ext>` (or just `kb.<ext>` + `kbu.<ext>` for `kb_only=True`).
+`kbu.<ext>` (or just `kb.<ext>` + `kbu.<ext>` for `kb_only=True`, or
+just `run.<ext>` + `runu.<ext>` for `analyzer_only=True`).
 After it returns, `analyze(..., compiled=True)` will pick up the
 staged libraries.
 

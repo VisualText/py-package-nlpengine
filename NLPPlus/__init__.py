@@ -204,20 +204,29 @@ class Engine:
         return Results(outtext, outdir)
 
     def compile(self, analyzer_name: str, develop: bool = False,
-                kb_only: bool = False) -> Path:
+                kb_only: bool = False, analyzer_only: bool = False) -> Path:
         """Generate C++ source files for the named analyzer.
 
-        Runs the engine in ``-COMPILE`` mode (or ``-COMPILEKB`` if
-        ``kb_only=True``), which emits the analyzer body under
-        ``<analyzer>/run/`` and the knowledge base under
-        ``<analyzer>/kb/``.  Returns the analyzer directory containing
+        Runs the engine in ``-COMPILE`` mode, or ``-COMPILEKB`` if
+        ``kb_only=True`` (KB only), or ``-COMPILEANA`` if
+        ``analyzer_only=True`` (analyzer rules only, skipping the KB).
+        ``-COMPILE`` emits the analyzer body under ``<analyzer>/run/``
+        and the knowledge base under ``<analyzer>/kb/``; ``-COMPILEKB``
+        emits just ``<analyzer>/kb/``; ``-COMPILEANA`` emits just
+        ``<analyzer>/run/``.  Returns the analyzer directory containing
         those generated trees.
+
+        Use ``analyzer_only=True`` when only the rules changed and the
+        KB is already compiled.  ``kb_only`` and ``analyzer_only`` are
+        mutually exclusive.
 
         The generated C++ still needs to be built into shared
         libraries before :meth:`analyze` can load them with
         ``compiled=True``.  Use :meth:`cloud_compile` to do the build
         step via the public nlp-compile-service in one call.
         """
+        if kb_only and analyzer_only:
+            raise ValueError("compile: kb_only and analyzer_only are mutually exclusive")
         analyzer_name_p = Path(analyzer_name)
         if self.analyzer_path:
             analyzer_dir = (
@@ -229,12 +238,13 @@ class Engine:
                 self.working_folder / "analyzers" / analyzer_name_p
             )
             engine_arg = str(analyzer_name_p)
-        self.engine.compile(engine_arg, develop, kb_only)
+        self.engine.compile(engine_arg, develop, kb_only, analyzer_only)
         return analyzer_dir
 
     def cloud_compile(self, analyzer_name: str,
                       dispatcher_url: Optional[str] = None,
                       kb_only: bool = False,
+                      analyzer_only: bool = False,
                       develop: bool = False,
                       poll_interval: float = 2.0,
                       timeout: float = 30 * 60,
@@ -259,6 +269,8 @@ class Engine:
           dispatcher_url: override the public dispatcher endpoint
             (default: ``cloud.DEFAULT_DISPATCHER_URL``).
           kb_only: compile only the KB.
+          analyzer_only: compile only the analyzer rules (skip the KB).
+            Mutually exclusive with ``kb_only``.
           develop: forwarded to local ``-COMPILE``.
           poll_interval: seconds between job-status checks.
           timeout: max seconds to wait for the runner build.
@@ -271,7 +283,7 @@ class Engine:
         return cloud.cloud_compile(
             self, analyzer_name,
             dispatcher_url=dispatcher_url or cloud.DEFAULT_DISPATCHER_URL,
-            kb_only=kb_only, develop=develop,
+            kb_only=kb_only, analyzer_only=analyzer_only, develop=develop,
             poll_interval=poll_interval, timeout=timeout,
             skip_local_compile=skip_local_compile,
         )
@@ -349,20 +361,23 @@ def analyze(text: str, parser: str = "parse-en-us", develop: bool = False,
 
 
 def compile(analyzer: str = "parse-en-us", develop: bool = False,
-            kb_only: bool = False):
+            kb_only: bool = False, analyzer_only: bool = False):
     """Generate C++ source files for the named analyzer.
 
     Wraps :meth:`Engine.compile`.  The generated trees land under
     ``<analyzer>/run/`` and ``<analyzer>/kb/`` inside the engine's
-    working folder; they still need to be built into shared libraries
-    before :func:`analyze` can load them with ``compiled=True``.
+    working folder (or just ``kb/`` for ``kb_only``, or just ``run/``
+    for ``analyzer_only``); they still need to be built into shared
+    libraries before :func:`analyze` can load them with
+    ``compiled=True``.
     """
-    return engine.compile(analyzer, develop, kb_only)
+    return engine.compile(analyzer, develop, kb_only, analyzer_only)
 
 
 def cloud_compile(analyzer: str = "parse-en-us",
                   dispatcher_url: Optional[str] = None,
                   kb_only: bool = False,
+                  analyzer_only: bool = False,
                   develop: bool = False,
                   poll_interval: float = 2.0,
                   timeout: float = 30 * 60,
@@ -376,7 +391,8 @@ def cloud_compile(analyzer: str = "parse-en-us",
     """
     return engine.cloud_compile(
         analyzer, dispatcher_url=dispatcher_url, kb_only=kb_only,
-        develop=develop, poll_interval=poll_interval, timeout=timeout,
+        analyzer_only=analyzer_only, develop=develop,
+        poll_interval=poll_interval, timeout=timeout,
         skip_local_compile=skip_local_compile,
     )
 
