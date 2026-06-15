@@ -1,0 +1,89 @@
+# Install at: VisualText/py-package-nlpengine -> .github/workflows/update-nlp-engine.yml
+#
+# Listener in the cross-repo percolation chain (see
+# VisualText/nlp-engine/docs/PERCOLATION.md).
+#
+# Fully automatic: when nlp-engine releases (event-type nlp-engine-release),
+# bump the `nlp-engine` submodule, commit, and push the next v* tag. The tag
+# fires publish.yml, which builds the wheels + sdist from source and publishes
+# to PyPI (trusted publishing). The package version is derived from the tag by
+# setuptools_scm, so no file edit is needed.
+#
+# The commit + tag are pushed with CLASSIC_PAT so the tag actually triggers
+# publish.yml (a GITHUB_TOKEN-pushed tag would not).
+
+name: Update nlp-engine & publish
+
+on:
+  workflow_dispatch: {}
+  repository_dispatch:
+    types: [nlp-engine-release]
+
+permissions:
+  contents: write
+
+jobs:
+  bump-and-release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          fetch-depth: 0
+          token: ${{ secrets.CLASSIC_PAT }}
+
+      - name: Configure git identity
+        run: |
+          git config user.name  'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+
+      - name: Move nlp-engine to latest upstream
+        id: bump
+        run: |
+          set -euo pipefail
+          before=$(git rev-parse HEAD:nlp-engine)
+          git submodule update --remote --recursive nlp-engine
+          after=$(git -C nlp-engine rev-parse HEAD)
+          echo "before=$before" >> "$GITHUB_OUTPUT"
+          echo "after=$after"   >> "$GITHUB_OUTPUT"
+          if [ "$before" = "$after" ]; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            echo "nlp-engine already current ($after) — nothing to publish"
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+            echo "nlp-engine: $before -> $after"
+          fi
+
+      - name: Compute next version
+        if: steps.bump.outputs.changed == 'true'
+        id: version
+        run: |
+          set -euo pipefail
+          latest=$(git tag --sort=-v:refname \
+                   | grep -E '^v[0-9]+\.[0-9]+\.[0-9]+$' \
+                   | head -n1 || true)
+          latest=${latest:-v0.0.0}
+          IFS='.' read -r major minor patch <<<"${latest#v}"
+          patch=$((patch + 1))
+          new="v${major}.${minor}.${patch}"
+          echo "new=$new" >> "$GITHUB_OUTPUT"
+          echo "Bumping $latest -> $new"
+
+      - name: Commit, tag, push
+        if: steps.bump.outputs.changed == 'true'
+        run: |
+          set -euo pipefail
+          git add nlp-engine
+          git commit -m "Bump nlp-engine submodule to ${{ steps.bump.outputs.after }} (${{ steps.version.outputs.new }})"
+          git tag -a "${{ steps.version.outputs.new }}" -m "Release ${{ steps.version.outputs.new }} (nlp-engine bump)"
+          git push origin HEAD
+          git push origin "${{ steps.version.outputs.new }}"
+
+      - name: Summary
+        run: |
+          {
+            echo "### Update nlp-engine & publish"
+            echo "- nlp-engine changed: \`${{ steps.bump.outputs.changed }}\`"
+            echo "- nlp-engine: \`${{ steps.bump.outputs.before }}\` → \`${{ steps.bump.outputs.after }}\`"
+            echo "- new tag: \`${{ steps.version.outputs.new }}\`"
+          } >> "$GITHUB_STEP_SUMMARY"
