@@ -146,14 +146,21 @@ def shared_library_ext() -> str:
     return ".so"
 
 
-def _stage_payload(analyzer_dir: Path, stage_dir: Path, kb_only: bool) -> None:
+def _stage_payload(analyzer_dir: Path, stage_dir: Path, kb_only: bool,
+                   analyzer_only: bool = False) -> None:
     """Copy run/ + kb/ trees and write the StdAfx.h stub into stage_dir.
 
-    Skips run/ when ``kb_only=True``.  Only `.cpp` and `.h` files are
-    copied — the dispatcher's emit-cmake.sh globs both and the engine
-    emits per-pass headers alongside the .cpp files.
+    Skips run/ when ``kb_only=True``; skips kb/ when ``analyzer_only=True``.
+    Only `.cpp` and `.h` files are copied — the dispatcher's emit-cmake.sh
+    globs both and the engine emits per-pass headers alongside the .cpp
+    files.
     """
-    subdirs = ["kb"] if kb_only else ["run", "kb"]
+    if kb_only:
+        subdirs = ["kb"]
+    elif analyzer_only:
+        subdirs = ["run"]
+    else:
+        subdirs = ["run", "kb"]
     any_source = False
     for sub in subdirs:
         src = analyzer_dir / sub
@@ -305,15 +312,18 @@ def _stage_artifact(
     analyzer_dir: Path,
     analyzer_name: str,
     kb_only: bool,
+    analyzer_only: bool = False,
 ) -> Path:
     """Download the cloud artifact and stage it as the bin/ shared libs.
 
-    The dispatcher returns ONE shared library per build (either run+kb
-    fused, or kb-only).  We mirror the vscode-nlp extension's staging
-    behaviour: drop it into ``<analyzer>/bin/`` as both ``run.<ext>`` and
-    ``kb.<ext>`` for the full build (the engine's -COMPILED dlopens both
-    from there) and as ``kb.<ext>`` alone for ``kb_only``.  Returns the
-    bin/ directory path.
+    The dispatcher returns ONE shared library per build (run+kb fused,
+    kb-only, or analyzer-only).  We mirror the vscode-nlp extension's
+    staging behaviour: drop it into ``<analyzer>/bin/`` as both
+    ``run.<ext>`` and ``kb.<ext>`` for the full build (the engine's
+    -COMPILED dlopens both from there), as ``kb.<ext>`` alone for
+    ``kb_only``, or as ``run.<ext>`` alone for ``analyzer_only``
+    (leaving any existing ``kb.<ext>`` in place).  Returns the bin/
+    directory path.
     """
     ext = shared_library_ext()
     bin_dir = analyzer_dir / "bin"
@@ -326,6 +336,8 @@ def _stage_artifact(
         _download(artifact_url, tmp_artifact)
         if kb_only:
             targets = [f"kb{ext}"]
+        elif analyzer_only:
+            targets = [f"run{ext}", f"runu{ext}"]
         else:
             # vscode-nlp also writes the "u" (unicode) variants on
             # Windows; mirror that so the engine's load_compiled finds
@@ -346,6 +358,7 @@ def cloud_compile(
     analyzer_name: str,
     dispatcher_url: str = DEFAULT_DISPATCHER_URL,
     kb_only: bool = False,
+    analyzer_only: bool = False,
     develop: bool = False,
     poll_interval: float = 2.0,
     timeout: float = 30 * 60,
@@ -366,6 +379,8 @@ def cloud_compile(
         Worker.  Default points at the public dehilster.workers.dev
         deployment that the vscode-nlp extension also uses.
       kb_only: if True, only the KB is compiled (``run/`` is skipped).
+      analyzer_only: if True, only the analyzer rules are compiled
+        (``kb/`` is skipped). Mutually exclusive with ``kb_only``.
       develop: forwarded to the local ``-COMPILE`` step.
       poll_interval: seconds between ``GET /jobs/<id>`` checks.
       timeout: max seconds to wait for the runner build before raising
@@ -377,9 +392,14 @@ def cloud_compile(
         :meth:`Engine.compile`).  Useful if you want to re-package and
         re-submit without regenerating the .cpp.
     """
+    if kb_only and analyzer_only:
+        raise CloudCompileError(
+            "kb_only and analyzer_only are mutually exclusive"
+        )
     if not skip_local_compile:
         analyzer_dir = engine.compile(
-            analyzer_name, develop=develop, kb_only=kb_only
+            analyzer_name, develop=develop, kb_only=kb_only,
+            analyzer_only=analyzer_only,
         )
     else:
         # Mirror Engine.compile's directory resolution without invoking
@@ -405,7 +425,7 @@ def cloud_compile(
 
     with tempfile.TemporaryDirectory(prefix="nlpplus-cloud-") as stage_str:
         stage_dir = Path(stage_str)
-        _stage_payload(analyzer_dir, stage_dir, kb_only)
+        _stage_payload(analyzer_dir, stage_dir, kb_only, analyzer_only)
         tar_path = stage_dir / "_payload.tar.gz"
         _make_tarball(stage_dir, tar_path)
         sources_hash = _sha256_file(tar_path)
@@ -415,6 +435,7 @@ def cloud_compile(
             "platform": platform_key,
             "analyzerName": analyzer_name,
             "kbOnly": kb_only,
+            "analyzerOnly": analyzer_only,
             "sourcesHash": "sha256:" + sources_hash,
             "client": "NLPPlus",
         }
@@ -455,7 +476,7 @@ def cloud_compile(
     # tarball cleanup happens via TemporaryDirectory.__exit__; now stage
     # the artifact into the analyzer's bin/ dir.
     bin_dir = _stage_artifact(
-        artifact_url, analyzer_dir, analyzer_name, kb_only
+        artifact_url, analyzer_dir, analyzer_name, kb_only, analyzer_only
     )
     LOGGER.info("Cloud compile output staged into %s", bin_dir)
     return bin_dir
