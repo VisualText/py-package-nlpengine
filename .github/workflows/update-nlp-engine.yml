@@ -41,17 +41,33 @@ jobs:
         id: bump
         run: |
           set -euo pipefail
+          # Decide whether to publish by comparing the engine the LAST RELEASE
+          # shipped against current engine HEAD -- NOT merely whether this run's
+          # own `submodule update --remote` moves the SHA. If the submodule was
+          # already advanced by another path (e.g. a verification PR), the
+          # in-run delta is empty and the old gate silently skipped the release.
+          # That is exactly how nlp-engine 3.5.6/#658 missed PyPI.
+          latest=$(git tag --sort=-v:refname \
+                   | grep -E '^v[0-9]+\.[0-9]+\.[0-9]+$' \
+                   | head -n1 || true)
+          if [ -n "$latest" ]; then
+            published=$(git rev-parse "$latest:nlp-engine")
+          else
+            published=""
+          fi
           before=$(git rev-parse HEAD:nlp-engine)
           git submodule update --remote --recursive nlp-engine
           after=$(git -C nlp-engine rev-parse HEAD)
-          echo "before=$before" >> "$GITHUB_OUTPUT"
-          echo "after=$after"   >> "$GITHUB_OUTPUT"
-          if [ "$before" = "$after" ]; then
+          echo "latest=$latest"       >> "$GITHUB_OUTPUT"
+          echo "published=$published" >> "$GITHUB_OUTPUT"
+          echo "before=$before"       >> "$GITHUB_OUTPUT"
+          echo "after=$after"         >> "$GITHUB_OUTPUT"
+          if [ "$published" = "$after" ]; then
             echo "changed=false" >> "$GITHUB_OUTPUT"
-            echo "nlp-engine already current ($after) — nothing to publish"
+            echo "nlp-engine already released at $after (tag $latest) — nothing to publish"
           else
             echo "changed=true" >> "$GITHUB_OUTPUT"
-            echo "nlp-engine: $before -> $after"
+            echo "nlp-engine to release: published=$published -> $after"
           fi
 
       - name: Compute next version
@@ -59,9 +75,7 @@ jobs:
         id: version
         run: |
           set -euo pipefail
-          latest=$(git tag --sort=-v:refname \
-                   | grep -E '^v[0-9]+\.[0-9]+\.[0-9]+$' \
-                   | head -n1 || true)
+          latest='${{ steps.bump.outputs.latest }}'
           latest=${latest:-v0.0.0}
           IFS='.' read -r major minor patch <<<"${latest#v}"
           patch=$((patch + 1))
@@ -74,16 +88,24 @@ jobs:
         run: |
           set -euo pipefail
           git add nlp-engine
-          git commit -m "Bump nlp-engine submodule to ${{ steps.bump.outputs.after }} (${{ steps.version.outputs.new }})"
+          # The submodule may already be at `after` on main (advanced by another
+          # path), leaving nothing to commit -- but we still need the tag to fire
+          # publish.yml. Commit only when there's an actual change.
+          if git diff --cached --quiet; then
+            echo "main submodule already at ${{ steps.bump.outputs.after }}; tagging current HEAD"
+          else
+            git commit -m "Bump nlp-engine submodule to ${{ steps.bump.outputs.after }} (${{ steps.version.outputs.new }})"
+            git push origin HEAD
+          fi
           git tag -a "${{ steps.version.outputs.new }}" -m "Release ${{ steps.version.outputs.new }} (nlp-engine bump)"
-          git push origin HEAD
           git push origin "${{ steps.version.outputs.new }}"
 
       - name: Summary
         run: |
           {
             echo "### Update nlp-engine & publish"
-            echo "- nlp-engine changed: \`${{ steps.bump.outputs.changed }}\`"
-            echo "- nlp-engine: \`${{ steps.bump.outputs.before }}\` → \`${{ steps.bump.outputs.after }}\`"
+            echo "- publish needed: \`${{ steps.bump.outputs.changed }}\`"
+            echo "- last released engine (\`${{ steps.bump.outputs.latest }}\`): \`${{ steps.bump.outputs.published }}\`"
+            echo "- engine HEAD now: \`${{ steps.bump.outputs.after }}\`"
             echo "- new tag: \`${{ steps.version.outputs.new }}\`"
           } >> "$GITHUB_STEP_SUMMARY"
