@@ -96,6 +96,41 @@ class EngineTest(TestCase):
         self._run_analyzer("links")
 
 
+class ReentrancyRegressionTest(TestCase):
+    """nlp-engine #658 / #632 regression.
+
+    Re-entrant ``analyze()`` across working folders must reuse the loaded
+    analyzer instead of rebuilding and orphaning it, and switching working
+    folders (which tears down the prior engine) must not segfault on teardown.
+
+    Unlike the fixture-based suites above, these tests assert only that the
+    calls succeed and -- critically -- that the process survives teardown.
+    They deliberately do NOT compare against the output fixtures (which drift
+    with the engine and are regenerated separately), so a clean run here is an
+    unambiguous signal that the #632 SIGSEGV (exit 139) is gone.
+    """
+
+    def test_repeated_analyze_same_process(self):
+        """Several analyze() calls in one process exercise the re-entrant
+        addAna path that, pre-#658, logged 'Named analyzer already present'
+        and orphaned a fresh NLP. Uses the bundled default analyzer."""
+        for _ in range(3):
+            xml = NLPPlus.analyze("Hello world!")
+            self.assertTrue(xml)
+
+    def test_working_dir_switch_teardown(self):
+        """The #632 repro: switch to a temp working folder, analyze, then let
+        TemporaryDirectory GC-clean it -- which tears down the prior engine.
+        Pre-#658 this SIGSEGV'd during teardown; post-fix it exits cleanly."""
+        with TemporaryDirectory(prefix="test-nlpplus") as tmp:
+            copytree(DATADIR.parent / "analyzers", Path(tmp) / "analyzers")
+            copytree(NLPPLUSDIR / "data", Path(tmp) / "data")
+            NLPPlus.set_working_folder(tmp)
+            text = read_file(DATADIR / "basic" / "text.txt")
+            results = NLPPlus.engine.analyze(text, "basic")
+            self.assertIsNotNone(results)
+
+
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)
     main()
