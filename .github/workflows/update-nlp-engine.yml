@@ -58,6 +58,14 @@ jobs:
           before=$(git rev-parse HEAD:nlp-engine)
           git submodule update --remote --recursive nlp-engine
           after=$(git -C nlp-engine rev-parse HEAD)
+          # Keep the vendored rule-compiler spec (NLPPlus/data) in lockstep with
+          # the engine's data/ tree. The wheel ships this copy and __init__.py
+          # copies it into the working folder at runtime; if it drifts, newly
+          # added compiler passes (e.g. rfb/spec/xvar.nlp, which teaches the
+          # compiler _xVAR("attr")) are missing and analyzers fail to build even
+          # though the engine source is correct. Mirror with --delete so removed
+          # files are dropped too.
+          rsync -a --delete nlp-engine/data/ NLPPlus/data/
           echo "latest=$latest"       >> "$GITHUB_OUTPUT"
           echo "published=$published" >> "$GITHUB_OUTPUT"
           echo "before=$before"       >> "$GITHUB_OUTPUT"
@@ -87,7 +95,7 @@ jobs:
         if: steps.bump.outputs.changed == 'true'
         run: |
           set -euo pipefail
-          git add nlp-engine
+          git add nlp-engine NLPPlus/data
           # The submodule may already be at `after` on main (advanced by another
           # path), leaving nothing to commit -- but we still need the tag to fire
           # publish.yml. Commit only when there's an actual change.
