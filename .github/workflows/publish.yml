@@ -20,7 +20,10 @@ jobs:
           submodules: recursive
 
       - name: Build wheels
-        uses: pypa/cibuildwheel@v2.19.2
+        # cibuildwheel must be new enough to know the cp313 identifier;
+        # v2.19.2 predates CPython 3.13 and silently skips the cp313-* entry
+        # in pyproject's build list, leaving 3.13 users with no wheel.
+        uses: pypa/cibuildwheel@v2.23.4
         env:
           CIBW_BUILD_VERBOSITY: 3
           # Note use of yum because anylinux is ancient CentOS
@@ -84,7 +87,9 @@ jobs:
           github-binarycache: true
 
       - name: Build wheels
-        uses: pypa/cibuildwheel@v2.19.2
+        # See the Linux job: v2.19.2 is too old to build cp313, so 3.13
+        # Windows users fall through to the unbuildable sdist.
+        uses: pypa/cibuildwheel@v2.23.4
         env:
           CIBW_BUILD_VERBOSITY: 3
           CIBW_BEFORE_BUILD_WINDOWS: "pip install delvewheel"
