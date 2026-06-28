@@ -49,22 +49,33 @@ jobs:
         with:
           submodules: recursive
 
+      # Autotools are needed for vcpkg to build ICU from source on a cache miss.
       - name: Install packages
         run: brew install autoconf-archive autoconf automake pkg-config
 
-      - name: vcpkg setup
-        run: |
-          git clone --depth 1 https://github.com/Microsoft/vcpkg.git
-          ./vcpkg/bootstrap-vcpkg.sh
+      - name: vcpkg build
+        id: vcpkg
+        uses: johnwason/vcpkg-action@v6
+        with:
+          manifest-dir: ${{ github.workspace }}
+          triplet: arm64-osx-release
+          token: ${{ github.token }}
+          github-binarycache: true
 
+      # Replaces the previous bare `pip wheel`, which only built a single wheel
+      # for the runner's host Python (leaving cp310-cp312 macOS users with no
+      # wheel) and did not bundle the ICU dylibs. cibuildwheel builds the full
+      # cp310-cp313 matrix and its default delocate step vendors the dylibs.
       - name: Build wheels
-        run: |
-          pip wheel -C "cmake.args=-DCMAKE_BUILD_TYPE=Release;-DCMAKE_TOOLCHAIN_FILE=./vcpkg/scripts/buildsystems/vcpkg.cmake" -v .
+        uses: pypa/cibuildwheel@v2.23.4
+        env:
+          CIBW_BUILD_VERBOSITY: 3
+          CIBW_CONFIG_SETTINGS: "cmake.args='-DCMAKE_BUILD_TYPE=Release;-DCMAKE_TOOLCHAIN_FILE=${{ github.workspace }}/vcpkg/scripts/buildsystems/vcpkg.cmake'"
 
       - uses: actions/upload-artifact@v4
         with:
           name: cibw-wheels-macos
-          path: ./*.whl
+          path: ./wheelhouse/*.whl
 
   build_wheels_windows:
     name: Build wheels on Windows

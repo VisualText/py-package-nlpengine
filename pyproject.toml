@@ -48,7 +48,9 @@ build = [
       "cp313-*",
 ]
 skip = [
-     "cp*-macosx_arm64",
+     # macosx_arm64 is intentionally built: the macOS job runs cibuildwheel
+     # natively on an arm64 (Apple Silicon) runner, so skipping arm64 here
+     # would leave that job with nothing to build.
      "*_i686",
      "*musl*",
      "*-win32",
