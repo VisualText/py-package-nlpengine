@@ -10,7 +10,7 @@ Basic usage:
 
 import json
 import logging
-from shutil import copytree, rmtree
+from shutil import copytree, rmtree, copyfile
 from tempfile import TemporaryDirectory
 from os import PathLike, getcwd
 from pathlib import Path
@@ -299,6 +299,67 @@ class Engine:
             text = file.read()
         return text
     
+    def _kb_user_dir(self, analyzer_name: str) -> Path:
+        """The analyzer's ``kb/user`` directory, created if missing.
+
+        This is where JSON data is dropped for the analyzer's ``json2kbb``
+        python pass to convert into a ``.kbb`` knowledge base on the next run.
+        """
+        if self.analyzer_path:
+            analyzer_dir = Path(self.analyzer_path) / analyzer_name
+        else:
+            analyzer_dir = self.working_folder / "analyzers" / analyzer_name
+        kbdir = analyzer_dir / "kb" / "user"
+        kbdir.mkdir(parents=True, exist_ok=True)
+        return kbdir
+
+    def put_json_file(self, analyzer_name: str, json_path: PathLike,
+                      name: Optional[str] = None) -> Path:
+        """Place a JSON file in the analyzer's ``kb/user`` directory.
+
+        The file is copied to ``<analyzer>/kb/user/<name>.json`` (defaulting
+        the name to the source file's own name). The analyzer's ``json2kbb``
+        python pass then converts it to ``<name>.kbb`` on the next run, so the
+        data is loaded into the knowledge base. Returns the destination path.
+
+        Args:
+          analyzer_name: analyzer under the working / analyzers folder.
+          json_path: path to a JSON file to copy in.
+          name: optional output file name (``.json`` is appended if missing).
+        """
+        src = Path(json_path)
+        if not src.is_file():
+            raise EngineException(f"JSON file not found: {src}")
+        with open(src, "r", encoding="utf-8") as fh:
+            json.load(fh)  # validate it is JSON before copying
+        target = name if name else src.name
+        if not target.lower().endswith(".json"):
+            target += ".json"
+        dest = self._kb_user_dir(analyzer_name) / target
+        copyfile(src, dest)
+        LOGGER.info("Wrote JSON to %s", dest)
+        return dest
+
+    def put_json_object(self, analyzer_name: str, obj: Any,
+                        name: str) -> Path:
+        """Write a JSON-serializable object to the analyzer's ``kb/user`` dir.
+
+        The object is serialized to ``<analyzer>/kb/user/<name>.json``. The
+        analyzer's ``json2kbb`` python pass then converts it to ``<name>.kbb``
+        on the next run. Returns the destination path.
+
+        Args:
+          analyzer_name: analyzer under the working / analyzers folder.
+          obj: any JSON-serializable object (dict, list, str, number, ...).
+          name: output file name (``.json`` is appended if missing).
+        """
+        target = name if name.lower().endswith(".json") else name + ".json"
+        dest = self._kb_user_dir(analyzer_name) / target
+        with open(dest, "w", encoding="utf-8") as fh:
+            json.dump(obj, fh, ensure_ascii=False, indent=2)
+        LOGGER.info("Wrote JSON to %s", dest)
+        return dest
+
     def set_analyzers_folder(self, analyzer_name: str):
         """Set analyzers directory path."""
         self.analyzer_path = analyzer_name
@@ -347,6 +408,20 @@ def copy_library_analyzers(analyzer_folder_path: str, overwrite=True):
 def set_analyzers_folder(analyzer_folder_path: str):
     """Run the analyzer named on the input string."""
     engine.set_analyzers_folder(analyzer_folder_path)
+
+
+def put_json_file(analyzer_name: str, json_path: PathLike,
+                  name: Optional[str] = None) -> Path:
+    """Place a JSON file in the analyzer's ``kb/user`` directory so its
+    ``json2kbb`` pass converts it to a KBB (see :meth:`Engine.put_json_file`)."""
+    return engine.put_json_file(analyzer_name, json_path, name)
+
+
+def put_json_object(analyzer_name: str, obj: Any, name: str) -> Path:
+    """Write a JSON-serializable object to the analyzer's ``kb/user`` directory
+    so its ``json2kbb`` pass converts it to a KBB
+    (see :meth:`Engine.put_json_object`)."""
+    return engine.put_json_object(analyzer_name, obj, name)
 
 
 def analyze(text: str, parser: str = "parse-en-us", develop: bool = False,
