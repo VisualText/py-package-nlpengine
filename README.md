@@ -267,6 +267,44 @@ text from a file in the analyzer's input directory for easy
 access while developing your python code in conjunction with
 and NLP++ analyzer.
 
+#### Passing JSON data to an analyzer (used with the `json2kbb` pass)
+
+> **These functions work in conjunction with the `json2kbb.py` python pass in
+> the analyzer's sequence.** They only *place* the JSON in the analyzer's
+> `kb/user` directory — the actual JSON → KBB conversion happens **when the
+> analyzer runs**, via the `json2kbb` python pass. So the target analyzer's
+> **sequence must include the `json2kbb` pass, placed before the tokenizer**.
+> Add it in the VS Code NLP++ extension: Sequence view → right‑click the
+> tokenizer (or a pass) → **Insert Python Library Pass (Before Tokenizer)** →
+> choose **json2kbb**. Without that pass in the sequence the JSON is written
+> but never converted, so nothing is loaded into the knowledge base.
+
+#### put_json_file(analyzer_name: str, json_path, name: Optional[str] = None)
+Copies a JSON file into the analyzer's `kb/user` directory (as
+`<name>.json`, defaulting to the source file's name). The analyzer's
+`json2kbb` python pass then converts it to a `<name>.kbb` knowledge base
+on the next run, so the JSON data is loaded into the KB. This is the
+easy way to hand structured JSON data to an NLP++ analyzer. Returns the
+destination path. (Add the `json2kbb` pass to the analyzer sequence,
+before the tokenizer, via **Insert Python Library Pass** in the VS Code
+extension.)
+
+#### put_json_object(analyzer_name: str, obj, name: str)
+Same as `put_json_file`, but takes any JSON-serializable object (dict,
+list, etc.) directly and serializes it to `<analyzer>/kb/user/<name>.json`.
+The analyzer's `json2kbb` pass converts it to `<name>.kbb` on the next run.
+Returns the destination path.
+
+```python
+import NLPPlus
+# from a Python object
+NLPPlus.put_json_object("myanalyzer", {"company": {"name": "Acme"}}, "company")
+# or from an existing JSON file
+NLPPlus.put_json_file("myanalyzer", "data/company.json")
+# then analyze — the json2kbb pass builds company.kbb into the KB first
+NLPPlus.analyze("some text", "myanalyzer")
+```
+
 ### NLPPlus Engine Results
 
 #### output
