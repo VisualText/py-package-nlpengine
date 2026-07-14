@@ -104,7 +104,16 @@ jobs:
         env:
           CIBW_BUILD_VERBOSITY: 3
           CIBW_BEFORE_BUILD_WINDOWS: "pip install delvewheel"
-          CIBW_REPAIR_WHEEL_COMMAND_WINDOWS: "delvewheel repair --add-path ${{ github.workspace }}/vcpkg/installed/x64-windows-release/bin -w {dest_dir} {wheel}"
+          # --no-mangle-all + --add-dll icuin<ver>.dll are required so a *compiled*
+          # NLP++ analyzer (bin/run.dll / bin/kb.dll, dlopened at analyze time)
+          # can resolve its ICU imports. It imports icuin<ver>.dll + icuuc<ver>.dll
+          # by their real names; the default delvewheel run mangles those names and
+          # only vendors icuuc/icudt (what our extension itself imports), so the
+          # analyzer's icuin import goes unresolved and kb.dll fails to load. Keep
+          # real names (--no-mangle-all) and force-vendor icuin (--add-dll); the
+          # package then preloads them by name at import (NLPPlus._preload_icu).
+          # NOTE: bump "78" if the vcpkg ICU major version changes.
+          CIBW_REPAIR_WHEEL_COMMAND_WINDOWS: "delvewheel repair --no-mangle-all --add-dll icuin78.dll --add-path ${{ github.workspace }}/vcpkg/installed/x64-windows-release/bin -w {dest_dir} {wheel}"
           CIBW_CONFIG_SETTINGS: "cmake.args='-A x64;-DCMAKE_BUILD_TYPE=Release;-DCMAKE_TOOLCHAIN_FILE=${{ github.workspace }}/vcpkg/scripts/buildsystems/vcpkg.cmake'"
 
       - uses: actions/upload-artifact@v4
