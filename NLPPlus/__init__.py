@@ -18,9 +18,63 @@ from typing import Optional, Any
 import os
 import glob
 
-from .bindings import NLP_ENGINE  # type: ignore
-
 LOGGER = logging.getLogger("NLPPlus")
+
+
+def _preload_icu() -> None:
+    """Load the vendored ICU (and MSVC runtime) DLLs by their real names.
+
+    A *compiled* NLP++ analyzer ships as a self-contained shared library
+    (``bin/run.<ext>`` / ``bin/kb.<ext>``) that imports ``icuin<ver>.dll``
+    and ``icuuc<ver>.dll`` **by name**.  The engine loads that library at
+    analyze time with a plain ``LoadLibrary(full_path)``, whose dependency
+    resolution only consults modules already loaded in the process (matched
+    by base name), the library's own directory, and the system path — it
+    does *not* consult ``os.add_dll_directory`` entries.
+
+    Our own extension only pulls in ``icuuc`` (+ its ``icudt`` data), so
+    without help ``icuin`` is never loaded and the compiled KB library fails
+    with ``[Couldn't load library: ...\\bin\\kb.dll]``.  Pre-loading every
+    vendored ``icu*``/``msvcp*`` DLL here, in dependency order and under
+    their real (un-mangled) names, makes them memory-resident so a compiled
+    analyzer binds them straight from memory.  Requires the wheel to have
+    been repaired with ``--no-mangle-all`` (real names) and ``icuin`` force
+    added via ``--add-dll`` since it is not a dependency of our extension.
+
+    No-op off Windows (Linux/macOS resolve ``.so``/``.dylib`` deps via
+    ``RPATH``/``@loader_path`` set by ``auditwheel``/``delocate``).
+    """
+    if os.name != "nt":
+        return
+    import ctypes
+
+    here = Path(__file__).resolve().parent
+    # delvewheel vendors DLLs into a sibling ``<distribution>.libs`` folder.
+    libdirs = [
+        here.parent / "nlpplus.libs",
+        here.parent / "NLPPlus.libs",
+    ]
+    for libs in libdirs:
+        if not libs.is_dir():
+            continue
+        try:
+            os.add_dll_directory(str(libs))
+        except (OSError, AttributeError):
+            pass
+        # Dependency order: data (icudt) -> common (icuuc) -> i18n (icuin).
+        # msvcp is pulled first as the C++ runtime the analyzer also imports.
+        for stem in ("msvcp", "vcruntime", "icudt", "icuuc", "icuin"):
+            for dll in sorted(libs.glob(stem + "*.dll")):
+                try:
+                    ctypes.WinDLL(str(dll))
+                except OSError:
+                    pass
+        break
+
+
+_preload_icu()
+
+from .bindings import NLP_ENGINE  # type: ignore  # noqa: E402
 
 
 def maybe_readfile(path: Path) -> Optional[str]:
