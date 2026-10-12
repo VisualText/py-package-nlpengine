@@ -1,5 +1,14 @@
 #include <cstring>
 #include <cstdlib>
+#include <clocale>
+#include <new>
+#include <string>
+#ifndef _WIN32
+#include <locale.h>
+#ifdef __APPLE__
+#include <xlocale.h>
+#endif
+#endif
 
 #include <nanobind/nanobind.h>
 #include <nanobind/stl/string.h>
@@ -13,6 +22,72 @@
 
 namespace nb = nanobind;
 using namespace nb::literals;
+
+/**
+ * Run the engine in the "C" locale for the lifetime of this object.
+ *
+ * The engine walks UTF-8 text a byte at a time through <ctype.h>
+ * (isspace, isalpha, toupper, ...), whose answers depend on the
+ * locale.  nlp.exe runs in the default "C" locale, but Python sets
+ * LC_CTYPE from the user's environment at startup.  On Windows that
+ * is a code page such as 1252, where 0xA0 is a no-break space, so the
+ * continuation byte 0xA0 of "à" or "전" reads as whitespace and
+ * clean_str() splits the character in half.
+ *
+ * The switch is per thread (_configthreadlocale on Windows, uselocale
+ * elsewhere) and the caller's locale is restored on the way out, so
+ * other Python threads never see it.
+ */
+class CLocaleGuard {
+public:
+    CLocaleGuard() {
+#ifdef _WIN32
+        prevMode_ = _configthreadlocale(_ENABLE_PER_THREAD_LOCALE);
+        const char *cur = setlocale(LC_ALL, nullptr);
+        if (cur)
+            prevLocale_ = cur;
+        setlocale(LC_ALL, "C");
+#else
+        cLocale_ = newlocale(LC_ALL_MASK, "C", (locale_t)0);
+        if (cLocale_)
+            prevLocale_ = uselocale(cLocale_);
+#endif
+    }
+    ~CLocaleGuard() {
+#ifdef _WIN32
+        if (!prevLocale_.empty())
+            setlocale(LC_ALL, prevLocale_.c_str());
+        _configthreadlocale(prevMode_);
+#else
+        if (cLocale_) {
+            uselocale(prevLocale_);
+            freelocale(cLocale_);
+        }
+#endif
+    }
+    CLocaleGuard(const CLocaleGuard &) = delete;
+    CLocaleGuard &operator=(const CLocaleGuard &) = delete;
+
+private:
+#ifdef _WIN32
+    int prevMode_ = 0;
+    std::string prevLocale_;
+#else
+    locale_t cLocale_ = (locale_t)0;
+    locale_t prevLocale_ = (locale_t)0;
+#endif
+};
+
+/**
+ * Construct the engine under CLocaleGuard: init loads the analyzer
+ * KBs, which goes through the same locale-sensitive byte tests.
+ */
+void
+wrap_init(NLP_ENGINE *self, const std::string &workingFolder,
+          const bool silent) {
+    CLocaleGuard cLocale;
+    new (self) NLP_ENGINE(workingFolder, silent);
+}
 
 /**
  * Wrap the analyze() method to deal with C++ friction.
@@ -34,6 +109,7 @@ const std::string
 wrap_analyze(NLP_ENGINE &engine, const std::string &parser,
              const std::string &input, const bool develop,
              const bool compiled) {
+    CLocaleGuard cLocale;
     _TCHAR *_parser = _tcsdup(parser.c_str());
     std::istringstream instream(input);
     std::ostringstream outstream;
@@ -69,6 +145,7 @@ wrap_analyze(NLP_ENGINE &engine, const std::string &parser,
 void
 wrap_compile(NLP_ENGINE &engine, const std::string &analyzer,
              const bool develop, const bool kbOnly, const bool analyzerOnly) {
+    CLocaleGuard cLocale;
     _TCHAR *_analyzer = _tcsdup(analyzer.c_str());
     engine.init(_analyzer, develop, /*silent*/false,
                 /*compile*/(!kbOnly && !analyzerOnly), /*compiled*/false,
@@ -102,7 +179,7 @@ NB_MODULE(bindings, m) {
     m.def("engine_version", &wrap_engine_version,
           "Return the bundled nlp-engine version string (e.g. '3.1.49').");
     nb::class_<NLP_ENGINE>(m, "NLP_ENGINE", "Instance of the NLP++ Engine.")
-        .def(nb::init<std::string, bool>(),
+        .def("__init__", &wrap_init,
              "workingFolder"_a = ".",
              "silent"_a = true)
         .def("analyze", &wrap_analyze,
