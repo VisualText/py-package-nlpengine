@@ -141,6 +141,10 @@ jobs:
           # NOTE: bump "78" if the vcpkg ICU major version changes.
           CIBW_REPAIR_WHEEL_COMMAND_WINDOWS: "delvewheel repair --no-mangle-all --add-dll icuin78.dll --add-path ${{ github.workspace }}/vcpkg/installed/x64-windows-release/bin -w {dest_dir} {wheel}"
           CIBW_CONFIG_SETTINGS: "cmake.args='-A x64;-DCMAKE_BUILD_TYPE=Release;-DCMAKE_TOOLCHAIN_FILE=${{ github.workspace }}/vcpkg/scripts/buildsystems/vcpkg.cmake'"
+          # Run against the repaired wheel under code page 1252, where the
+          # engine used to split UTF-8 characters at byte 0xA0. Linux CI has no
+          # single-byte locale, so this is the job that catches a regression.
+          CIBW_TEST_COMMAND_WINDOWS: "python -m unittest discover -s {project}/tests -p test_locale.py -v"
 
       - name: Upload artifact
         id: upload
