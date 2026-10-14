@@ -236,6 +236,11 @@ jobs:
           path: dist
           merge-multiple: true
       - uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          # A rerun after a partial upload (PyPI took the wheels, then refused the
+          # sdist with "Project size too large") must upload only what is missing,
+          # not stop at the first file that is already there.
+          skip-existing: true
 
   # A failed tag build publishes nothing, yet the upstream "Update nlp-engine &
   # publish" run still reports success, so the gap goes unseen (v2.2.39 sat
