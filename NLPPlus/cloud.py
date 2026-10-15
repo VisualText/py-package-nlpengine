@@ -402,13 +402,8 @@ def cloud_compile(
             analyzer_only=analyzer_only,
         )
     else:
-        # Mirror Engine.compile's directory resolution without invoking
-        # the engine.
-        analyzer_dir = (
-            Path(engine.analyzer_path)
-            if engine.analyzer_path
-            else engine.working_folder / "analyzers"
-        ) / analyzer_name
+        # The analyzer folder, without running the engine.
+        analyzer_dir = engine.analyzer_dir(analyzer_name)
 
     if not analyzer_dir.is_dir():
         raise CloudCompileError(

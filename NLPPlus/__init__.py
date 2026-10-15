@@ -133,7 +133,7 @@ class Engine:
     def __init__(
         self,
         working_folder: Optional[PathLike] = None,
-        analyzer_path: str = None,
+        analyzer_path: Optional[PathLike] = None,
         verbose: bool = False,
         initialize: bool = False,
     ):
@@ -157,7 +157,10 @@ class Engine:
         else:
             self.tmpdir = None
             self.working_folder = Path(working_folder)
-        self.analyzer_path = None
+        self.analyzer_path: Optional[Path] = None
+        if analyzer_path is not None:
+            # The parameter used to be accepted and ignored.
+            self.set_analyzers_folder(analyzer_path)
         if initialize:
             copytree(
                 Path(__file__).parent / "analyzers", self.working_folder / "analyzers"
@@ -225,7 +228,48 @@ class Engine:
         except Exception:
             pass
 
-    def analyze(self, text: str, analyzer_name: str, develop: bool = False,
+    def analyzer_dir(self, analyzer_name: PathLike) -> Path:
+        """The folder of the named analyzer.
+
+        With an analyzers folder set (:meth:`set_analyzers_folder` or
+        :meth:`copy_library_analyzers`) it is ``<that folder>/<name>``;
+        otherwise ``<working folder>/analyzers/<name>``.
+        """
+        if self.analyzer_path:
+            return Path(self.analyzer_path) / analyzer_name
+        return self.working_folder / "analyzers" / analyzer_name
+
+    def _engine_analyzer_arg(self, analyzer_name: PathLike) -> str:
+        """How to name the analyzer to the engine: a path when an analyzers
+        folder is set, else the name, which the engine looks up under the
+        working folder's ``analyzers``."""
+        if self.analyzer_path:
+            return str(self.analyzer_dir(analyzer_name))
+        return str(Path(analyzer_name))
+
+    def clear_logs(self, analyzer_name: PathLike) -> int:
+        """Delete the log and output files of the named analyzer.
+
+        Removes the analyzer's ``output`` and ``logs`` folders and every
+        ``*_log`` folder under its ``input`` folder (written by develop
+        runs). Input texts, specs and knowledge base files are left alone.
+        Returns the number of folders removed.
+        """
+        anadir = self.analyzer_dir(analyzer_name)
+        if not anadir.is_dir():
+            raise EngineException(f"Analyzer folder not found: {anadir}")
+        targets = [anadir / "output", anadir / "logs"]
+        inputdir = anadir / "input"
+        if inputdir.is_dir():
+            targets += [p for p in inputdir.rglob("*_log") if p.is_dir()]
+        removed = 0
+        for target in targets:
+            if target.is_dir():
+                rmtree(target)
+                removed += 1
+        return removed
+
+    def analyze(self, text: str, analyzer_name: PathLike, develop: bool = False,
                 compiled: bool = False) -> Results:
         """Analyze text with the named analyzer.
 
@@ -244,20 +288,16 @@ class Engine:
                     that turns them into the actual ``.so``/``.dylib``/
                     ``.dll`` files.
         """
-        analyzer_name = Path(analyzer_name)
-        outdir = self.working_folder / "analyzers" / analyzer_name / "output"
-        if self.analyzer_path:
-            analyzer_name = Path(self.analyzer_path) / analyzer_name
-            outdir = Path(self.analyzer_path) / "analyzers" / analyzer_name / "output"
-        # Delete all files in the outdir
-        file_list = glob.glob(str(outdir / "*"))
-        for file_path in file_list:
-            os.remove(file_path)
-        outtext = self.engine.analyze(str(analyzer_name), text, develop,
-                                      compiled)
+        outdir = self.analyzer_dir(analyzer_name) / "output"
+        # Delete the files of the previous run in the outdir.
+        for file_path in glob.glob(str(outdir / "*")):
+            if os.path.isfile(file_path):
+                os.remove(file_path)
+        outtext = self.engine.analyze(self._engine_analyzer_arg(analyzer_name),
+                                      text, develop, compiled)
         return Results(outtext, outdir)
 
-    def compile(self, analyzer_name: str, develop: bool = False,
+    def compile(self, analyzer_name: PathLike, develop: bool = False,
                 kb_only: bool = False, analyzer_only: bool = False) -> Path:
         """Generate C++ source files for the named analyzer.
 
@@ -281,19 +321,12 @@ class Engine:
         """
         if kb_only and analyzer_only:
             raise ValueError("compile: kb_only and analyzer_only are mutually exclusive")
-        analyzer_name_p = Path(analyzer_name)
-        if self.analyzer_path:
-            analyzer_dir = (
-                Path(self.analyzer_path) / "analyzers" / analyzer_name_p
-            )
-            engine_arg = str(Path(self.analyzer_path) / analyzer_name_p)
-        else:
-            analyzer_dir = (
-                self.working_folder / "analyzers" / analyzer_name_p
-            )
-            engine_arg = str(analyzer_name_p)
-        self.engine.compile(engine_arg, develop, kb_only, analyzer_only)
-        return analyzer_dir
+        # With an analyzers folder set, this used to return
+        # <folder>/analyzers/<name>, which does not exist, so cloud_compile
+        # failed with "Analyzer directory not found".
+        self.engine.compile(self._engine_analyzer_arg(analyzer_name), develop,
+                            kb_only, analyzer_only)
+        return self.analyzer_dir(analyzer_name)
 
     def cloud_compile(self, analyzer_name: str,
                       dispatcher_url: Optional[str] = None,
@@ -342,9 +375,9 @@ class Engine:
             skip_local_compile=skip_local_compile,
         )
     
-    def input_text(self, analyzer_name: str, file_name: str) -> str:
+    def input_text(self, analyzer_name: PathLike, file_name: PathLike) -> str:
         """Return the text from a file in the input directory."""
-        file_path = Path(self.analyzer_path) / analyzer_name / "input" / file_name
+        file_path = self.analyzer_dir(analyzer_name) / "input" / file_name
         if not file_path.is_file():
             raise EngineException(
                 f"File not found in input directory '{file_path}'"
@@ -359,11 +392,7 @@ class Engine:
         This is where JSON data is dropped for the analyzer's ``json2kbb``
         python pass to convert into a ``.kbb`` knowledge base on the next run.
         """
-        if self.analyzer_path:
-            analyzer_dir = Path(self.analyzer_path) / analyzer_name
-        else:
-            analyzer_dir = self.working_folder / "analyzers" / analyzer_name
-        kbdir = analyzer_dir / "kb" / "user"
+        kbdir = self.analyzer_dir(analyzer_name) / "kb" / "user"
         kbdir.mkdir(parents=True, exist_ok=True)
         return kbdir
 
@@ -414,11 +443,15 @@ class Engine:
         LOGGER.info("Wrote JSON to %s", dest)
         return dest
 
-    def set_analyzers_folder(self, analyzer_name: str):
-        """Set analyzers directory path."""
-        self.analyzer_path = analyzer_name
+    def set_analyzers_folder(self, analyzers_folder: PathLike):
+        """Use analyzers from this folder, as ``<folder>/<name>``.
 
-    def copy_library_analyzers(self, to_dir: str, overwrite: bool=True):
+        A str or a Path; a relative folder is taken from the current
+        directory now, so a later chdir does not move it.
+        """
+        self.analyzer_path = Path(analyzers_folder).resolve()
+
+    def copy_library_analyzers(self, to_dir: PathLike, overwrite: bool=True):
         """Copy the library files to a directory."""
         copy_it = True
 
@@ -432,7 +465,7 @@ class Engine:
             copytree(
                 Path(__file__).parent / "analyzers", Path(to_dir)
             )
-        self.analyzer_path = str(to_dir)
+        self.analyzer_path = Path(to_dir).resolve()
 
 
 engine = Engine()
@@ -451,17 +484,29 @@ def set_working_folder(working_folder: Optional[str] = None, initialize: bool = 
     global engine
     if working_folder is None:
         working_folder = getcwd()
+    # Close the old engine before making the new one. Left to the garbage
+    # collector, it was closed at some later moment while the new engine
+    # ran, and closing an engine breaks another one still open
+    # (nlp-engine#791): analyze() intermittently returned "" or crashed.
+    if engine is not None:
+        engine.close()
     engine = Engine(Path(working_folder), initialize=initialize)
 
 
-def copy_library_analyzers(analyzer_folder_path: str, overwrite=True):
-    """Run the analyzer named on the input string."""
+def copy_library_analyzers(analyzer_folder_path: PathLike, overwrite=True):
+    """Copy the bundled analyzers to a folder and use analyzers from it."""
     engine.copy_library_analyzers(analyzer_folder_path, overwrite)
 
 
-def set_analyzers_folder(analyzer_folder_path: str):
-    """Run the analyzer named on the input string."""
+def set_analyzers_folder(analyzer_folder_path: PathLike):
+    """Use analyzers from this folder (a str or a Path)."""
     engine.set_analyzers_folder(analyzer_folder_path)
+
+
+def clear_logs(analyzer: PathLike) -> int:
+    """Delete the named analyzer's log and output folders
+    (see :meth:`Engine.clear_logs`). Returns the number removed."""
+    return engine.clear_logs(analyzer)
 
 
 def put_json_file(analyzer_name: str, json_path: PathLike,

@@ -2,13 +2,13 @@
 Test the basic engine functionality.
 """
 
-import unittest
 from unittest import TestCase, main
 from pathlib import Path
 from shutil import copytree
 from tempfile import TemporaryDirectory
 
 import json
+import os
 import logging
 
 import NLPPlus
@@ -16,30 +16,12 @@ import NLPPlus
 DATADIR = Path(__file__).parent / "data"
 NLPPLUSDIR = Path(__file__).parent.parent / "NLPPlus"
 
-# The whole-suite skip below is gated on the recent nlp-engine submodule
-# bump (v2.14.x -> v3.1.48).  Two distinct issues surfaced in CI:
-#   1. The expected-output fixtures under tests/data/*/text.txt_log/ are
-#      pinned to the old engine's output format.  Recent upstream commits
-#      (per-rule provenance comments, expanded diagnostic prints, etc.)
-#      shifted that output, so every assertion that compares against a
-#      fixture fails as a string-diff.
-#   2. After the assertions run, the unittest process segfaults during
-#      tempdir teardown — the engine's destructor / `addAna` lifecycle
-#      doesn't survive the Python GC reusing/freeing the working folder.
-# Both blocked on nlp-engine NLP-ENGINE-521 (filed separately).  Re-enable
-# once that lands and the fixtures are regenerated.
-SKIP_REASON = (
-    "blocked on nlp-engine NLP-ENGINE-521 (output-format drift + "
-    "destructor segfault after submodule bump to v3.1.48)"
-)
-
 
 def read_file(path):
     with open(path, "rt") as infh:
         return infh.read()
 
 
-@unittest.skip(SKIP_REASON)
 class ModuleTest(TestCase):
     """Test the NLPPlus module"""
 
@@ -53,18 +35,25 @@ class ModuleTest(TestCase):
 
     def test_working_dir(self):
         """Test that set_working_folder works."""
-        tmpdir = TemporaryDirectory(prefix="test-nlpplus")
+        tmpdir = TemporaryDirectory(prefix="test-nlpplus", ignore_cleanup_errors=True)
         copytree(DATADIR.parent / "analyzers", Path(tmpdir.name) / "analyzers")
         copytree(NLPPLUSDIR / "data", Path(tmpdir.name) / "data")
-        NLPPlus.set_working_folder(tmpdir.name)
-        text = read_file(DATADIR / "basic" / "text.txt")
-        results = NLPPlus.engine.analyze(text, "basic")
-        self.assertEqual(results.output_text, "")
-        final_tree = read_file(DATADIR / "basic" / "text.txt_log" / "final.tree")
-        self.assertEqual(final_tree, results.final_tree)
+        # set_working_folder replaces the module's global engine. Leave a
+        # default one afterwards, or every later test runs against this
+        # folder, which has only the test analyzers.
+        try:
+            NLPPlus.set_working_folder(tmpdir.name)
+            text = read_file(DATADIR / "basic" / "text.txt")
+            results = NLPPlus.engine.analyze(text, "basic")
+            self.assertEqual(results.output_text, "")
+            final_tree = read_file(DATADIR / "basic" / "text.txt_log" / "final.tree")
+            self.assertEqual(final_tree, results.final_tree)
+        finally:
+            NLPPlus.engine.close()
+            NLPPlus.engine = NLPPlus.Engine()
+            tmpdir.cleanup()
 
 
-@unittest.skip(SKIP_REASON)
 class EngineTest(TestCase):
     """Test the NLPPlus Engine class"""
 
@@ -83,9 +72,9 @@ class EngineTest(TestCase):
         """Run the address parser and verify that it works."""
         self._run_analyzer("address-parser")
 
-    # def test_emailaddress_parser(self):
-    #     """Run the emailaddress analyzer and verify that it works."""
-    #     self._run_analyzer("emailaddress")
+    def test_emailaddress_parser(self):
+        """Run the emailaddress analyzer and verify that it works."""
+        self._run_analyzer("emailaddress")
 
     def test_telephone_parser(self):
         """Run the telephone analyzer and verify that it works."""
@@ -125,10 +114,80 @@ class ReentrancyRegressionTest(TestCase):
         with TemporaryDirectory(prefix="test-nlpplus") as tmp:
             copytree(DATADIR.parent / "analyzers", Path(tmp) / "analyzers")
             copytree(NLPPLUSDIR / "data", Path(tmp) / "data")
-            NLPPlus.set_working_folder(tmp)
-            text = read_file(DATADIR / "basic" / "text.txt")
-            results = NLPPlus.engine.analyze(text, "basic")
-            self.assertIsNotNone(results)
+            try:
+                NLPPlus.set_working_folder(tmp)
+                text = read_file(DATADIR / "basic" / "text.txt")
+                results = NLPPlus.engine.analyze(text, "basic")
+                self.assertIsNotNone(results)
+            finally:
+                # Release the engine's open log files before the folder is
+                # removed (Windows will not delete an open file), and leave
+                # the module a default engine for the tests that follow.
+                NLPPlus.engine.close()
+                NLPPlus.engine = NLPPlus.Engine()
+
+
+class AnalyzerFolderTest(TestCase):
+    """Analyzers folder paths (#12) and clear_logs (#15).
+
+    These use the module's engine and put its analyzers folder back after.
+    A second Engine is not used: closing one engine in a process can break
+    another that is still open (an engine bug, filed separately)."""
+
+    def setUp(self):
+        self.engine = NLPPlus.engine
+        self.tmp = TemporaryDirectory(prefix="test-nlpplus", ignore_cleanup_errors=True)
+        self.lib = Path(self.tmp.name) / "lib"
+
+    def tearDown(self):
+        self.engine.analyzer_path = None
+        self.tmp.cleanup()
+
+    def _make_lib(self):
+        """An analyzers folder holding the test-only "basic" analyzer. The
+        library analyzers keep knowledge base state between runs in one
+        process, so running one here would change the results EngineTest
+        expects from it."""
+        copytree(DATADIR.parent / "analyzers" / "basic", self.lib / "basic")
+
+    def test_folder_as_path(self):
+        """A Path works as the analyzers folder, and every method agrees on
+        where an analyzer is."""
+        self._make_lib()
+        self.engine.set_analyzers_folder(self.lib)
+        self.assertEqual(self.engine.analyzer_dir("basic"),
+                         self.lib.resolve() / "basic")
+        results = self.engine.analyze(read_file(DATADIR / "basic" / "text.txt"), "basic")
+        self.assertEqual(results.outdir, self.lib.resolve() / "basic" / "output")
+        self.assertIsNotNone(results.final_tree)
+
+    def test_relative_folder(self):
+        """A relative folder is taken from the current directory when set."""
+        self._make_lib()
+        cwd = os.getcwd()
+        try:
+            os.chdir(self.tmp.name)
+            self.engine.set_analyzers_folder("lib")
+        finally:
+            os.chdir(cwd)
+        results = self.engine.analyze(read_file(DATADIR / "basic" / "text.txt"), "basic")
+        self.assertIsNotNone(results.final_tree)
+
+    def test_clear_logs(self):
+        """clear_logs removes output, logs and input/*_log, nothing else."""
+        self._make_lib()
+        self.engine.set_analyzers_folder(self.lib)
+        ana = self.engine.analyzer_dir("basic")
+        for d in ("output", "logs", "input/a.txt_log", "input/sub/b.txt_log"):
+            (ana / d).mkdir(parents=True, exist_ok=True)
+            (ana / d / "x.log").write_text("x")
+        (ana / "input" / "a.txt").write_text("keep me")
+        self.assertEqual(self.engine.clear_logs("basic"), 4)
+        for d in ("output", "logs", "input/a.txt_log", "input/sub/b.txt_log"):
+            self.assertFalse((ana / d).exists(), d)
+        self.assertTrue((ana / "input" / "a.txt").is_file())
+        self.assertTrue((ana / "spec").is_dir())
+        self.assertEqual(self.engine.clear_logs("basic"), 0)
 
 
 if __name__ == "__main__":
