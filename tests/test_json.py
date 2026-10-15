@@ -2,11 +2,11 @@
 
 ``put_json_file`` / ``put_json_object`` drop JSON into ``<analyzer>/kb/user``
 so the analyzer's ``json2kbb`` python pass can convert it to a ``.kbb``. These
-tests only exercise the file placement (no engine ``analyze`` run), so they do
-not hit the engine-teardown segfault the main suite is skipped for.
+tests only exercise the file placement (no engine ``analyze`` run).
 """
 
 import json
+import shutil
 import tempfile
 import unittest
 from pathlib import Path
@@ -26,6 +26,12 @@ class TestPutJson(unittest.TestCase):
         self.wf = tempfile.mkdtemp(prefix="nlpjson-")
         NLPPlus.set_working_folder(self.wf, initialize=True)
         self.kbuser = Path(self.wf) / "analyzers" / ANALYZER / "kb" / "user"
+
+    def tearDown(self):
+        # Don't leave the module's engine on this folder for later tests.
+        NLPPlus.engine.close()
+        NLPPlus.engine = NLPPlus.Engine()
+        shutil.rmtree(self.wf, ignore_errors=True)
 
     def test_put_json_object(self):
         dest = NLPPlus.put_json_object(ANALYZER, {"company": {"name": "Acme"}}, "company")
