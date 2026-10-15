@@ -70,17 +70,16 @@ jobs:
 
       - name: vcpkg build
         id: vcpkg
-        uses: johnwason/vcpkg-action@v6
+        uses: johnwason/vcpkg-action@v8
         with:
           manifest-dir: ${{ github.workspace }}
           triplet: arm64-osx-release
           token: ${{ github.token }}
-          # vcpkg removed its 'x-gha' backend, so github-binarycache: true
-          # caches nothing and ICU was rebuilt from source on every run -- once
-          # here and again inside each per-Python wheel build (~5x per job).
-          # false switches the action to its file cache (VCPKG_DEFAULT_BINARY_CACHE
-          # + actions/cache), which the wheel builds also hit.
-          github-binarycache: false
+          # Pinned so the cache key is stable; must match vcpkg-cache.yml, which
+          # warms the cache on main (tag builds can only restore main's caches).
+          # The action's file cache (VCPKG_DEFAULT_BINARY_CACHE) is also what
+          # the per-Python wheel builds restore ICU from instead of rebuilding.
+          revision: '2026.07.29'
 
       # Replaces the previous bare `pip wheel`, which only built a single wheel
       # for the runner's host Python (leaving cp310-cp312 macOS users with no
@@ -121,17 +120,16 @@ jobs:
 
       - name: vcpkg build
         id: vcpkg
-        uses: johnwason/vcpkg-action@v6
+        uses: johnwason/vcpkg-action@v8
         with:
           manifest-dir: ${{ github.workspace }}
           triplet: x64-windows-release
           token: ${{ github.token }}
-          # vcpkg removed its 'x-gha' backend, so github-binarycache: true
-          # caches nothing and ICU was rebuilt from source on every run -- once
-          # here and again inside each per-Python wheel build (~5x per job).
-          # false switches the action to its file cache (VCPKG_DEFAULT_BINARY_CACHE
-          # + actions/cache), which the wheel builds also hit.
-          github-binarycache: false
+          # Pinned so the cache key is stable; must match vcpkg-cache.yml, which
+          # warms the cache on main (tag builds can only restore main's caches).
+          # The action's file cache (VCPKG_DEFAULT_BINARY_CACHE) is also what
+          # the per-Python wheel builds restore ICU from instead of rebuilding.
+          revision: '2026.07.29'
 
       - name: Build wheels
         # See the Linux job: v2.19.2 is too old to build cp313, so 3.13
