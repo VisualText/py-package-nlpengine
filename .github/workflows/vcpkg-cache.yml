@@ -1,0 +1,50 @@
+# Builds ICU through vcpkg on main so publish.yml can restore it.
+#
+# publish.yml only runs on pull requests and v* tags, and a tag build can only
+# restore caches saved on its own tag or on the default branch. Without a cache
+# on main, every release would build ICU from source (~14 min on Windows). This
+# job saves one; the weekly run keeps it from being evicted after 7 idle days.
+#
+# The vcpkg step must match publish.yml exactly (action version, manifest-dir,
+# triplet, revision), or the cache key differs and publish.yml misses it.
+
+name: Warm vcpkg cache
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 6 * * 1'
+  push:
+    branches: [main]
+    paths:
+      - vcpkg.json
+      - .github/workflows/vcpkg-cache.yml
+
+jobs:
+  vcpkg:
+    name: vcpkg (${{ matrix.triplet }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: windows-latest
+            triplet: x64-windows-release
+          - os: macOS-latest
+            triplet: arm64-osx-release
+
+    steps:
+      - uses: actions/checkout@v4
+
+      # Autotools are needed for vcpkg to build ICU from source on a cache miss.
+      - name: Install packages
+        if: runner.os == 'macOS'
+        run: brew install autoconf-archive autoconf automake pkg-config
+
+      - name: vcpkg build
+        uses: johnwason/vcpkg-action@v8
+        with:
+          manifest-dir: ${{ github.workspace }}
+          triplet: ${{ matrix.triplet }}
+          token: ${{ github.token }}
+          revision: '2026.07.29'
