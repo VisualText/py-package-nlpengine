@@ -75,7 +75,12 @@ jobs:
           manifest-dir: ${{ github.workspace }}
           triplet: arm64-osx-release
           token: ${{ github.token }}
-          github-binarycache: true
+          # vcpkg removed its 'x-gha' backend, so github-binarycache: true
+          # caches nothing and ICU was rebuilt from source on every run -- once
+          # here and again inside each per-Python wheel build (~5x per job).
+          # false switches the action to its file cache (VCPKG_DEFAULT_BINARY_CACHE
+          # + actions/cache), which the wheel builds also hit.
+          github-binarycache: false
 
       # Replaces the previous bare `pip wheel`, which only built a single wheel
       # for the runner's host Python (leaving cp310-cp312 macOS users with no
@@ -121,7 +126,12 @@ jobs:
           manifest-dir: ${{ github.workspace }}
           triplet: x64-windows-release
           token: ${{ github.token }}
-          github-binarycache: true
+          # vcpkg removed its 'x-gha' backend, so github-binarycache: true
+          # caches nothing and ICU was rebuilt from source on every run -- once
+          # here and again inside each per-Python wheel build (~5x per job).
+          # false switches the action to its file cache (VCPKG_DEFAULT_BINARY_CACHE
+          # + actions/cache), which the wheel builds also hit.
+          github-binarycache: false
 
       - name: Build wheels
         # See the Linux job: v2.19.2 is too old to build cp313, so 3.13
