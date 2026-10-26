@@ -89,6 +89,24 @@ class EngineException(BaseException):
     pass
 
 
+class AnalysisStopped(EngineException, Exception):
+    """An analysis ran past its ``timeout`` and was stopped.
+
+    The engine stops the run at its next while turn or pass, skips the
+    passes after it, and frees what it built, so the engine is fit for the
+    next call. Whatever the analyzer wrote before it stopped is partial.
+
+    Also an :class:`Exception`, unlike :class:`EngineException`, so code
+    that handles ordinary errors handles this one too.
+    """
+
+    def __init__(self, analyzer_name, timeout: float):
+        self.analyzer_name = str(analyzer_name)
+        self.timeout = timeout
+        super().__init__(f"{self.analyzer_name} ran past its timeout of "
+                         f"{timeout:g}s and was stopped")
+
+
 class Results:
     """Various results produced by the NLP++ analyzer."""
 
@@ -270,7 +288,8 @@ class Engine:
         return removed
 
     def analyze(self, text: str, analyzer_name: PathLike, develop: bool = False,
-                compiled: bool = False, datum: Optional[str] = None) -> Results:
+                compiled: bool = False, datum: Optional[str] = None,
+                timeout: Optional[float] = None) -> Results:
         """Analyze text with the named analyzer.
 
         Args:
@@ -291,6 +310,11 @@ class Engine:
                  call only -- eg the output format the caller wants
                  (``"json"``, ``"xml"``). None (the default) is none, and
                  ``G("$datum")`` is then 0.
+          timeout: seconds this analysis may take; None (the default) is no
+                   limit. A run past it is stopped inside the engine and
+                   :class:`AnalysisStopped` is raised. Without one, an
+                   analyzer whose loop never ends cannot be stopped short of
+                   killing the process.
         """
         outdir = self.analyzer_dir(analyzer_name) / "output"
         # Delete the files of the previous run in the outdir.
@@ -298,7 +322,10 @@ class Engine:
             if os.path.isfile(file_path):
                 os.remove(file_path)
         outtext = self.engine.analyze(self._engine_analyzer_arg(analyzer_name),
-                                      text, develop, compiled, datum or "")
+                                      text, develop, compiled, datum or "",
+                                      timeout if timeout and timeout > 0 else 0.0)
+        if timeout and timeout > 0 and self.engine.last_run_stopped():
+            raise AnalysisStopped(analyzer_name, timeout)
         return Results(outtext, outdir)
 
     def compile(self, analyzer_name: PathLike, develop: bool = False,
@@ -528,7 +555,8 @@ def put_json_object(analyzer_name: str, obj: Any, name: str) -> Path:
 
 
 def analyze(text: str, parser: str = "parse-en-us", develop: bool = False,
-            compiled: bool = False, datum: Optional[str] = None) -> str:
+            compiled: bool = False, datum: Optional[str] = None,
+            timeout: Optional[float] = None) -> str:
     """Run the analyzer named on the input string.
 
     If ``compiled=True``, the engine loads the analyzer's compiled
@@ -536,8 +564,11 @@ def analyze(text: str, parser: str = "parse-en-us", develop: bool = False,
     running interpreted.  See :func:`compile` for producing those.
     ``datum`` reaches the analyzer as ``G("$datum")``; see
     :meth:`Engine.analyze`.
+    ``timeout`` (seconds) stops a run that takes longer and raises
+    :class:`AnalysisStopped`; see :meth:`Engine.analyze`.
     """
-    return engine.analyze(text, parser, develop, compiled, datum).output_text
+    return engine.analyze(text, parser, develop, compiled, datum,
+                          timeout).output_text
 
 
 def compile(analyzer: str = "parse-en-us", develop: bool = False,

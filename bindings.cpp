@@ -108,11 +108,17 @@ wrap_init(NLP_ENGINE *self, const std::string &workingFolder,
 const std::string
 wrap_analyze(NLP_ENGINE &engine, const std::string &parser,
              const std::string &input, const bool develop,
-             const bool compiled, const std::string &datum) {
+             const bool compiled, const std::string &datum,
+             const double timeout) {
     CLocaleGuard cLocale;
     // For this call only: the analyzer sees it as G("$datum"), eg the
     // output format the caller wants. "" (the default) is none.
     engine.setDatum(datum.c_str());
+    // A limit for this call only: 0 (the default) is none. A run past it is
+    // stopped inside the engine and last_run_stopped() then says so -- the
+    // only way to stop an NLP++ loop that never ends without killing the
+    // process (engine 4.2.41+).
+    engine.setRunLimit(timeout > 0 ? (long long)(timeout * 1000.0) : 0);
     _TCHAR *_parser = _tcsdup(parser.c_str());
     std::istringstream instream(input);
     std::ostringstream outstream;
@@ -187,7 +193,7 @@ NB_MODULE(bindings, m) {
              "silent"_a = true)
         .def("analyze", &wrap_analyze,
              "parser"_a, "input"_a, "develop"_a = false,
-             "compiled"_a = false, "datum"_a = "",
+             "compiled"_a = false, "datum"_a = "", "timeout"_a = 0.0,
              "Analyze `input` with `parser`.\n"
              "The `parser` argument refers to an analyzer contained in the\n"
              "`analyzers` folder inside the workingFolder used to create\n"
@@ -198,7 +204,12 @@ NB_MODULE(bindings, m) {
              "libraries first via `compile()` plus an external cmake/\n"
              "cloud build step.\n"
              "`datum` reaches the analyzer as G(\"$datum\"), eg the output\n"
-             "format wanted; \"\" (the default) is none.")
+             "format wanted; \"\" (the default) is none.\n"
+             "`timeout` (seconds, 0 = none) stops a run that takes longer\n"
+             "at its next while turn or pass; last_run_stopped() is then\n"
+             "True.")
+        .def("last_run_stopped", &NLP_ENGINE::lastRunStopped,
+             "True if the last analyze() stopped a run at its timeout.")
         .def("compile", &wrap_compile,
              "analyzer"_a, "develop"_a = false, "kbOnly"_a = false,
              "analyzerOnly"_a = false,
