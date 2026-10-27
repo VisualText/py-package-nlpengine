@@ -85,6 +85,25 @@ class EngineTest(TestCase):
         self._run_analyzer("links")
 
 
+class DatumTest(TestCase):
+    """analyze(datum=...) reaches the analyzer as G("$datum") (issue #1)."""
+
+    def test_datum(self):
+        with TemporaryDirectory(prefix="test-nlpplus", ignore_cleanup_errors=True) as tmp:
+            copytree(DATADIR.parent / "analyzers", Path(tmp) / "analyzers")
+            copytree(NLPPLUSDIR / "data", Path(tmp) / "data")
+            try:
+                NLPPlus.set_working_folder(tmp)
+                analyze = NLPPlus.engine.analyze
+                self.assertEqual(analyze("x", "datum", datum="json").output_text, "json")
+                self.assertEqual(analyze("x", "datum", datum="xml").output_text, "xml")
+                # Each call sets its own: none carries over from the last.
+                self.assertEqual(analyze("x", "datum").output_text, "none")
+            finally:
+                NLPPlus.engine.close()
+                NLPPlus.engine = NLPPlus.Engine()
+
+
 class ReentrancyRegressionTest(TestCase):
     """nlp-engine #658 / #632 regression.
 
