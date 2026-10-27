@@ -196,10 +196,8 @@ NB_MODULE(bindings, m) {
              "bin/kb.<ext> from the analyzer dir instead of running\n"
              "interpreted from the .nlp source.  Build those shared\n"
              "libraries first via `compile()` plus an external cmake/\n"
-             "cloud build step.
-"
-             "`datum` reaches the analyzer as G(\"$datum\"), eg the output
-"
+             "cloud build step.\n"
+             "`datum` reaches the analyzer as G(\"$datum\"), eg the output\n"
              "format wanted; \"\" (the default) is none.")
         .def("compile", &wrap_compile,
              "analyzer"_a, "develop"_a = false, "kbOnly"_a = false,
