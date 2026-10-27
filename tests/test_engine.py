@@ -104,6 +104,82 @@ class DatumTest(TestCase):
                 NLPPlus.engine = NLPPlus.Engine()
 
 
+SPIN_SEQ = "tokenize\tnil\t# t\nnlp\tspin\t# s\nnlp\tafter\t# a\n"
+SPIN_NLP = """@CODE
+L("n") = 0;
+while (L("n") >= 0) {
+	L("n")++;
+	L("s") = "x" + str(L("n"));
+}
+@@CODE
+"""
+DONE_NLP = """@CODE
+"after.txt" << "after";
+@@CODE
+"""
+QUICK_SEQ = "tokenize\tnil\t# t\nnlp\tafter\t# a\n"
+
+
+class TimeoutTest(TestCase):
+    """analyze(timeout=) stops an analyzer whose loop never ends.
+
+    Without it the only way out of such a loop was killing the process --
+    and a loop that makes a string a turn gets there by itself, out of
+    memory. Engine 4.2.41+.
+    """
+
+    def setUp(self):
+        self.tmpdir = TemporaryDirectory(prefix="test-nlpplus-timeout",
+                                         ignore_cleanup_errors=True)
+        root = Path(self.tmpdir.name)
+        spec = root / "spin" / "spec"
+        spec.mkdir(parents=True)
+        (root / "spin" / "kb" / "user").mkdir(parents=True)
+        (spec / "analyzer.seq").write_text(SPIN_SEQ)
+        (spec / "spin.nlp").write_text(SPIN_NLP)
+        (spec / "after.nlp").write_text(DONE_NLP)
+        # One that finishes, for runs that must be unaffected.
+        quick = root / "quick" / "spec"
+        quick.mkdir(parents=True)
+        (root / "quick" / "kb" / "user").mkdir(parents=True)
+        (quick / "analyzer.seq").write_text(QUICK_SEQ)
+        (quick / "after.nlp").write_text(DONE_NLP)
+        self.eng = NLPPlus.Engine()
+        self.eng.set_analyzers_folder(root)
+
+    def _quick_ran(self, **kwargs):
+        out = self.eng.analyzer_dir("quick") / "output" / "after.txt"
+        self.eng.analyze("text", "quick", **kwargs)
+        return out.exists() and out.read_text() == "after"
+
+    def tearDown(self):
+        self.eng.close()
+        self.tmpdir.cleanup()
+
+    def test_a_loop_is_stopped(self):
+        import time
+        start = time.monotonic()
+        with self.assertRaises(NLPPlus.AnalysisStopped) as caught:
+            self.eng.analyze("text", "spin", timeout=1)
+        self.assertLess(time.monotonic() - start, 30)
+        self.assertEqual(caught.exception.timeout, 1)
+        # An ordinary `except Exception` catches it.
+        self.assertIsInstance(caught.exception, Exception)
+        # The pass after the loop did not run.
+        out = self.eng.analyzer_dir("spin") / "output" / "after.txt"
+        self.assertFalse(out.exists())
+
+    def test_the_engine_works_after_a_stop(self):
+        with self.assertRaises(NLPPlus.AnalysisStopped):
+            self.eng.analyze("text", "spin", timeout=1)
+        self.assertTrue(self._quick_ran(timeout=30))
+        self.assertTrue(self._quick_ran())
+
+    def test_no_timeout_and_a_run_inside_it_are_unchanged(self):
+        self.assertTrue(self._quick_ran())
+        self.assertTrue(self._quick_ran(timeout=30))
+
+
 class ReentrancyRegressionTest(TestCase):
     """nlp-engine #658 / #632 regression.
 
