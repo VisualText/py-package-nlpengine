@@ -1,0 +1,7 @@
+# Echoes the datum the caller passed to analyze(), or "none".
+@CODE
+if (G("$datum"))
+  cbuf() << G("$datum");
+else
+  cbuf() << "none";
+@@CODE

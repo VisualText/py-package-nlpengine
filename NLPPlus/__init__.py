@@ -270,7 +270,7 @@ class Engine:
         return removed
 
     def analyze(self, text: str, analyzer_name: PathLike, develop: bool = False,
-                compiled: bool = False) -> Results:
+                compiled: bool = False, datum: Optional[str] = None) -> Results:
         """Analyze text with the named analyzer.
 
         Args:
@@ -287,6 +287,10 @@ class Engine:
                     package README for the cmake / cloud build step
                     that turns them into the actual ``.so``/``.dylib``/
                     ``.dll`` files.
+          datum: a string the analyzer reads as ``G("$datum")``, for this
+                 call only -- eg the output format the caller wants
+                 (``"json"``, ``"xml"``). None (the default) is none, and
+                 ``G("$datum")`` is then 0.
         """
         outdir = self.analyzer_dir(analyzer_name) / "output"
         # Delete the files of the previous run in the outdir.
@@ -294,7 +298,7 @@ class Engine:
             if os.path.isfile(file_path):
                 os.remove(file_path)
         outtext = self.engine.analyze(self._engine_analyzer_arg(analyzer_name),
-                                      text, develop, compiled)
+                                      text, develop, compiled, datum or "")
         return Results(outtext, outdir)
 
     def compile(self, analyzer_name: PathLike, develop: bool = False,
@@ -524,14 +528,16 @@ def put_json_object(analyzer_name: str, obj: Any, name: str) -> Path:
 
 
 def analyze(text: str, parser: str = "parse-en-us", develop: bool = False,
-            compiled: bool = False) -> str:
+            compiled: bool = False, datum: Optional[str] = None) -> str:
     """Run the analyzer named on the input string.
 
     If ``compiled=True``, the engine loads the analyzer's compiled
     shared libraries (``bin/run.<ext>`` and ``bin/kb.<ext>``) instead of
     running interpreted.  See :func:`compile` for producing those.
+    ``datum`` reaches the analyzer as ``G("$datum")``; see
+    :meth:`Engine.analyze`.
     """
-    return engine.analyze(text, parser, develop, compiled).output_text
+    return engine.analyze(text, parser, develop, compiled, datum).output_text
 
 
 def compile(analyzer: str = "parse-en-us", develop: bool = False,

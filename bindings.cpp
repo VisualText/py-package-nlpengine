@@ -108,8 +108,11 @@ wrap_init(NLP_ENGINE *self, const std::string &workingFolder,
 const std::string
 wrap_analyze(NLP_ENGINE &engine, const std::string &parser,
              const std::string &input, const bool develop,
-             const bool compiled) {
+             const bool compiled, const std::string &datum) {
     CLocaleGuard cLocale;
+    // For this call only: the analyzer sees it as G("$datum"), eg the
+    // output format the caller wants. "" (the default) is none.
+    engine.setDatum(datum.c_str());
     _TCHAR *_parser = _tcsdup(parser.c_str());
     std::istringstream instream(input);
     std::ostringstream outstream;
@@ -184,7 +187,7 @@ NB_MODULE(bindings, m) {
              "silent"_a = true)
         .def("analyze", &wrap_analyze,
              "parser"_a, "input"_a, "develop"_a = false,
-             "compiled"_a = false,
+             "compiled"_a = false, "datum"_a = "",
              "Analyze `input` with `parser`.\n"
              "The `parser` argument refers to an analyzer contained in the\n"
              "`analyzers` folder inside the workingFolder used to create\n"
@@ -193,7 +196,11 @@ NB_MODULE(bindings, m) {
              "bin/kb.<ext> from the analyzer dir instead of running\n"
              "interpreted from the .nlp source.  Build those shared\n"
              "libraries first via `compile()` plus an external cmake/\n"
-             "cloud build step.")
+             "cloud build step.
+"
+             "`datum` reaches the analyzer as G(\"$datum\"), eg the output
+"
+             "format wanted; \"\" (the default) is none.")
         .def("compile", &wrap_compile,
              "analyzer"_a, "develop"_a = false, "kbOnly"_a = false,
              "analyzerOnly"_a = false,
