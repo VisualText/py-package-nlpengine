@@ -2,6 +2,7 @@
 #include <cstdlib>
 #include <clocale>
 #include <new>
+#include <stdexcept>
 #include <string>
 #ifndef _WIN32
 #include <locale.h>
@@ -127,6 +128,12 @@ wrap_analyze(NLP_ENGINE &engine, const std::string &parser,
                             /*compile*/false, compiled,
                             /*compileKB*/false);
     free(_parser);
+    // A negative return means the analyzer never ran: it was not found,
+    // its KB did not load, or its passes did not build. The engine only
+    // says so on its own stderr, which Python cannot capture on Windows,
+    // so the caller used to get "" back as if the run had found nothing.
+    if (rv < 0)
+        throw std::runtime_error("analyzer failed to load: " + parser);
     return outstream.str();
 }
 
@@ -156,10 +163,14 @@ wrap_compile(NLP_ENGINE &engine, const std::string &analyzer,
              const bool develop, const bool kbOnly, const bool analyzerOnly) {
     CLocaleGuard cLocale;
     _TCHAR *_analyzer = _tcsdup(analyzer.c_str());
-    engine.init(_analyzer, develop, /*silent*/false,
-                /*compile*/(!kbOnly && !analyzerOnly), /*compiled*/false,
-                /*compileKB*/kbOnly, /*compileAna*/analyzerOnly);
+    int rv = engine.init(_analyzer, develop, /*silent*/false,
+                         /*compile*/(!kbOnly && !analyzerOnly), /*compiled*/false,
+                         /*compileKB*/kbOnly, /*compileAna*/analyzerOnly);
     free(_analyzer);
+    // As in wrap_analyze: a failed build used to return normally having
+    // generated nothing.
+    if (rv < 0)
+        throw std::runtime_error("analyzer failed to load: " + analyzer);
 }
 
 /**
