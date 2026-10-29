@@ -17,6 +17,7 @@ from pathlib import Path
 from typing import Optional, Any
 import os
 import glob
+import time
 
 LOGGER = logging.getLogger("NLPPlus")
 
@@ -105,6 +106,58 @@ class AnalysisStopped(EngineException, Exception):
         self.timeout = timeout
         super().__init__(f"{self.analyzer_name} ran past its timeout of "
                          f"{timeout:g}s and was stopped")
+
+
+class AnalyzerError(EngineException, Exception):
+    """The analyzer could not be loaded, so nothing was analyzed.
+
+    Raised when the analyzer folder is missing, its knowledge base does not
+    load, or its passes do not build (eg an NLP++ syntax error). Before
+    this, :meth:`Engine.analyze` returned normally with empty output.
+
+    ``log`` holds what the engine wrote to the analyzer's
+    ``logs/make_ana.log`` and ``logs/cgerr.log`` during the failed call
+    (empty if it wrote neither); ``make_ana.log`` lines read
+    ``<pass> <line> [message]``. The message repeats the lines that are
+    not routine.
+
+    Also an :class:`Exception`, unlike :class:`EngineException`, so code
+    that handles ordinary errors handles this one too.
+    """
+
+    def __init__(self, analyzer_name, log: str = ""):
+        self.analyzer_name = str(analyzer_name)
+        self.log = log
+        msg = f"analyzer {self.analyzer_name} failed to load"
+        details = [l for l in log.splitlines() if _is_diagnostic(l)]
+        if details:
+            msg += ":\n  " + "\n  ".join(details)
+        super().__init__(msg)
+
+
+_ROUTINE_LOG = ("[Date:", "[Build analyzer time", "[Starting up KB",
+                "[Loading interpreted kb", "[CG: Trying to load compiled KB")
+
+
+def _is_diagnostic(line: str) -> bool:
+    msg = line[line.find("["):] if "[" in line else ""
+    return bool(msg) and not msg.startswith(_ROUTINE_LOG)
+
+
+def _read_failure_logs(anadir: Path, since: float) -> str:
+    """The engine's logs for a failed load, if this call wrote them."""
+    parts = []
+    for name in ("make_ana.log", "cgerr.log"):
+        path = anadir / "logs" / name
+        try:
+            if path.stat().st_mtime < since:
+                continue  # Left by an earlier run.
+            # The engine ends each message with std::ends, a NUL.
+            text = path.read_text(encoding="utf-8", errors="replace")
+            parts.append(text.replace("\x00", ""))
+        except OSError:
+            pass
+    return "".join(parts)
 
 
 class Results:
@@ -315,15 +368,26 @@ class Engine:
                    :class:`AnalysisStopped` is raised. Without one, an
                    analyzer whose loop never ends cannot be stopped short of
                    killing the process.
+
+        Raises :class:`AnalyzerError`, with the engine's diagnostics, if
+        the analyzer could not be loaded (missing, bad KB, or a pass that
+        does not build).
         """
         outdir = self.analyzer_dir(analyzer_name) / "output"
         # Delete the files of the previous run in the outdir.
         for file_path in glob.glob(str(outdir / "*")):
             if os.path.isfile(file_path):
                 os.remove(file_path)
-        outtext = self.engine.analyze(self._engine_analyzer_arg(analyzer_name),
-                                      text, develop, compiled, datum or "",
-                                      timeout if timeout and timeout > 0 else 0.0)
+        started = time.time() - 1  # mtime granularity.
+        try:
+            outtext = self.engine.analyze(
+                self._engine_analyzer_arg(analyzer_name), text, develop,
+                compiled, datum or "",
+                timeout if timeout and timeout > 0 else 0.0)
+        except RuntimeError:
+            anadir = self.analyzer_dir(analyzer_name)
+            raise AnalyzerError(analyzer_name,
+                                _read_failure_logs(anadir, started)) from None
         if timeout and timeout > 0 and self.engine.last_run_stopped():
             raise AnalysisStopped(analyzer_name, timeout)
         return Results(outtext, outdir)
@@ -355,8 +419,14 @@ class Engine:
         # With an analyzers folder set, this used to return
         # <folder>/analyzers/<name>, which does not exist, so cloud_compile
         # failed with "Analyzer directory not found".
-        self.engine.compile(self._engine_analyzer_arg(analyzer_name), develop,
-                            kb_only, analyzer_only)
+        started = time.time() - 1  # mtime granularity.
+        try:
+            self.engine.compile(self._engine_analyzer_arg(analyzer_name),
+                                develop, kb_only, analyzer_only)
+        except RuntimeError:
+            anadir = self.analyzer_dir(analyzer_name)
+            raise AnalyzerError(analyzer_name,
+                                _read_failure_logs(anadir, started)) from None
         return self.analyzer_dir(analyzer_name)
 
     def cloud_compile(self, analyzer_name: str,
