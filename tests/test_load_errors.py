@@ -5,9 +5,9 @@ that does not build only on its own stderr, which Python cannot capture
 on Windows. analyze() and compile() used to return normally, so callers
 had to guess a build failure from every output coming back empty.
 
-Also covers two engine fixes the error relies on or sits next to: the
-logs/ folder (and so make_ana.log) is written on Linux and macOS too, and
-a .kbb file with CRLF line ends (a Windows checkout) loads on all of them.
+Also checks that logs/make_ana.log, which the error reads, is written,
+and that a .kbb file with CRLF line ends (a Windows checkout) loads on
+every platform (nlp-engine 4.2.52+).
 """
 
 import shutil
@@ -18,6 +18,15 @@ from tempfile import TemporaryDirectory
 import NLPPlus
 
 NLPPLUSDIR = Path(NLPPlus.__file__).parent
+
+
+def engine_at_least(*want):
+    try:
+        have = tuple(int(n) for n in NLPPlus.bindings.engine_version().split("."))
+    except ValueError:
+        return True  # "unknown": a local build of the current engine.
+    return have >= want
+
 
 SEQ = "tokenize\tnil\t# tok\nnlp\tmain\t# main\n"
 GOOD = """@CODE
@@ -96,6 +105,8 @@ class LoadErrorTest(unittest.TestCase):
         self.engine.analyze("Hello.", "good")
         self.assertTrue((d / "logs" / "make_ana.log").is_file())
 
+    # Linux and macOS kept the CR of every line until nlp-engine 4.2.52.
+    @unittest.skipUnless(engine_at_least(4, 2, 52), "needs nlp-engine 4.2.52")
     def test_crlf_kbb_loads(self):
         d = self.make("crlf", GOOD, eol="\r\n")
         self.engine.analyze("Hello.", "crlf")
