@@ -26,7 +26,13 @@ jobs:
         uses: pypa/cibuildwheel@v2.23.4
         env:
           CIBW_BUILD_VERBOSITY: 3
-          # Note use of yum because anylinux is ancient CentOS
+          # Build on manylinux_2_28 (AlmaLinux 8), not cibuildwheel v2's default
+          # manylinux2014 (CentOS 7). CentOS 7 is end-of-life, so auditwheel was
+          # vendoring its unpatched ICU 50.2 (CVE-2017-15422, CVE-2017-7867;
+          # reported by GRNET). Wheels now need glibc >= 2.28.
+          CIBW_MANYLINUX_X86_64_IMAGE: manylinux_2_28
+          CIBW_MANYLINUX_AARCH64_IMAGE: manylinux_2_28
+          # yum is an alias for dnf on AlmaLinux 8
           CIBW_BEFORE_ALL: "yum install -y libicu-devel"
           CIBW_CONFIG_SETTINGS: "cmake.args=-DCMAKE_BUILD_TYPE=Release"
           # Uncomment for testing
